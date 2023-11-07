@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { Link } from 'react-router-dom';
 import Bank from '../components/Bank';
+// import Question from '../components/Question';
 
 
 function Quiz() {
@@ -9,11 +10,15 @@ function Quiz() {
   const roundLength = 10
   const [selectedQuestions, setSelectedQuestions] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [roundInProgress, setRoundInProgress] = useState(false)
+  const [userAnswer, setUserAnswer] = useState("")
+  const [currentCorrect, setCurrentCorrect] = useState(false)
   
   async function selectQuestions () {
     try {
       //fetch all the questions:
       setCurrentIndex(0)
+      setRoundInProgress(true)
       const results = await fetch ("api/questions");
       const questions = await results.json();
       console.log(questions)
@@ -44,7 +49,43 @@ function Quiz() {
       setCurrentIndex(currentIndex + 1)
       console.log(selectedQuestions[currentIndex].question)
   }
+
+  function checkAnswer (e) {
+    e.preventDefault()
+    console.log("checking answer")
+    // if (userAnswer === "") then it shouldn't allow submission - button grey?. but make sure this still works with zero...
+    if (+userAnswer === +selectedQuestions[currentIndex].answer) {
+      console.log("setting true")
+      setCurrentCorrect(true);
+      //need to add code to add star to user's bank. but first i have to build the bank...
+    }else{
+      console.log("setting false")
+      setCurrentCorrect(false);
+    }
+  }
+
   
+  function QuestionView () {
+    return (
+      <div>
+        <div>Question {currentIndex+1}:</div>
+        <div>{selectedQuestions[currentIndex]?.question} =</div>
+        <form action="submit" onClick={checkAnswer}>
+          {/* the input below needs to clear once an answer is submitted, needs update */}
+          <input type="text" value = {userAnswer} onChange = {handleInputChange} placeholder="Answer"/><br />
+          {/* when we get to the end of the round this button should change to a round over button, 
+          that takes you to the recap screen (good job, you earned ### stars this round)*/}
+          <button>Check it!</button>
+        </form>
+          <button onClick={nextQuestion}>Next Question</button>
+      </div>
+    )
+  }
+
+  function handleInputChange (e) {
+    setUserAnswer(e.target.value);
+    console.log(userAnswer)
+  }
 
   //LETS TALK ABOUT WHY MY SELECTQUESTIONS STILL USES OLD VALUES FOR.  AND IF I NEED USE EFFECT, WHY AND HOW?
   // async function getQuestions () {
@@ -92,12 +133,7 @@ function Quiz() {
       <br /><br /><br />
       {/* start with a "start a new round" button,  (later this could give you several types of rounds too choose from) 
       once this button is clicked you are fed 1 question at a time*/}
-      <button onClick = {selectQuestions}>Start!</button>
-      <div>Question {currentIndex+1}:</div>
-      <div>{selectedQuestions[currentIndex].question} =</div>
-      <input type="text" placeholder="Answer"/><br />
-      {/* when we get to the end of the round this button should change to a next round button, or maybe the whole screen goes to a congrats view? */}
-      <button onClick={nextQuestion}>Next Question</button>
+      {!roundInProgress ? <button onClick = {selectQuestions}>Start!</button> : <QuestionView/>}
       <br /><br />
       <Link to = "/store">Joke Store</Link>
       <br /><br /><br /><br /><br />
