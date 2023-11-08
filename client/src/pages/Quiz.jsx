@@ -11,25 +11,26 @@ function Quiz() {
   const [selectedQuestions, setSelectedQuestions] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [roundInProgress, setRoundInProgress] = useState(false)
-  const [userAnswerSubmitted, setUserAnswerSubmitted] = useState(false)
   const [userAnswer, setUserAnswer] = useState("")
+  const [submittedAnswer, setSubmittedAnswer] = useState("")
   const [currentCorrect, setCurrentCorrect] = useState(false)
   
-  useEffect(() => {console.log(userAnswerSubmitted)},[userAnswerSubmitted])
+  useEffect(() => {console.log(submittedAnswer)},[submittedAnswer])
+  useEffect(() => {setUserAnswer("")},[submittedAnswer])
   
+  //reset a bunch of state fresh for a new round of play
   function resetRound(){
     setUserAnswer("");
-    setUserAnswerSubmitted(false);
     setCurrentCorrect(false);
     setCurrentIndex(0);
+    setRoundInProgress(true);
+    setSubmittedAnswer("");
+    selectQuestions ();
   }
   
+  //fetch random selection of questions based on predetermined roundLength variable:
   async function selectQuestions () {
     try {
-      resetRound();
-      //fetch all the questions:
-      
-      setRoundInProgress(true)
       const results = await fetch (`/api/questions/random/${roundLength}`);
       const questions = await results.json();
       console.log(questions)
@@ -40,12 +41,13 @@ function Quiz() {
   }
 
   function nextQuestion () {
+    setUserAnswer("");
     if (currentIndex + 1 < selectedQuestions.length)
       setCurrentIndex(currentIndex + 1)
       console.log(selectedQuestions[currentIndex].question)
-      setUserAnswerSubmitted(false);
-      setCurrentCorrect("not displayed");
       setUserAnswer("");
+      setSubmittedAnswer("");
+      setCurrentCorrect(false);
   }
 
   function checkAnswer (e) {
@@ -54,14 +56,13 @@ function Quiz() {
     // if (userAnswer === "") then it shouldn't allow submission - button grey?. but make sure this still works with zero...
     if (+userAnswer === +selectedQuestions[currentIndex].answer) {
       console.log("setting true")
-      setCurrentCorrect("yes");
-      //need to add code to add star to user's bank. but first i have to build the bank...
+      setCurrentCorrect(true);
+      //need to add code to add star to user's bank. but first I have to build the bank, which means i need to build users... (I need a users table with current balance and lifetime balance) as columns in the user table...
     }else{
       console.log("setting false")
-      setCurrentCorrect("no");
+      setCurrentCorrect(false);
     }
-    setUserAnswerSubmitted(true);
-    setUserAnswer("");
+    setSubmittedAnswer(userAnswer);
   }
 
   
@@ -75,12 +76,12 @@ function Quiz() {
           <input type="text" value = {userAnswer} onChange = {handleInputChange} placeholder="Answer"/><br />
           {/* when we get to the end of the round this button should change to a round over button, 
           that takes you to the recap screen (good job, you earned ### stars this round)*/}
-          {userAnswer? <button>Check it!</button> : <div></div>}
-          {/* <div>  */}
-            {userAnswerSubmitted && "Tell the user if they were right"}
-              {/* {(currentCorrect === "yes") ? `Good work! ${question} does equal ${userAnswer}!` : `sorry, ${userAnswer} isn't quite right. Want to try again?`} */}
+          {userAnswer && <button>Check it!</button>}
+          <div> 
+            {submittedAnswer && (currentCorrect ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${submittedAnswer}!` : `sorry :( ${submittedAnswer} isn't quite right. Want to try again?`)}
+              {/* {(currentCorrect === "yes") ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${userAnswer}!` : `sorry, ${userAnswer} isn't quite right. Want to try again?`} */}
             {/* </div>: <br />;} */}
-          {/* </div> */}
+          </div>
         </form>
           <button onClick={nextQuestion}>Next Question</button>
       </div>
@@ -106,7 +107,7 @@ function Quiz() {
       <br /><br /><br />
       {/* start with a "start a new round" button,  (later this could give you several types of rounds too choose from) 
       once this button is clicked you are fed 1 question at a time*/}
-      {!roundInProgress ? <button onClick = {selectQuestions}>Start!</button> : <QuestionView/>}
+      {!roundInProgress ? <button onClick = {resetRound}>Start!</button> : <QuestionView/>}
       <br /><br />
       <Link to = "/store">Joke Store</Link>
       <br /><br /><br /><br /><br />
