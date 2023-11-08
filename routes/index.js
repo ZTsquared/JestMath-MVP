@@ -21,7 +21,7 @@ router.get('/questions', async function(req, res, next) {
 });
 
 //get questions count - i don't think i need this after all, but it works if i need it. it's useful for a quick postman check.
-router.get('/questionCount', async function(req, res, next) {
+router.get('/questions/count', async function(req, res, next) {
   try {
     const questions = await db("SELECT COUNT(*) FROM questions;")
     console.log(questions.data);
@@ -32,10 +32,23 @@ router.get('/questionCount', async function(req, res, next) {
 });
 
 //get question by id
-router.get('/questions/:id', questionMustExist, async function(req, res, next) {
+router.get('/questions/byID/:id', questionMustExist, async function(req, res, next) {
+  console.log("getting a particular question")
   try {
     const {id} = req.params;
     const question = await db(`SELECT * FROM questions WHERE id=${id};`)
+    res.send(question.data);
+  }catch (err) {
+    res.status(500).send(err);
+  }
+  // res.send("nothing");
+});
+
+//get 1 random question
+router.get('/questions/random/:count', async function(req, res, next) {
+  const {count} = req.params;
+  try {
+    const question = await db(`SELECT * FROM questions ORDER BY RAND() LIMIT ${count};`)
     res.send(question.data);
   }catch (err) {
     res.status(500).send(err);
