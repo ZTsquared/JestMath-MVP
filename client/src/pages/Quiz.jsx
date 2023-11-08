@@ -42,12 +42,15 @@ function Quiz() {
 
   function nextQuestion () {
     setUserAnswer("");
-    if (currentIndex + 1 < selectedQuestions.length)
+    if (currentIndex + 1 < selectedQuestions.length) {
       setCurrentIndex(currentIndex + 1)
       console.log(selectedQuestions[currentIndex].question)
       setUserAnswer("");
       setSubmittedAnswer("");
       setCurrentCorrect(false);
+    } else {
+      setRoundInProgress(false)
+    }
   }
 
   function checkAnswer (e) {
@@ -57,7 +60,9 @@ function Quiz() {
     if (+userAnswer === +selectedQuestions[currentIndex].answer) {
       console.log("setting true")
       setCurrentCorrect(true);
-      //need to add code to add star to user's bank. but first I have to build the bank, which means i need to build users... (I need a users table with current balance and lifetime balance) as columns in the user table...
+      //need to add code to add star to user's bank. but first I have to build the bank, which means i need to build users... 
+      //(I need a users table with current balance and lifetime balance) as columns in the user table...
+      //ideally when the user's bank acount updates the star and number on the screen bounce or ping or something
     }else{
       console.log("setting false")
       setCurrentCorrect(false);
@@ -70,20 +75,21 @@ function Quiz() {
     return (
       <div>
         <div>Question {currentIndex+1}:</div>
-        <div>{selectedQuestions[currentIndex]?.question} =</div>
+        <h2>{selectedQuestions[currentIndex]?.question} =</h2>
         <form action="submit" onSubmit={checkAnswer}>
           {/* the input below needs to clear once an answer is submitted, needs update */}
-          <input type="text" value = {userAnswer} onChange = {handleInputChange} placeholder="Answer"/><br />
+          <input type="text" value = {userAnswer} onChange = {handleInputChange} placeholder="Answer"/>
           {/* when we get to the end of the round this button should change to a round over button, 
           that takes you to the recap screen (good job, you earned ### stars this round)*/}
-          {userAnswer && <button>Check it!</button>}
+          <button className="btn btn-outline-dark" disabled = {!userAnswer}>Check it!</button>
           <div> 
-            {submittedAnswer && (currentCorrect ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${submittedAnswer}!` : `sorry :( ${submittedAnswer} isn't quite right. Want to try again?`)}
+            {submittedAnswer && (currentCorrect ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${submittedAnswer}!` : (`Sorry :( ${submittedAnswer} isn't quite right. Want to try again?`))}
               {/* {(currentCorrect === "yes") ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${userAnswer}!` : `sorry, ${userAnswer} isn't quite right. Want to try again?`} */}
             {/* </div>: <br />;} */}
           </div>
         </form>
-          <button onClick={nextQuestion}>Next Question</button>
+        <br /><br />
+          <button onClick={nextQuestion} className="btn btn-outline-dark" >{(currentIndex + 1 === selectedQuestions.length) ? "Next Round" : "Next Question"}</button>
       </div>
     )
   }
@@ -107,7 +113,7 @@ function Quiz() {
       <br /><br /><br />
       {/* start with a "start a new round" button,  (later this could give you several types of rounds too choose from) 
       once this button is clicked you are fed 1 question at a time*/}
-      {!roundInProgress ? <button onClick = {resetRound}>Start!</button> : <QuestionView/>}
+      {!roundInProgress ? <button onClick = {resetRound} className="btn btn-outline-dark">Start!</button> : <QuestionView/>}
       <br /><br />
       <Link to = "/store">Joke Store</Link>
       <br /><br /><br /><br /><br />
