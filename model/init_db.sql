@@ -2,9 +2,9 @@
 -- Drop Tables
 --
 
-SET foreign_key_checks = 0;
+-- SET foreign_key_checks = 0;
 -- DROP TABLE if exists questions;
-SET foreign_key_checks = 1;
+-- SET foreign_key_checks = 1;
 
 --
 -- Create Tables
@@ -17,10 +17,11 @@ SET foreign_key_checks = 1;
 --     PRIMARY KEY (id)
 --     );
 
-CREATE TABLE users(
-    id INT NOT NULL AUTO_INCREMENT, 
-    userName VARCHAR(20) not null, 
-    balance INT DEFAULT 0, 
-    lifetimeTotal INT DEFAULT 0, 
-    PRIMARY KEY (id)
-    );
+-- CREATE TABLE users(
+--     id INT NOT NULL AUTO_INCREMENT, 
+--     userName VARCHAR(20) not null, 
+--     userAge INT not null,
+--     balance INT DEFAULT 0, 
+--     lifetimeTotal INT DEFAULT 0, 
+--     PRIMARY KEY (id)
+--     );

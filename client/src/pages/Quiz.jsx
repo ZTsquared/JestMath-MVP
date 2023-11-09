@@ -75,19 +75,21 @@ function Quiz() {
     return (
       <div>
         <div>Question {currentIndex+1}:</div>
-        <h2>{selectedQuestions[currentIndex]?.question} =</h2>
-        <form action="submit" onSubmit={checkAnswer}>
-          {/* the input below needs to clear once an answer is submitted, needs update */}
-          <input type="text" value = {userAnswer} onChange = {handleInputChange} placeholder="Answer"/>
-          {/* when we get to the end of the round this button should change to a round over button, 
-          that takes you to the recap screen (good job, you earned ### stars this round)*/}
-          <button className="btn btn-outline-dark" disabled = {!userAnswer}>Check it!</button>
-          <div> 
-            {submittedAnswer && (currentCorrect ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${submittedAnswer}!` : (`Sorry :( ${submittedAnswer} isn't quite right. Want to try again?`))}
-              {/* {(currentCorrect === "yes") ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${userAnswer}!` : `sorry, ${userAnswer} isn't quite right. Want to try again?`} */}
-            {/* </div>: <br />;} */}
+        {!currentCorrect && 
+          <div>
+            <h2>{selectedQuestions[currentIndex]?.question} =</h2>
+            <form action="submit" onSubmit={checkAnswer}>
+              {/* the input below needs to clear once an answer is submitted, needs update */}
+              <input type="text" value = {userAnswer} onChange = {handleInputChange} placeholder="Answer"/>
+              {/* when we get to the end of the round this button should change to a round over button, 
+              that takes you to the recap screen (good job, you earned ### stars this round)*/}
+              <button className="btn btn-outline-dark" disabled = {!userAnswer}>Check it!</button>
+            </form>
           </div>
-        </form>
+        }
+          <div className = {currentCorrect ? "fs-3 text" : "fs-6 text"}> 
+            {submittedAnswer && (currentCorrect ? `Good work! ${selectedQuestions[currentIndex]?.question} does equal ${submittedAnswer}!` : (`Sorry :( ${submittedAnswer} isn't quite right. Want to try again?`))}
+          </div>
         <br /><br />
           <button onClick={nextQuestion} className="btn btn-outline-dark" >{(currentIndex + 1 === selectedQuestions.length) ? "Next Round" : "Next Question"}</button>
       </div>
@@ -101,10 +103,10 @@ function Quiz() {
 
   
   
+  // add feature:
   // when the question is answered the correct answer (or after 3 incorrect) question should show on the screen for 2 seconds, then "next question" button appears.
   //currentIndex should ++ each time you move to the next question and currentQuestion should be set accordingly (for now, everytime you click next question)
-  //when counter reaches 10 the round is over  - at this point current question should be reset to {}. 
-  //this way we can use !currentQuestion to know we are between rounds and need to display the "start" button instead of showing questions.
+  //when counter reaches 10 the round is over, at this point the next question button should change to "See what you learned" or something and should take you to a round summary page,  from there the button will change to "next round"
   
   
   return (

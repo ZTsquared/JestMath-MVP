@@ -1,8 +1,8 @@
 const express = require('express');
 const db = require('../model/helper');
 const router = express.Router();
-const questionMustExist = require("../guardFunctions/questionMustExist");
 const calculateAnswer = require("../guardFunctions/calculateAnswer")
+const mustExist = require("../guardFunctions/mustExist")
 
 
 // get full question list
@@ -26,8 +26,10 @@ router.get('/count', async function(req, res, next) {
   }
 });
 
+
+
 //get question by id
-router.get('/byID/:id', questionMustExist, async function(req, res, next) {
+router.get('/byID/:id', mustExist("id", "questions", "id"), async function(req, res, next) {
   console.log("getting a particular question")
   try {
     const {id} = req.params;
@@ -38,6 +40,22 @@ router.get('/byID/:id', questionMustExist, async function(req, res, next) {
   }
   // res.send("nothing");
 });
+
+
+
+
+// router.get('/byID/:id', questionMustExist, async function(req, res, next) {
+//   console.log("getting a particular question")
+//   try {
+//     const {id} = req.params;
+//     const question = await db(`SELECT * FROM questions WHERE id=${id};`)
+//     res.send(question.data);
+//   }catch (err) {
+//     res.status(500).send(err);
+//   }
+//   // res.send("nothing");
+// });
+
 
 //get 1 random question
 router.get('/random/:count', async function(req, res, next) {
@@ -71,7 +89,7 @@ router.post('/', calculateAnswer, async function(req, res, next) {
   }
 });
 
-router.delete('/:id', questionMustExist, async function(req, res, next) {
+router.delete('/:id', mustExist("id", "questions", "id"), async function(req, res, next) {
   const {id} = req.params;
   console.log(id)
   try {
