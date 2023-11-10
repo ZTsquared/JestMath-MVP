@@ -15,7 +15,7 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-router.get('/byUserName/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
+router.get('/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
   console.log("getting a particular user")
   try {
     const {userName} = req.params;
@@ -27,29 +27,35 @@ router.get('/byUserName/:userName', mustExist("userName", "users", "userName"), 
   // res.send("nothing");
 });
 
-router.get('/balance/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
-  console.log("getting user balance")
-  try {
-    const {userName} = req.params;
-    const balance = await db(`SELECT balance FROM users WHERE userName = "${userName}";`)
-    res.send(balance.data);
-  }catch (err) {
-    res.status(500).send(err);
-  }
-  // res.send("nothing");
-});
 
-router.get('/lifetimeTotal/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
-  console.log("getting user lifetime total")
-  try {
-    const {userName} = req.params;
-    const lifetimeTotal = await db(`SELECT lifetimeTotal FROM users WHERE userName= "${userName}";`)
-    res.send(lifetimeTotal.data);
-  }catch (err) {
-    res.status(500).send(err);
-  }
-  // res.send("nothing");
-});
+// i don't need these get routes.  i just get the whole user and then pull out the parameter.
+// OR will i need to do something like set the starting state based on the current user but then get and set that independant value dynamically so that it stays up to date?
+
+// router.get('/:userName/balance', mustExist("userName", "users", "userName"), async function(req, res, next) {
+//   console.log("getting user balance")
+//   try {
+//     const {userName} = req.params;
+//     const balance = await db(`SELECT balance FROM users WHERE userName = "${userName}";`)
+//     res.send(balance.data);
+//   }catch (err) {
+//     res.status(500).send(err);
+//   }
+//   // res.send("nothing");
+// });
+
+// router.get('/:userName/lifetimeTotal', mustExist("userName", "users", "userName"), async function(req, res, next) {
+//   console.log("getting user lifetime total")
+//   try {
+//     const {userName} = req.params;
+//     const lifetimeTotal = await db(`SELECT lifetimeTotal FROM users WHERE userName= "${userName}";`)
+//     res.send(lifetimeTotal.data);
+//   }catch (err) {
+//     res.status(500).send(err);
+//   }
+//   // res.send("nothing");
+// });
+
+
 
 router.post('/',  mustNotExist("userName", "users", "userName"), async function(req, res, next) {
   console.log(!req.body.userName || !req.body.userName)
@@ -85,24 +91,43 @@ router.post('/',  mustNotExist("userName", "users", "userName"), async function(
 // later - household groupings, ability to change userName, ability to merge stars and jokes from one account into another if you delete the first, 
 
 
-router.put('/:userName/increaseBalance/:quantity',  mustExist("userName", "users", "userName"), async function(req, res, next) {
-  try {
-    const {userName, quantity} = req.params;
-    await db(`UPDATE users SET balance = balance+${quantity} WHERE userName = "${userName}";`)
-    res.send({msg: `User '${userName}' balance increased by ${quantity}`});
-  } catch (err){
-    res.status(500).send(err)
-  }  
+router.put('/:userName/increaseBalance/',  mustExist("userName", "users", "userName"), async function(req, res, next) {
+  console.log("put")
+  console.log(isNaN(+req.body.quantity))
+  if (!req.body.quantity || !req.params.userName){
+    console.log("if")
+    res.status(422).send({msg: "Submission does not contain valid data"})
+  } else if (typeof +req.body.quantity === NaN){
+    console.log("else if")
+    res.status(422).send({msg: "Amount of desired increase must be a number (data type number"})
+  } else {
+    try {
+      console.log("else")
+      const {userName} = req.params;
+      const {quantity} = req.body;
+      await db(`UPDATE users SET balance = balance+${quantity} WHERE userName = "${userName}";`)
+      res.send({msg: `User '${userName}' balance increased by ${quantity}`});
+    } catch (err){
+      res.status(500).send(err)
+    }  
+  }
 });
 
-router.put('/:userName/increaseLifetimeTotal/:quantity',  mustExist("userName", "users", "userName"), async function(req, res, next) {
-  try {
-    const {userName, quantity} = req.params;
-    await db(`UPDATE users SET lifetimeTotal = lifetimeTotal+${quantity} WHERE userName = "${userName}";`)
-    res.send({msg: `User '${userName}' lifetimeTotal increased by ${quantity}`});
-  } catch (err){
-    res.status(500).send(err)
-  }  
+router.put('/:userName/increaseLifetimeTotal/',  mustExist("userName", "users", "userName"), async function(req, res, next) {
+  if (!req.body.quantity || !req.params.userName){
+    res.status(422).send({msg: "Submission does not contain valid data"})
+  } else if (isNaN(+req.body.quantity)){
+    res.status(422).send({msg: "Amount of desired increase must be an number (data type number"})
+  } else {
+    try {
+      const {userName} = req.params;
+      const {quantity} = req.body;
+      await db(`UPDATE users SET lifetimeTotal = lifetimeTotal+${quantity} WHERE userName = "${userName}";`)
+      res.send({msg: `User '${userName}' lifetimeTotal increased by ${quantity}`});
+    } catch (err){
+      res.status(500).send(err)
+    }  
+  }
 });
 
 
@@ -124,3 +149,5 @@ router.delete('/:userName', mustExist("userName", "users", "userName"), async fu
 //and the get user by id function can become get by userName become by userName-household
 
 module.exports = router;
+
+

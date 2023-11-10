@@ -5,7 +5,7 @@ import Bank from '../components/Bank';
 function Library({currentUser}) {
   return (
     <div>
-        <Bank></Bank>
+        <Bank currentUser = {currentUser} />
         <br /><br /><br />
         <div>UserName's Jokes</div>
         <br />
@@ -13,7 +13,7 @@ function Library({currentUser}) {
         <br />
         <Link to="/store">Get more jokes</Link>
         <br /><br /><br /><br /><br />
-        <Link to = "/">I'm not 'userName'!</Link>
+        <Link to = "/">{currentUser ? `I'm not ${currentUser.userName}!` : "Login"}</Link>
     </div>
     
   )

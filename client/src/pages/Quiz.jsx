@@ -5,7 +5,7 @@ import Bank from '../components/Bank';
 // import Question from '../components/Question';
 
 
-function Quiz({currentUser}) {
+function Quiz({currentUser, getUser}) {
   
   // const [allQuestions, setAllQuestions] = useState ([]);
   const roundLength = 10
@@ -16,7 +16,7 @@ function Quiz({currentUser}) {
   const [submittedAnswer, setSubmittedAnswer] = useState("")
   const [currentCorrect, setCurrentCorrect] = useState(false)
   
-  useEffect(() => {console.log(submittedAnswer)},[submittedAnswer])
+  // useEffect(() => {console.log(submittedAnswer)},[submittedAnswer])
   useEffect(() => {setUserAnswer("")},[submittedAnswer])
   
   //reset a bunch of state fresh for a new round of play
@@ -34,7 +34,7 @@ function Quiz({currentUser}) {
     try {
       const results = await fetch (`/api/questions/random/${roundLength}`);
       const questions = await results.json();
-      console.log(questions)
+      // console.log(questions)
       setSelectedQuestions(questions)
     } catch (err) {
       console.log(err)
@@ -45,7 +45,7 @@ function Quiz({currentUser}) {
     setUserAnswer("");
     if (currentIndex + 1 < selectedQuestions.length) {
       setCurrentIndex(currentIndex + 1)
-      console.log(selectedQuestions[currentIndex].question)
+      // console.log(selectedQuestions[currentIndex].question)
       setUserAnswer("");
       setSubmittedAnswer("");
       setCurrentCorrect(false);
@@ -56,21 +56,61 @@ function Quiz({currentUser}) {
 
   function checkAnswer (e) {
     e.preventDefault()
-    console.log("checking answer")
+    // console.log("checking answer")
     // if (userAnswer === "") then it shouldn't allow submission - button grey?. but make sure this still works with zero...
     if (+userAnswer === +selectedQuestions[currentIndex].answer) {
-      console.log("setting true")
+      // console.log("setting true")
       setCurrentCorrect(true);
+      addToBalance(1)
       //need to add code to add star to user's bank. but first I have to build the bank, which means i need to build users... 
       //(I need a users table with current balance and lifetime balance) as columns in the user table...
       //ideally when the user's bank acount updates the star and number on the screen bounce or ping or something
     }else{
-      console.log("setting false")
+      // console.log("setting false")
       setCurrentCorrect(false);
     }
     setSubmittedAnswer(userAnswer);
   }
 
+  async function addToBalance(quantity) {
+    try {
+      await fetch (`/api/users/${currentUser.userName}/increaseBalance/`, {
+        method: "PUT",
+        // this header specifies what type of content is being sent in the body. 
+        //it could be a million things.  check mozilla docs "MIME types" for all the options
+        headers: {
+          "Content-Type": "application/json"
+        },
+        // here we send whatever content we want to send.  since we want to send out newStudent object
+        //as a json string/jason object  we have to convert it as shown below
+        body: JSON.stringify({"quantity" : quantity})
+      });
+      await fetch (`/api/users/${currentUser.userName}/increaseLifetimeTotal/`, {
+        method: "PUT",
+        // this header specifies what type of content is being sent in the body. 
+        //it could be a million things.  check mozilla docs "MIME types" for all the options
+        headers: {
+          "Content-Type": "application/json"
+        },
+        // here we send whatever content we want to send.  since we want to send out newStudent object
+        //as a json string/jason object  we have to convert it as shown below
+        body: JSON.stringify({"quantity" : quantity})
+      });
+      getUser()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // , {
+  //   method: "POST",
+  //   // this header specifies what type of content is being sent in the body. 
+  //   //it could be a million things.  check mozilla docs "MIME types" for all the options
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   }
+  
+  
   
   // function QuestionView () {
   //   return (
@@ -99,7 +139,7 @@ function Quiz({currentUser}) {
 
   function handleInputChange (e) {
     setUserAnswer(e.target.value);
-    console.log(userAnswer)
+    // console.log(userAnswer)
   }
 
   
@@ -112,7 +152,7 @@ function Quiz({currentUser}) {
   
   return (
     <div>
-      <Bank />
+      <Bank currentUser = {currentUser} />
       <br />
       {/* start with a "start a new round" button,  (later this could give you several types of rounds too choose from) 
       once this button is clicked you are fed 1 question at a time*/}
@@ -150,7 +190,7 @@ function Quiz({currentUser}) {
       <br /><br />
       <Link to = "/store">Joke Store</Link>
       <br /><br />
-      <Link to = "/">I'm not 'userName'!</Link>
+      <Link to = "/">{currentUser ? `I'm not ${currentUser.userName}!` : "Login"}</Link>
     </div>
   )
 }

@@ -8,11 +8,21 @@ import { Link } from 'react-router-dom';
 function Welcome({currentUser, setCurrentUser}) {
   const [allUsers, SetAllUsers] = useState([])
   const [userNames, setUserNames] = useState([])
-  const [selectedUser, setSelectedUser] = useState(currentUser)
+  const [selectedUserName, setSelectedUserName] = useState(currentUser?.userName)
 
   useEffect(() => {getUsers()}, [])
   useEffect(() => {setUserNames(allUsers.map(({userName}) => userName))}, [allUsers])
-  useEffect(() => {setCurrentUser(allUsers.filter((e) => e.userName === selectedUser)[0])}, [selectedUser])
+  useEffect(() => {if (!currentUser || (selectedUserName !== currentUser.userName)) {
+    setCurrentUser(
+      allUsers
+      .filter(
+        (e) => e.userName === selectedUserName
+      )[0]);
+    // console.log ("test1 start")
+    // console.log (selectedUserName , currentUser?.userName)
+    // console.log ("test1 end")
+  }}, [selectedUserName])
+
 
 
   async function getUsers (){
@@ -26,8 +36,9 @@ function Welcome({currentUser, setCurrentUser}) {
   }
 
   function handleUserChange (e) {
-    setSelectedUser(e.target.value)
-    console.log(`setting selected user to ${e.target.value}`)
+    setSelectedUserName(e.target.value)
+    // console.log(`setting selected user to`)
+    // console.log(e.target.value)
   }
 
 
