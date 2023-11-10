@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Bank from '../components/Bank';
 
-function Library() {
+function Library({currentUser}) {
   return (
     <div>
         <Bank></Bank>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Bank() {
+function Bank({currentUser}) {
   return (
     <div>
         {/* would be nice to also track lifetime stars somewhere */}

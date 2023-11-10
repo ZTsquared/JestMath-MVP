@@ -1,6 +1,6 @@
 import React from 'react'
 
-function RoundOver() {
+function RoundOver({currentUser}) {
   return (
     <div>RoundOver</div>
   )

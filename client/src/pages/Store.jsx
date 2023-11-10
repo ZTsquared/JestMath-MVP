@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Bank from '../components/Bank';
 
-function Store() {
+function Store({currentUser}) {
   return (
     <div>
         <Bank></Bank>

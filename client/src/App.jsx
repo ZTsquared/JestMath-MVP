@@ -9,15 +9,19 @@ import Store from "./pages/Store";
 import Library from "./pages/Library";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentUser, setCurrentUser] = useState("")
+
+  function handleUserChange (selectedUser) {
+    setCurrentUser(selectedUser)
+  }
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<Welcome/>}></Route>
-        <Route path="/quiz" element={<Quiz/>}></Route>
-        <Route path="/store" element={<Store/>}></Route>
-        <Route path="/library" element={<Library/>}></Route>
+        <Route path="/" element={<Welcome currentUser = {currentUser} setCurrentUser = {(selectedUser) => handleUserChange(selectedUser)}/>}></Route>
+        <Route path="/quiz" element={<Quiz currentUser = {currentUser}/>}></Route>
+        <Route path="/store" element={<Store currentUser = {currentUser}/>}></Route>
+        <Route path="/library" element={<Library currentUser = {currentUser}/>}></Route>
       </Routes>
     </>
   )
