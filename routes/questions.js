@@ -15,6 +15,21 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+
+//get question by id - since i have other get routes is this :id a problem?  id can only be a number so as long are other routes are all words is this safe?
+router.get('/:id', mustExist("id", "questions", "id"), async function(req, res, next) {
+  console.log("getting a particular question")
+  try {
+    const {id} = req.params;
+    const question = await db(`SELECT * FROM questions WHERE id=${id};`)
+    res.send(question.data[0]);
+  }catch (err) {
+    res.status(500).send(err);
+  }
+  // res.send("nothing");
+});
+
+
 //get questions count - i don't think i need this after all, but it works if i need it. it's useful for a quick postman check.
 router.get('/count', async function(req, res, next) {
   try {
@@ -25,23 +40,6 @@ router.get('/count', async function(req, res, next) {
     res.status(500).send(err);
   }
 });
-
-
-
-//get question by id
-router.get('/byID/:id', mustExist("id", "questions", "id"), async function(req, res, next) {
-  console.log("getting a particular question")
-  try {
-    const {id} = req.params;
-    const question = await db(`SELECT * FROM questions WHERE id=${id};`)
-    res.send(question.data);
-  }catch (err) {
-    res.status(500).send(err);
-  }
-  // res.send("nothing");
-});
-
-
 
 
 // router.get('/byID/:id', questionMustExist, async function(req, res, next) {
@@ -69,18 +67,8 @@ router.get('/random/:count', async function(req, res, next) {
 });
 
 router.post('/', calculateAnswer, async function(req, res, next) {
-  console.log("---------------!!!!!-----------------")
-  console.log("---------------!!!!!-----------------")
-  console.log(req.body)
   const {question} = req.body;
-  //eval is a temp fix, not secure for public use.  the problem may resolve
-  //itself when I have the program generate it's own equations
-  console.log(question);
-  const answer = eval(question);
-  console.log(answer);
-  console.log("---------------!!!!!-----------------")
-  console.log("---------------!!!!!-----------------")
-
+  const answer = req.params.answer;
   try {
     await db(`INSERT INTO questions (question, answer) values ("${question}", "${answer}");`)
     res.send({msg: `Question '${question}' with answer '${answer}' successfully added to database`});
@@ -95,7 +83,7 @@ router.delete('/:id', mustExist("id", "questions", "id"), async function(req, re
   try {
     await db(`DELETE FROM questions WHERE id=${id};`)
     res.send({msg: `Question with id '${id}' successfully deleted from database`});
-    // res.send({msg: `Question '${question}' with answer '${answer}' successfully deleted from database`});
+    // is there a way to send this without running a 'get' to get the question info? res.send({msg: `Question '${question}' with answer '${answer}' successfully deleted from database`});
   } catch (err){
     console.log(err)
     res.status(500).send(err)

@@ -20,7 +20,7 @@ router.get('/:userName', mustExist("userName", "users", "userName"), async funct
   try {
     const {userName} = req.params;
     const user = await db(`SELECT * FROM users WHERE userName= "${userName}";`)
-    res.send(user.data);
+    res.send(user.data[0]);
   }catch (err) {
     res.status(500).send(err);
   }

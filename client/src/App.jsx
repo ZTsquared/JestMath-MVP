@@ -7,6 +7,7 @@ import Welcome from "./pages/Welcome";
 import Quiz from "./pages/Quiz";
 import Store from "./pages/Store";
 import Library from "./pages/Library";
+import ParentPortal from './pages/ParentPortal';
 
 function App() {
   const [currentUser, setCurrentUser] = useState("")
@@ -36,6 +37,7 @@ function App() {
         <Route path="/quiz" element={<Quiz currentUser = {currentUser} getUser = {getUser}/>}></Route>
         <Route path="/store" element={<Store currentUser = {currentUser} getUser = {getUser}/>}></Route>
         <Route path="/library" element={<Library currentUser = {currentUser} getUser = {getUser}/>}></Route>
+        <Route path="/parentPortal" element={<ParentPortal currentUser = {currentUser}/>}></Route>
       </Routes>
     </>
   )

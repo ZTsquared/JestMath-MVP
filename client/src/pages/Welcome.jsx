@@ -53,6 +53,9 @@ function Welcome({currentUser, setCurrentUser}) {
       <option value=""></option>
       {userNames.map((userName, i) => <option key={i} value={userName}>{userName}</option>)}
     </select>
+    <br /><br />
+    <Link to="/parentPortal">Parent Portal</Link>
+
   </div>
   )
 }

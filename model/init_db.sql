@@ -25,3 +25,11 @@
 --     lifetimeTotal INT DEFAULT 0, 
 --     PRIMARY KEY (id)
 --     );
+
+CREATE TABLE jokes(
+    id INT NOT NULL AUTO_INCREMENT, 
+    setUp VARCHAR(256) not null, 
+    punchLine VARCHAR(256) not null,
+    jokeType VARCHAR(20) not null,
+    PRIMARY KEY (id)
+    );
