@@ -8,23 +8,26 @@ import {useState, useEffect} from 'react'
 function ParentPortal() {
 
     const [newQuestion, setNewQuestion] = useState("");
-    const [error, setError] = useState({msg: ""});
+    const [questionUploadMsg, setQuestionUploadMsg] = useState("");
     
     async function postQuestion () {
         // console.log("attempting to post question");
         try {
             // console.log("entering try block");
-            const resultObject = await fetch (`/api/questions/`, {
+            const resultJSON = await fetch (`/api/questions/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({"question" : newQuestion}),
             })
+            const resultObject = await resultJSON.json()
+            setQuestionUploadMsg(resultObject.msg)
+            console.log("result JSON")
+            console.log(resultJSON)
+            // console.log("result object")
             // console.log(resultObject)
-            if (!resultObject.ok){
-                setError({msg: "Upload failed. Check question format."});
-            }else{
+            if (resultJSON.ok){
                 setNewQuestion("");
             }
         } catch (err) {
@@ -55,7 +58,8 @@ function ParentPortal() {
     //   }
 
     const handleInputChange = (e) => {
-        setError({msg: ""})
+        console.log(questionUploadMsg)
+        setQuestionUploadMsg("")
         setNewQuestion(e.target.value)
         console.log(newQuestion)
     }
@@ -74,7 +78,8 @@ function ParentPortal() {
         <form onSubmit={handleSubmit}>
             <input value = {newQuestion} onChange = {handleInputChange} type="text" />
             <button>Upload Question</button>
-            {error.msg ? <div>{error.msg}</div> : <div><br/></div>}
+            {questionUploadMsg ? <div>Upload failed: {questionUploadMsg}</div> : <div><br/></div>}
+            <div>{questionUploadMsg?.msg}</div>
         </form>
         <div>Curate Questions</div>
         <br /><br /><br />

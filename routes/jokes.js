@@ -39,7 +39,10 @@ router.post('/', async function(req, res, next) {
         jokeType = jokeType.toLowerCase().replaceAll(" ","")
         try {
           await db(`INSERT INTO jokes (setUp, punchLine, jokeType) values ("${setUp}", "${punchLine}", "${jokeType}");`)
-          res.send({msg: `'${jokeType}' type joke successfully added to database`});
+          // res.send({msg: `'${jokeType}' type joke successfully added to database`});
+          const resultObject = await db(`SELECT * FROM jokes ORDER BY ID DESC LIMIT 1;`)
+          resultObject.msg = `'${jokeType}' type joke successfully added to database`
+          res.send(resultObject);
         } catch (err){
           res.status(500).send(err)
         }  

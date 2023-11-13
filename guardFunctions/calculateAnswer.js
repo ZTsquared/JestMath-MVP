@@ -9,7 +9,7 @@ async function calculateAnswer (req, res, next ){
     // console.log(question);
     // console.log(!question);
     if (!question) {
-        res.status(400).send({"msg": "Submission does not contain a valid 'question' property"})
+        res.status(400).send({ msg : "Submission does not contain a valid 'question' property"})
     } else {
         try {
             //eval is a temp fix, not secure for public use.  the problem may resolve
@@ -22,7 +22,7 @@ async function calculateAnswer (req, res, next ){
             next()
         } catch (err){
             // console.log(err)
-            res.status(400).send({"msg": "malformed question cannot be calculated"})
+            res.status(400).send({msg : "malformed question cannot be calculated"})
         }
     }
         

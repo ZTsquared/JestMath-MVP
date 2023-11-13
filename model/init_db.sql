@@ -26,10 +26,20 @@
 --     PRIMARY KEY (id)
 --     );
 
-CREATE TABLE jokes(
+-- CREATE TABLE jokes(
+--     id INT NOT NULL AUTO_INCREMENT, 
+--     setUp VARCHAR(256) not null, 
+--     punchLine VARCHAR(256) not null,
+--     jokeType VARCHAR(20) not null,
+--     PRIMARY KEY (id)
+--     );
+
+
+CREATE TABLE usersJokes(
     id INT NOT NULL AUTO_INCREMENT, 
-    setUp VARCHAR(256) not null, 
-    punchLine VARCHAR(256) not null,
-    jokeType VARCHAR(20) not null,
+    user_id INT NOT NULL,
+    joke_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (joke_id) REFERENCES jokes(id) ON DELETE RESTRICT,
     PRIMARY KEY (id)
     );

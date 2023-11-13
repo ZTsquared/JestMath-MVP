@@ -11,7 +11,7 @@ import ParentPortal from './pages/ParentPortal';
 
 function App() {
   const [currentUser, setCurrentUser] = useState("")
-  useEffect(() => {console.log("the current user in App file is now "); console.log(currentUser)}, [currentUser])
+  useEffect(() => {console.log(`the current user in App file is now: ${currentUser?.userName}`)}, [currentUser])
 
   async function getUser (){
     try {

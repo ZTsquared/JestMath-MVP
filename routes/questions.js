@@ -71,7 +71,10 @@ router.post('/', calculateAnswer, async function(req, res, next) {
   const answer = req.params.answer;
   try {
     await db(`INSERT INTO questions (question, answer) values ("${question}", "${answer}");`)
-    res.send({msg: `Question '${question}' with answer '${answer}' successfully added to database`});
+    const resultObject = await db(`SELECT * FROM questions ORDER BY ID DESC LIMIT 1;`)
+    resultObject.msg = `Question '${question}' with answer '${answer}' successfully added to database`
+    res.send(resultObject);
+    // res.send({msg: `Question '${question}' with answer '${answer}' successfully added to database`});
   } catch (err){
     res.status(500).send(err)
   }

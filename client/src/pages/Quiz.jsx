@@ -159,19 +159,19 @@ function Quiz({currentUser, getUser}) {
       {!roundInProgress ? 
         <div>
           <br /><br /><br /><br /><br />
-          <button onClick = {resetRound} className="btn btn-outline-dark">Start!</button> 
+          <button onClick = {resetRound} className="btn btn-outline-dark" disabled = {!currentUser}>{currentUser ? "Start" : "re-log required"}</button> 
           <br /><br /><br /><br /><br />
         </div> : 
         <div>
           <div>Question {currentIndex+1}:</div>
           {!currentCorrect && 
             <div>
-              <h2>{selectedQuestions[currentIndex]?.question} =</h2>
+              <div className = "fs-2 text">{selectedQuestions[currentIndex]?.question} =</div>
               <form action="submit" onSubmit={checkAnswer}>
                 {/* the input below needs to clear once an answer is submitted, needs update */}
                 <input type="text" value = {userAnswer} onChange = {handleInputChange} placeholder="Answer"/>
                 {/* when we get to the end of the round this button should change to a round over button, 
-                that takes you to the recap screen (good job, you earned ### stars this round)*/}
+                that takes you to the recap screen (maybe a summary of the questions from the round, and good job, you earned ### stars this round)*/}
                 <button className="btn btn-outline-dark" disabled = {!userAnswer}>Check it!</button>
               </form>
             </div>
