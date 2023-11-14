@@ -1,25 +1,19 @@
 const express = require("express");
 const db = require("../model/helper");
 
+// this function returns a guard function (a closure!!!) that is constructed based on the particular parameters you want to check.
+// the guard function checks that a matching item does not exists in the specified table
 
 function mustNotExist (postBodyKey, queryTableName, queryColumnName){
-    // console.log("calling mustNotExist outer function (during loading?")
 
     const result = async function (req, res, next ) {
-        // console.log("constructing instance of mustNotExist inner function (i think...) with values:")
-        // console.log(postBodyKey +" " + queryTableName + " " + queryColumnName)
-        // console.log(!!req.body[postBodyKey])
         if (!req.body[postBodyKey]){
-            console.log("no userName property in body")
-            res.status(400).send({msg: "Submission does not contain a valid 'userName' property"})
+            res.status(400).send({msg: `Submission does not contain a valid ${postBodyKey} property`})
         } else {
             const searchTerm = req.body[postBodyKey];
             try {
-                console.log("why does this try statement even run???")
-                console.log(req.body[postBodyKey])
-                const response = await db(`SELECT * FROM ${queryTableName} WHERE ${queryColumnName}="${searchTerm}"`);
-                console.log(response);
-                if (!response.data.length){
+                const responseObject = await db(`SELECT * FROM ${queryTableName} WHERE ${queryColumnName}="${searchTerm}"`);
+                if (!responseObject.data.length){
                     next()
                 } else {
                     res.status(403).send({msg: `Action Forbidden. Table '${queryTableName}' in the database already includes an entry with '${queryColumnName} = ${searchTerm}'.  ${queryColumnName} must be unique, please try again`})
@@ -32,21 +26,5 @@ function mustNotExist (postBodyKey, queryTableName, queryColumnName){
     return result
 }
 
-// function mustExist (queryParamKey, queryTableName, queryColumnName){
-// return async (req, res, next ) => {
-//     const searchTerm = req.params[queryParamKey];
-//     try {
-//         const response = await db(`SELECT * FROM ${queryTableName} WHERE ${queryColumnName}=${searchTerm}`);
-//         console.log(response);
-//         if (response.data.length){
-//             next()
-//         } else {
-//             res.status(404).send({msg: "Matching entry not found in Database"})
-//         }
-//     }catch (err){
-//         res.status(500).send(err)
-//     }
-// }
-// }
 
 module.exports = mustNotExist

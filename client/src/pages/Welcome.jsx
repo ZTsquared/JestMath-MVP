@@ -10,17 +10,19 @@ function Welcome({currentUser, setCurrentUser}) {
   const [userNames, setUserNames] = useState([])
   const [selectedUserName, setSelectedUserName] = useState(currentUser?.userName)
 
+  // below: gets all the users or page reload:
   useEffect(() => {getUsers()}, [])
+  // below:  sets the list of usernames any time the allUsers list changes
   useEffect(() => {setUserNames(allUsers.map(({userName}) => userName))}, [allUsers])
+  // below: updates/refreshes the currentUser information.  The if statement is there becasue otherwise the 
+  // value binding between selectedUser and the user selector drop down was causing the user to be
+  // logged out whenever you navigated to the welcome page. 
   useEffect(() => {if (!currentUser || (selectedUserName !== currentUser.userName)) {
     setCurrentUser(
       allUsers
       .filter(
         (e) => e.userName === selectedUserName
       )[0]);
-    // console.log ("test1 start")
-    // console.log (selectedUserName , currentUser?.userName)
-    // console.log ("test1 end")
   }}, [selectedUserName])
 
 
@@ -37,15 +39,13 @@ function Welcome({currentUser, setCurrentUser}) {
 
   function handleUserChange (e) {
     setSelectedUserName(e.target.value)
-    // console.log(`setting selected user to`)
-    // console.log(e.target.value)
   }
 
 
   return (    
   <div>
     <h3>Hey</h3>
-    <h1>{currentUser ? currentUser.userName : "Kiddo"}</h1>
+    <h1>{currentUser ? currentUser.userName : "Kiddo"}</h1> <br /><br />
     {currentUser && <Link to="/quiz">Let's Play!</Link>}
     <br /><br /><br />
     <p>{currentUser ? "Change player" : "Who's playing?"}</p>
@@ -53,7 +53,7 @@ function Welcome({currentUser, setCurrentUser}) {
       <option value=""></option>
       {userNames.map((userName, i) => <option key={i} value={userName}>{userName}</option>)}
     </select>
-    <br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <Link to="/parentPortal">Parent Portal</Link>
 
   </div>

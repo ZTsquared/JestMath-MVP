@@ -15,6 +15,8 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+// get by username.  most of my user routes are based on the username rather than the id because username is also unique.
+// this was probably not the right way, but at this point i will leave it as is
 router.get('/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
   console.log("getting a particular user")
   try {
@@ -24,39 +26,24 @@ router.get('/:userName', mustExist("userName", "users", "userName"), async funct
   }catch (err) {
     res.status(500).send(err);
   }
-  // res.send("nothing");
 });
 
 
-// i don't need these get routes.  i just get the whole user and then pull out the parameter.
-// OR will i need to do something like set the starting state based on the current user but then get and set that independant value dynamically so that it stays up to date?
-
-// router.get('/:userName/balance', mustExist("userName", "users", "userName"), async function(req, res, next) {
-//   console.log("getting user balance")
-//   try {
-//     const {userName} = req.params;
-//     const balance = await db(`SELECT balance FROM users WHERE userName = "${userName}";`)
-//     res.send(balance.data);
-//   }catch (err) {
-//     res.status(500).send(err);
-//   }
-//   // res.send("nothing");
-// });
-
-// router.get('/:userName/lifetimeTotal', mustExist("userName", "users", "userName"), async function(req, res, next) {
-//   console.log("getting user lifetime total")
-//   try {
-//     const {userName} = req.params;
-//     const lifetimeTotal = await db(`SELECT lifetimeTotal FROM users WHERE userName= "${userName}";`)
-//     res.send(lifetimeTotal.data);
-//   }catch (err) {
-//     res.status(500).send(err);
-//   }
-//   // res.send("nothing");
-// });
+//this doesn't work yet becasue it conflicts with the :userName routs.  I knew i would regret using :userName rather than :id...
+router.get('/:id/jokes', mustExist("userName", "users", "userName"), async function(req, res, next) {
+try {
+  const {id} = req.params;
+  const joke = await db(`SELECT * FROM jokes WHERE jokes.id in (select joke_id from usersJokes where user_id = ${id});`)
+  res.send(joke.data[0]);
+}catch (err) {
+  res.status(500).send(err);
+}
+});
 
 
 
+//post a new user.  userName should be unique so we have middleware to check this. the mustNotExist function builds a 
+// custom guard function based on the table and column name you want to check against
 router.post('/',  mustNotExist("userName", "users", "userName"), async function(req, res, next) {
   console.log(!req.body.userName || !req.body.userName)
   if (!req.body.userName || !req.body.userAge){
@@ -71,35 +58,23 @@ router.post('/',  mustNotExist("userName", "users", "userName"), async function(
   }  
 });
 
-// router.post('/',  mustNotExist("userName", "users", "userName"), async function(req, res, next) {
-//   let userName = null
-//   let userAge = null
-//   if (req.body.userName && req.body.userName){
-//     userName = req.body.userName;
-//     userAge = req.body.userAge;
-//   } else {
-//     res.status(400).send({msg: "Submission does not contain a valid 'userName' property"})
-//   }
-//   try {
-//     await db(`INSERT INTO users (userName, userAge) values ("${userName}", ${userAge});`)
-//     res.send({msg: `User '${userName}' with age '${userAge}' successfully added to database`});
-//   } catch (err){
-//     res.status(500).send(err)
-//   }
-// });
-
-// later - household groupings, ability to change userName, ability to merge stars and jokes from one account into another if you delete the first, 
 
 
+// later i would like to have: - household groupings of users, ability to add users and change a userName from the login page, ability to merge stars and jokes from one account into another if you delete the first, 
+
+
+// increase the user's balance by a quantity specified in the body of the request. quantity property must = a number.
+// in reality it might logical to combine this and the function below it into one, since any time you add to the balance you also add to the lifetime total.
+// but for now i wrote them individually. 
 router.put('/:userName/increaseBalance/',  mustExist("userName", "users", "userName"), async function(req, res, next) {
   console.log("put")
   console.log(isNaN(+req.body.quantity))
   if (!req.body.quantity || !req.params.userName){
     console.log("if")
     res.status(422).send({msg: "Submission does not contain valid data"})
-  } else if (typeof +req.body.quantity === NaN){
+  } else if (isNaN(+req.body.quantity)){
     console.log("else if")
-    res.status(422).send({msg: "Amount of desired increase must be a number (data type number"})
+    res.status(422).send({msg: "Amount of desired increase must be a number (data type number)"})
   } else {
     try {
       console.log("else")
@@ -113,11 +88,13 @@ router.put('/:userName/increaseBalance/',  mustExist("userName", "users", "userN
   }
 });
 
+
+//increase lifetime total, similar to increase balance
 router.put('/:userName/increaseLifetimeTotal/',  mustExist("userName", "users", "userName"), async function(req, res, next) {
   if (!req.body.quantity || !req.params.userName){
     res.status(422).send({msg: "Submission does not contain valid data"})
   } else if (isNaN(+req.body.quantity)){
-    res.status(422).send({msg: "Amount of desired increase must be an number (data type number"})
+    res.status(422).send({msg: "Amount of desired increase must be an number (data type number)"})
   } else {
     try {
       const {userName} = req.params;
@@ -131,6 +108,7 @@ router.put('/:userName/increaseLifetimeTotal/',  mustExist("userName", "users", 
 });
 
 
+// delete a user base on their userName.
 router.delete('/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
   try {
     const {userName} = req.params;
@@ -143,10 +121,10 @@ router.delete('/:userName', mustExist("userName", "users", "userName"), async fu
 });
 
 
-//disallow dupicate user names in the post method using a guard function, 
-//if household or primary account column is enabled later that function can 
-//change to make sure there are no duplicates within the household instead of within the database,
-//and the get user by id function can become get by userName become by userName-household
+// disallow dupicate user names in the post method using a guard function, 
+// if household or primary account column is enabled later that function can 
+// change to make sure there are no duplicates within the household instead of within the database,
+// and the get user by userName function can become get by userName become by userName-household
 
 module.exports = router;
 

@@ -1,13 +1,11 @@
 const express = require("express");
 const db = require("../model/helper");
 
+// this guard function checks that the question is properly structured and calculates the answer,
+// then adds the answer back into the req.params for later use
+// these error messages are also displayed directly in the game if a question is poorly entered
 async function calculateAnswer (req, res, next ){
-    // console.log("---------------!!!!!-----------------")
-    // console.log("---------------!!!!!-----------------")
-    // console.log(req.body)
     const {question} = req.body;
-    // console.log(question);
-    // console.log(!question);
     if (!question) {
         res.status(400).send({ msg : "Submission does not contain a valid 'question' property"})
     } else {
@@ -16,9 +14,6 @@ async function calculateAnswer (req, res, next ){
             //itself when I have the program generate it's own equations
             const answer = eval(question);  
             req.params.answer = answer
-            // console.log(answer);
-            // console.log("---------------!!!!!-----------------")
-            // console.log("---------------!!!!!-----------------")
             next()
         } catch (err){
             // console.log(err)
