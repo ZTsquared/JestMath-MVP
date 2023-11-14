@@ -17,7 +17,7 @@ function Store({currentUser, getUser}) {
   const [newJoke, setNewJoke] = useState("") 
   const [offerNewJoke, setOfferNewJoke] = useState(true) 
   const [displayJoke, setDisplayJoke] = useState(false)
-  const jokePrice = 10
+  const jokePrice = 8
 
   async function getJoke () {
     const resultJSON = await fetch(`/api/jokes/random/?user_id=${currentUser.id}`);
@@ -27,14 +27,14 @@ function Store({currentUser, getUser}) {
 
   async function addToBalance(quantity) {
     try {
-      await fetch (`/api/users/${currentUser.userName}/increaseBalance/`, {
+      await fetch (`/api/users/${currentUser.id}/increaseBalance/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({"quantity" : quantity})
       });
-      await fetch (`/api/users/${currentUser.userName}/increaseLifetimeTotal/`, {
+      await fetch (`/api/users/${currentUser.id}/increaseLifetimeTotal/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -68,7 +68,7 @@ function Store({currentUser, getUser}) {
         {(newJoke?.jokeType === "riddle") && <Riddle joke = {newJoke}/>}
         {(newJoke?.jokeType === "comic") && <Comic joke = {newJoke}/>}
         <br /><br />
-        {offerNewJoke && <div><button onClick = {handleSubmit} className="btn btn-outline-dark" disabled = {!currentUser}> {currentUser ? "Get a new joke!  10 stars" : "re-log required"}</button> <br /><br /><br /></div>}
+        {offerNewJoke && <div><button onClick = {handleSubmit} className="btn btn-outline-dark" disabled = {!currentUser || currentUser.balance < jokePrice}> {currentUser ? "Get a new joke!  8 stars" : "re-log required"}</button> <br /><br /><br /></div>}
         <Link to="/quiz">Earn more stars</Link>
         <br />
         <Link to="/library">{currentUser.userName}'s Jokes</Link>

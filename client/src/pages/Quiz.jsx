@@ -72,14 +72,14 @@ function Quiz({currentUser, getUser}) {
   // also calls the getUser prop function so that the currentUser object in the app view gets promptly updated and passed down to everwhere else
   async function addToBalance(quantity) {
     try {
-      await fetch (`/api/users/${currentUser.userName}/increaseBalance/`, {
+      await fetch (`/api/users/${currentUser.id}/increaseBalance/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({"quantity" : quantity})
       });
-      await fetch (`/api/users/${currentUser.userName}/increaseLifetimeTotal/`, {
+      await fetch (`/api/users/${currentUser.id}/increaseLifetimeTotal/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

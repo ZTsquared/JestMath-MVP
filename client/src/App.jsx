@@ -13,15 +13,15 @@ function App() {
 
   //the current user info is stored here and passed to all the other pages as a prop
   const [currentUser, setCurrentUser] = useState("")
-  // useEffect(() => {console.log(`the current user in App file is now: ${currentUser?.userName}`)}, [currentUser])
+  useEffect(() => {console.log(`the current user in App file is now: ${currentUser?.userName}`)}, [currentUser])
 
   // the getUser function gets the new user data or refreshes the current user data.
   // it is passed as a prop to some of the other pages since any time a change is made to the
   // user's balance the user data must be refreshed imediately or the bank account will appear out of sync.
   async function getUser (){
     try {
-      // console.log("trying to refresh user for userName")
-      // console.log(currentUser.userName + ` at path:  api/users/${currentUser.userName}` )
+      console.log("trying to refresh user for userName")
+      console.log(currentUser.userName + ` at path:  api/users/${currentUser.userName}` )
       const resultJSON = await fetch(`api/users/${currentUser.userName}`);
       const user = await resultJSON.json();
       setCurrentUser(user)

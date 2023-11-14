@@ -15,8 +15,20 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-// get by username.  most of my user routes are based on the username rather than the id because username is also unique.
-// this was probably not the right way, but at this point i will leave it as is
+
+// // get by user id
+// router.get('/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
+//   console.log("getting a particular user")
+//   try {
+//     const {userName} = req.params;
+//     const user = await db(`SELECT * FROM users WHERE userName= "${userName}";`)
+//     res.send(user.data[0]);
+//   }catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
+
+// this is an old version of the route where i get by userName
 router.get('/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
   console.log("getting a particular user")
   try {
@@ -29,12 +41,11 @@ router.get('/:userName', mustExist("userName", "users", "userName"), async funct
 });
 
 
-//this doesn't work yet becasue it conflicts with the :userName routs.  I knew i would regret using :userName rather than :id...
-router.get('/:id/jokes', mustExist("userName", "users", "userName"), async function(req, res, next) {
+router.get('/:id/jokes', mustExist("id", "users", "id"), async function(req, res, next) {
 try {
   const {id} = req.params;
-  const joke = await db(`SELECT * FROM jokes WHERE jokes.id in (select joke_id from usersJokes where user_id = ${id});`)
-  res.send(joke.data[0]);
+  const jokes = await db(`SELECT * FROM jokes WHERE jokes.id in (select joke_id from usersJokes where user_id = ${id});`)
+  res.send(jokes.data);
 }catch (err) {
   res.status(500).send(err);
 }
@@ -66,10 +77,10 @@ router.post('/',  mustNotExist("userName", "users", "userName"), async function(
 // increase the user's balance by a quantity specified in the body of the request. quantity property must = a number.
 // in reality it might logical to combine this and the function below it into one, since any time you add to the balance you also add to the lifetime total.
 // but for now i wrote them individually. 
-router.put('/:userName/increaseBalance/',  mustExist("userName", "users", "userName"), async function(req, res, next) {
+router.put('/:id/increaseBalance/',  mustExist("id", "users", "id"), async function(req, res, next) {
   console.log("put")
   console.log(isNaN(+req.body.quantity))
-  if (!req.body.quantity || !req.params.userName){
+  if (!req.body.quantity || !req.params.id){
     console.log("if")
     res.status(422).send({msg: "Submission does not contain valid data"})
   } else if (isNaN(+req.body.quantity)){
@@ -78,10 +89,10 @@ router.put('/:userName/increaseBalance/',  mustExist("userName", "users", "userN
   } else {
     try {
       console.log("else")
-      const {userName} = req.params;
+      const {id} = req.params;
       const {quantity} = req.body;
-      await db(`UPDATE users SET balance = balance+${quantity} WHERE userName = "${userName}";`)
-      res.send({msg: `User '${userName}' balance increased by ${quantity}`});
+      await db(`UPDATE users SET balance = balance+${quantity} WHERE id = "${id}";`)
+      res.send({msg: `User '${id}' balance increased by ${quantity}`});
     } catch (err){
       res.status(500).send(err)
     }  
@@ -90,17 +101,17 @@ router.put('/:userName/increaseBalance/',  mustExist("userName", "users", "userN
 
 
 //increase lifetime total, similar to increase balance
-router.put('/:userName/increaseLifetimeTotal/',  mustExist("userName", "users", "userName"), async function(req, res, next) {
-  if (!req.body.quantity || !req.params.userName){
+router.put('/:id/increaseLifetimeTotal/',  mustExist("id", "users", "id"), async function(req, res, next) {
+  if (!req.body.quantity || !req.params.id){
     res.status(422).send({msg: "Submission does not contain valid data"})
   } else if (isNaN(+req.body.quantity)){
     res.status(422).send({msg: "Amount of desired increase must be an number (data type number)"})
   } else {
     try {
-      const {userName} = req.params;
+      const {id} = req.params;
       const {quantity} = req.body;
-      await db(`UPDATE users SET lifetimeTotal = lifetimeTotal+${quantity} WHERE userName = "${userName}";`)
-      res.send({msg: `User '${userName}' lifetimeTotal increased by ${quantity}`});
+      await db(`UPDATE users SET lifetimeTotal = lifetimeTotal+${quantity} WHERE id = "${id}";`)
+      res.send({msg: `User '${id}' lifetimeTotal increased by ${quantity}`});
     } catch (err){
       res.status(500).send(err)
     }  
@@ -108,12 +119,12 @@ router.put('/:userName/increaseLifetimeTotal/',  mustExist("userName", "users", 
 });
 
 
-// delete a user base on their userName.
-router.delete('/:userName', mustExist("userName", "users", "userName"), async function(req, res, next) {
+// delete a user base on their id.
+router.delete('/:id', mustExist("id", "users", "id"), async function(req, res, next) {
   try {
-    const {userName} = req.params;
-    await db(`DELETE FROM users WHERE userName="${userName}";`)
-    res.send({msg: `User with userName '${userName}' successfully deleted from database`});
+    const {id} = req.params;
+    await db(`DELETE FROM users WHERE id="${id}";`)
+    res.send({msg: `User with id '${id}' successfully deleted from database`});
   } catch (err){
     console.log(err)
     res.status(500).send(err)

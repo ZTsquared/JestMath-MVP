@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function Welcome({currentUser, setCurrentUser}) {
   const [allUsers, SetAllUsers] = useState([])
   const [userNames, setUserNames] = useState([])
-  const [selectedUserName, setSelectedUserName] = useState(currentUser?.userName)
+  const [selectedUserId, setSelectedUserId] = useState(currentUser?.id)
 
   // below: gets all the users or page reload:
   useEffect(() => {getUsers()}, [])
@@ -17,13 +17,13 @@ function Welcome({currentUser, setCurrentUser}) {
   // below: updates/refreshes the currentUser information.  The if statement is there becasue otherwise the 
   // value binding between selectedUser and the user selector drop down was causing the user to be
   // logged out whenever you navigated to the welcome page. 
-  useEffect(() => {if (!currentUser || (selectedUserName !== currentUser.userName)) {
+  useEffect(() => {if (!currentUser || (selectedUserId !== currentUser.id)) {
     setCurrentUser(
       allUsers
       .filter(
-        (e) => e.userName === selectedUserName
+        (e) => e.id === +selectedUserId
       )[0]);
-  }}, [selectedUserName])
+  }}, [selectedUserId])
 
 
 
@@ -38,7 +38,8 @@ function Welcome({currentUser, setCurrentUser}) {
   }
 
   function handleUserChange (e) {
-    setSelectedUserName(e.target.value)
+    console.log("handleUserChange")
+    setSelectedUserId(e.target.value)
   }
 
 
@@ -51,7 +52,8 @@ function Welcome({currentUser, setCurrentUser}) {
     <p>{currentUser ? "Change player" : "Who's playing?"}</p>
     <select name="userSelect" onChange={handleUserChange}>
       <option value=""></option>
-      {userNames.map((userName, i) => <option key={i} value={userName}>{userName}</option>)}
+      {/* {userNames.map((userName, i) => <option key={i} value={userName}>{userName}</option>)} */}
+      {allUsers.map((user, i) => <option key={i} value={user.id}>{user.userName}</option>)} 
     </select>
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <Link to="/parentPortal">Parent Portal</Link>
