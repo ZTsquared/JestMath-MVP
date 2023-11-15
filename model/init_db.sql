@@ -4,10 +4,13 @@
 
 
 
--- THE 3 LINES BELOW ARE COMMENTED OUT SO THAT I DON'T ACCIDENTALLY DELETE ALL MY DATA.
--- IF YOU WANT TO REFRESH YOUR DATABASE YOU WILL HAVE TO UNCOMMENT THEM
+-- THE 6 LINES BELOW ARE COMMENTED OUT SO THAT I DON'T ACCIDENTALLY DELETE ALL MY DATA.
+-- THIS WILL WORK FINE THE FIRST TIME YOU UN IT BUT IF YOU WANT TO RECREATE ALL YOUR TABLES FRESH LATER YOU WILL HAVE TO UNCOMMENT THEM
 -- SET foreign_key_checks = 0;
+-- DROP TABLE if exists users;
 -- DROP TABLE if exists questions;
+-- DROP TABLE if exists jokes;
+-- DROP TABLE if exists usersJokes;
 -- SET foreign_key_checks = 1;
 
 
@@ -73,3 +76,21 @@ INSERT INTO jokes (setUp, punchLine, jokeType) values ("Luke", "Luke through the
 INSERT INTO jokes (setUp, punchLine, jokeType) values ("Hal", "Hal will you know if you don't open the door?", "knockknock");
 INSERT INTO jokes (setUp, punchLine, jokeType) values ("Orange", "Orange you gonna let me in?", "knockknock");
 INSERT INTO jokes (setUp, punchLine, jokeType) values ("Lettuce", "Let us in, it's cold out here!", "knockknock");
+
+INSERT INTO questions (question, answer) values ("93 / 3", "31");
+INSERT INTO questions (question, answer) values ("2 * 3 * 4", "24");
+INSERT INTO questions (question, answer) values ("95 + 150", "245");
+INSERT INTO questions (question, answer) values ("1000 / 10", "100");
+INSERT INTO questions (question, answer) values ("250 / 3", "125");
+INSERT INTO questions (question, answer) values ("5 * 5 * 5", "125");
+INSERT INTO questions (question, answer) values ("60 / 3", "20");
+INSERT INTO questions (question, answer) values ("5 - 10", "-5");
+INSERT INTO questions (question, answer) values ("120 - 35", "95");
+INSERT INTO questions (question, answer) values ("75 * 2", "150");
+INSERT INTO questions (question, answer) values ("45 - 100", "-55");
+INSERT INTO questions (question, answer) values ("25 + 39", "64");
+INSERT INTO questions (question, answer) values ("12 / 4", "3");
+INSERT INTO questions (question, answer) values ("192 + 120", "312");
+INSERT INTO questions (question, answer) values ("75 / 5", "15");
+INSERT INTO questions (question, answer) values ("3000 / 2", "1500");
+INSERT INTO questions (question, answer) values ("80 / 20", "4");

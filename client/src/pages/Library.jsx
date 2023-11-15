@@ -6,20 +6,21 @@ import Bank from '../components/Bank';
 
 function Library({currentUser}) {
 
-  const [selectedJokeType, setSelectedJokeType] = useState("")
+  // userJokes holds all the jokes the user owns, which are then sorted into seperate arrays by type
   const [userJokes, setUserJokes] = useState([])
   const [userKnockKnocks, setUserKnockKnocks] = useState([])
   const [userRiddles, setUserRiddles] = useState([])
   const [userComics, setUserComics] = useState([])
-
+  // selectedJokeType dictates which array of jokes is displayed
+  const [selectedJokeType, setSelectedJokeType] = useState("")
+  
   useEffect(() => {getUserJokes()}, [selectedJokeType])
   useEffect(() => {populateJokeTypes()}, [userJokes])
-  useEffect(() => {console.log(userJokes);console.log(userKnockKnocks);console.log(userRiddles);console.log(userComics)}, [selectedJokeType])
  
-
+// this retrieves all the jokes the user owns and saves them in userJokes
   async function getUserJokes () {
     if (currentUser){
-      console.log("getting user jokes")
+      // console.log("getting user jokes")
       try {
         const {id} = currentUser
         const resultJSON = await fetch(`/api/users/${id}/jokes`);
@@ -31,7 +32,7 @@ function Library({currentUser}) {
     }
   }
 
-
+// this seperates the jokes into types to create the 3 seperate arrays, one for each joke type. Any joke that doesn't have a proper type will be omitted entierly
   function populateJokeTypes (){
     // console.log("userJokes: ")
     // console.log(userJokes)
@@ -44,13 +45,14 @@ function Library({currentUser}) {
 
 
   function handleClick (e) {
-    console.log("handleClick")
-    console.log("joke type changed FROM " + selectedJokeType)
+    // console.log("handleClick")
+    // console.log("joke type changed FROM " + selectedJokeType)
     setSelectedJokeType(e.target.name)
   }
 
   return (
     <div>
+      {/* if no one is logged in you will only see a link asking you to log in.  otherwise you will see 3 buttons allowing you to chose which joke type to display */}
       {!currentUser ? <div><Link to = "/">Log in to see your jokes</Link></div> :
         <div>
           <Bank currentUser = {currentUser} />
@@ -61,6 +63,7 @@ function Library({currentUser}) {
           <button name = "comic" onClick = {handleClick} className="btn btn-outline-dark">Comic - coming soon!</button>
           <br />
         <br />
+        {/* below we map through the joke type arrays and apply formating and extra lines based on the type.  If you don't have any jokes of that type it tells you that */}
         {selectedJokeType === "knockknock" && 
           <div>
           {!userKnockKnocks.length ? 
@@ -75,8 +78,8 @@ function Library({currentUser}) {
                   <div>{joke.punchLine}</div>
                   <br /><div>________________________</div><br />
               </div>)}
-            </div>}
-          {/* {userJokes?.filter((({jokeType}) => (jokeType === "riddle")))?.map((joke, i) => <div key={i}><div>{joke.setUp}</div><div>{joke.punchLine}</div><br /></div>)} */}
+            </div>
+          }
         </div> 
         }
         {selectedJokeType === "riddle" && 
@@ -90,8 +93,8 @@ function Library({currentUser}) {
                     <div>{joke.punchLine}</div>
                     <br /><div>________________________</div><br />
                 </div>)}
-              </div>}
-            {/* {userJokes?.filter((({jokeType}) => (jokeType === "riddle")))?.map((joke, i) => <div key={i}><div>{joke.setUp}</div><div>{joke.punchLine}</div><br /></div>)} */}
+              </div>
+            }
           </div> 
         }
         {selectedJokeType === "comic" && 
@@ -105,11 +108,10 @@ function Library({currentUser}) {
                     <div>{joke.punchLine}</div>
                     <br /><div>________________________</div><br />
                 </div>)}
-              </div>}
-            {/* {userJokes?.filter((({jokeType}) => (jokeType === "riddle")))?.map((joke, i) => <div key={i}><div>{joke.setUp}</div><div>{joke.punchLine}</div><br /></div>)} */}
+              </div>
+            }
           </div> 
         }
-        {/* Here I need to Map through user's jokes and display them appropriately to their format */}
         <br /><br />
         <Link to="/quiz">Earn more stars</Link>
         <br />
