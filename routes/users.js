@@ -70,6 +70,23 @@ router.post('/',  mustNotExist("userName", "users", "userName"), async function(
 });
 
 
+// add a joke to the user's personal library (via junction table usersJokes).
+// ideally later i will add the mustExist guard function twice here, to check that the user exista and the joke exists.
+router.post('/addToUserLibrary', async function(req, res, next) {
+  console.log(!req.body.user_id || !req.body.joke_id)
+  if (!req.body.user_id  || !req.body.joke_id){
+    res.status(400).send({msg: "Submission does not contain a valid 'user_id' and / or 'joke_id' properties"})
+  }
+  const {user_id, joke_id} = req.body;
+  try {
+    await db(`INSERT INTO usersJokes (user_id, joke_id) values (${user_id}, ${joke_id});`)
+    res.send({msg: `Joke_${joke_id} successfully added to user_${user_id}'s library`});
+  } catch (err){
+    res.status(500).send(err)
+  }  
+});
+
+
 
 // later i would like to have: - household groupings of users, ability to add users and change a userName from the login page, ability to merge stars and jokes from one account into another if you delete the first, 
 
@@ -77,27 +94,27 @@ router.post('/',  mustNotExist("userName", "users", "userName"), async function(
 // increase the user's balance by a quantity specified in the body of the request. quantity property must = a number.
 // in reality it might logical to combine this and the function below it into one, since any time you add to the balance you also add to the lifetime total.
 // but for now i wrote them individually. 
-router.put('/:id/increaseBalance/',  mustExist("id", "users", "id"), async function(req, res, next) {
-  console.log("put")
-  console.log(isNaN(+req.body.quantity))
-  if (!req.body.quantity || !req.params.id){
-    console.log("if")
-    res.status(422).send({msg: "Submission does not contain valid data"})
-  } else if (isNaN(+req.body.quantity)){
-    console.log("else if")
-    res.status(422).send({msg: "Amount of desired increase must be a number (data type number)"})
-  } else {
-    try {
-      console.log("else")
-      const {id} = req.params;
-      const {quantity} = req.body;
-      await db(`UPDATE users SET balance = balance+${quantity} WHERE id = "${id}";`)
-      res.send({msg: `User '${id}' balance increased by ${quantity}`});
-    } catch (err){
-      res.status(500).send(err)
-    }  
-  }
-});
+// router.put('/:id/increaseBalance/',  mustExist("id", "users", "id"), async function(req, res, next) {
+//   console.log("put")
+//   console.log(isNaN(+req.body.quantity))
+//   if (!req.body.quantity || !req.params.id){
+//     console.log("if")
+//     res.status(422).send({msg: "Submission does not contain valid data"})
+//   } else if (isNaN(+req.body.quantity)){
+//     console.log("else if")
+//     res.status(422).send({msg: "Amount of desired increase must be a number (data type number)"})
+//   } else {
+//     try {
+//       console.log("else")
+//       const {id} = req.params;
+//       const {quantity} = req.body;
+//       await db(`UPDATE users SET balance = balance+${quantity} WHERE id = "${id}";`)
+//       res.send({msg: `User '${id}' balance increased by ${quantity}`});
+//     } catch (err){
+//       res.status(500).send(err)
+//     }  
+//   }
+// });
 
 
 //increase lifetime total, similar to increase balance
