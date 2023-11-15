@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const jokesRouter = require('./routes/jokes')
 const questionsRouter = require('./routes/questions');
+const usersJokesRouter = require('./routes/usersJokes');
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/', indexRouter);
+app.use('/api/usersJokes', usersJokesRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/jokes', jokesRouter);
 app.use('/api/questions', questionsRouter);

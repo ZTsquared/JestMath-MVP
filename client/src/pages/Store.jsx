@@ -19,6 +19,8 @@ function Store({currentUser, getUser}) {
   const [displayJoke, setDisplayJoke] = useState(false)
   const jokePrice = 8
 
+  useEffect((() => {if (newJoke !== "") {addJokeToUserLibrary()}}),[newJoke])
+
   async function getJoke () {
     const resultJSON = await fetch(`/api/jokes/random/?user_id=${currentUser.id}`);
     const joke = await resultJSON.json();
@@ -34,12 +36,24 @@ function Store({currentUser, getUser}) {
         },
         body: JSON.stringify({"quantity" : quantity})
       });
-      await fetch (`/api/users/${currentUser.id}/increaseLifetimeTotal/`, {
-        method: "PUT",
+      getUser()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async function addJokeToUserLibrary (){
+    console.log(newJoke)
+    const user_id = currentUser.id;
+    const joke_id = newJoke.id;
+    try {
+      console.log("adding joke to library")
+      await fetch (`/api/usersJokes/`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({"quantity" : quantity})
+        body: JSON.stringify({"user_id" : user_id, "joke_id" : joke_id})
       });
       getUser()
     } catch (err) {
@@ -51,9 +65,9 @@ function Store({currentUser, getUser}) {
   function handleSubmit () {
     if (currentUser.balance >= jokePrice) {
       getJoke()
+      addToBalance(-jokePrice);
       setDisplayJoke(true)
       setOfferNewJoke(false);
-      addToBalance(-jokePrice);
     }
   }
 

@@ -58,7 +58,7 @@ function Library({currentUser}) {
           <div>{currentUser.userName}'s Jokes</div> <br />
           <button name = "knockknock" onClick = {handleClick} className="btn btn-outline-dark">Knock Knock Jokes</button>
           <button name = "riddle" onClick = {handleClick} className="btn btn-outline-dark">Riddle</button>
-          <button name = "comic" onClick = {handleClick} className="btn btn-outline-dark">Comic - comming soon!</button>
+          <button name = "comic" onClick = {handleClick} className="btn btn-outline-dark">Comic - coming soon!</button>
           <br />
         <br />
         {selectedJokeType === "knockknock" && 

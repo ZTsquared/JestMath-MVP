@@ -39,6 +39,7 @@ function Welcome({currentUser, setCurrentUser}) {
 
   function handleUserChange (e) {
     console.log("handleUserChange")
+    // setSelectedUserId(1)
     setSelectedUserId(e.target.value)
   }
 

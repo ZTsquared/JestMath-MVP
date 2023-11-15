@@ -71,6 +71,23 @@ router.post('/',  mustNotExist("userName", "users", "userName"), async function(
 
 
 
+// // add a joke to the user's personal library (via junction table usersJokes).  i have moved this to the usersjokes route.
+// router.post('/addToUserLibrary', async function(req, res, next) {
+//   console.log(!req.body.user_id || !req.body.joke_id)
+//   if (!req.body.user_id  || !req.body.joke_id){
+//     res.status(400).send({msg: "Submission does not contain a valid 'user_id' and / or 'joke_id' properties"})
+//   }
+//   const {user_id, joke_id} = req.body;
+//   try {
+//     await db(`INSERT INTO usersJokes (user_id, joke_id) values (${user_id}, ${joke_id});`)
+//     res.send({msg: `Joke_${joke_id} successfully added to user_${user_id}'s library`});
+//   } catch (err){
+//     res.status(500).send(err)
+//   }  
+// });
+
+
+
 // later i would like to have: - household groupings of users, ability to add users and change a userName from the login page, ability to merge stars and jokes from one account into another if you delete the first, 
 
 
@@ -100,6 +117,8 @@ router.put('/:id/increaseBalance/',  mustExist("id", "users", "id"), async funct
 });
 
 
+
+
 //increase lifetime total, similar to increase balance
 router.put('/:id/increaseLifetimeTotal/',  mustExist("id", "users", "id"), async function(req, res, next) {
   if (!req.body.quantity || !req.params.id){
@@ -117,6 +136,8 @@ router.put('/:id/increaseLifetimeTotal/',  mustExist("id", "users", "id"), async
     }  
   }
 });
+
+
 
 
 // delete a user base on their id.
