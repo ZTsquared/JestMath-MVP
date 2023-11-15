@@ -58,7 +58,7 @@ function Library({currentUser}) {
           <div>{currentUser.userName}'s Jokes</div> <br />
           <button name = "knockknock" onClick = {handleClick} className="btn btn-outline-dark">Knock Knock Jokes</button>
           <button name = "riddle" onClick = {handleClick} className="btn btn-outline-dark">Riddle</button>
-          <button name = "comic" onClick = {handleClick} className="btn btn-outline-dark">Comic - coming soon!</button>
+          <button name = "comic" onClick = {handleClick} className="btn btn-outline-dark">Comic - comming soon!</button>
           <br />
         <br />
         {selectedJokeType === "knockknock" && 
@@ -114,7 +114,7 @@ function Library({currentUser}) {
         <Link to="/quiz">Earn more stars</Link>
         <br />
         <Link to="/store">Get more jokes</Link>
-        <br /><br /><br />
+        <br /><br /><br /><br /><br />
         <Link to = "/">{currentUser ? `I'm not ${currentUser.userName}!` : "Login"}</Link>
       </div>}
     </div>

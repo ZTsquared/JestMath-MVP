@@ -47,30 +47,3 @@ CREATE TABLE usersJokes(
     FOREIGN KEY (joke_id) REFERENCES jokes(id) ON DELETE RESTRICT,
     PRIMARY KEY (id)
     );
-
-
-
-INSERT INTO users (userName, userAge) values ("TestUser1", 8);
-INSERT INTO users (userName, userAge) values ("TestUser2", 6);
-
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("How do you get a squirrel to like you?", "Act like a nut!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("What do you get when you cross a snail with a porcupine?", "A slowpoke!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Why can't a leopard hide?", "Because he's always spotted!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("What do you call an illegally parked frog?", "Toad!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("What's red and smells like blue paint?", "Red paint!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("What did the pirate say when he turned 80?", "Aye matey!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Why don't the circus lions eat the clowns?", "Because they taste funny!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Why did the old man fall down the well?", "Becasue he couldn't see that well!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("What do you call a fake noodle?", "An impasta!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("What does a cloud wear under his raincoat?", "Thunderwear!", "riddle");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Teresa", "Theresa fly in my soup!", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Cozy", "Cozy who's knocking!", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Irma", "Irma little cold, can I come in?", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Livia", "Livia me alone!", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Bean", "Bean working really hard today!", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Juno", "Juno how to unlock this door?", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Luke", "Luke through the peephole and find out!", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Hal", "Hal will you know if you don't open the door?", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Orange", "Orange you gonna let me in?", "knockknock");
-INSERT INTO jokes (setUp, punchLine, jokeType) values ("Lettuce", "Let us in, it's cold out here!", "knockknock");
-
