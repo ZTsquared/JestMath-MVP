@@ -13,7 +13,14 @@ Built with: node.js, react, express, and a tiiiiiiny bit of bootstrap 5.
 
 ### Dependencies
 
-See the preliminary Project Scaffolding document provided in this repository `reference_documents/ProjectScaffolding.pdf`
+
+Run `npm install` in the project folder to install dependencies related to Express (the server).
+
+Install packages MySQL, Nodemon, Dotenv and CORS: `npm install mysql nodemon dotenv cors`
+
+`cd client` and run `npm install` install dependencies related to React (the client).
+
+For information on how the project was originally set up see the preliminary Project Scaffolding document provided in this repository `reference_documents/ProjectScaffolding.pdf` - you will not need to do all these steps, but I am providing it for referece incase something is not working as you expect.
 
 ### Database Prep
 
@@ -32,8 +39,9 @@ In the MySQL CLI, log in and then type `create database ZIAfs32MVP;` to create a
 
 Run the following in the MySQL CLI: `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOUR_PASSWORD';` (replace `YOUR_PASSWORD` with your actual password)
 
-Run `npm run migrate` in your **TERMINAL**, in the **project** folder (not your MySQL CLI! Open a new terminal window for this). 
-This will create the following tables in your database:
+Open the init_db.sql file and uncomment everything from line 10 down to the bottom of the file.
+
+Run `npm run migrate` in your **TERMINAL**, in the **project** folder.  This will create the following tables in your database:
 
 #### Questions
 
@@ -53,7 +61,7 @@ When users earn stars they are added to the balance and the lifetimeTotal,  when
 
 This table contains the jokes. It will be automatically populated with about 20 jokes.
 
-The 2 columns contain the joke's setup, punchline and joke type.  Joke type is limited to knockknock, riddle, or comic (comic is not fully built out yet).  The formating of the joke on the screen is dependant on type so any other joke type will break the code as it is currently written.  The post route for the jokes table protects against this, but be careful if you add jokes directly from SQL.
+The 3 columns contain the joke's setup, punchline and joke type.  Joke type is limited to knockknock, riddle, or comic (comic is not fully built out yet).  The formating of the joke on the screen is dependant on type so any other joke type will break the code as it is currently written.  The post route for the jokes table protects against this, but be careful if you add jokes directly from SQL.
 
 #### UsersJokes
 
@@ -78,7 +86,7 @@ Read through all the comments in the code.  I tried to comment it fairly thoroug
 
 ### 2. The Routes
 
-There is a route file for each table.  Any route that modifies that table will be in that file.
+There is a route file for each table.  Any route that modifies that table or draws data primarily based on that table will be in that file.
 
 The routes should be fairly straight forward.  The only tricky thing is the mustExist and mustNotExist functions in the guards folder.  These are not actually guard functions, they are higher order functions that return a customized guard function based on the parameters `(queryParamKey, queryTableName, queryColumnName)` you feed them.  This way the function can be used to test if a userName exists in the users table, or an id exists in the questions table, or whatever you like.  As written you do have to pass the value you want to validate (queryParamKey) in the req.params , not the body for it to work, but that could be adjusted.
 
