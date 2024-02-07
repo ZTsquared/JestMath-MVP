@@ -100,6 +100,15 @@
 -- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Hal", "Hal will you know if you don't open the door?", "knockknock");
 -- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Orange", "Orange you gonna let me in?", "knockknock");
 -- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Lettuce", "Let us in, it's cold out here!", "knockknock");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Garfield/Jim Davis", "garfield-2.jpg", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Garfield/Jim Davis", "garfield-jim-davis-2022-05-01.webp", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Garfield/Jim Davis", "garfield-jim-davis-2022-05-07.webp", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("The Far Side/Gary Larsen", "far-side-1.jpg", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("The Far Side/Gary Larsen", "far-side-2.jpg", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("The Far Side/Gary Larsen", "far-side-3.jpg", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Family Circus/Bill & Jeff Keane", "family-circus-1.jpg", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Family Circus/Bill & Jeff Keane", "family-circus-2.jpg", "comic");
+-- INSERT INTO jokes (setUp, punchLine, jokeType) values ("Family Circus/Bill & Jeff Keane", "family-circus-3.jpg", "comic");
 
 -- INSERT INTO questions (question, answer) values ("93 / 3", "31");
 -- INSERT INTO questions (question, answer) values ("2 * 3 * 4", "24");

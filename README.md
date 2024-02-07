@@ -146,4 +146,4 @@ In future parents should be able to add jokes from here as well.
 
 ## Notes
 
-_This is a student project that was created at [CodeOp](http://CodeOp.tech), a full stack development bootcamp in Barcelona._
+_This is a student project that was created by Zia Tyebjee at [CodeOp](http://CodeOp.tech), a full stack development bootcamp in Barcelona._
