@@ -22,5 +22,6 @@ async function calculateAnswer (req, res, next ){
     }
         
 }
+}
 
 module.exports = calculateAnswer
