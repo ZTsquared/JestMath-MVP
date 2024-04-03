@@ -1,18 +1,12 @@
+# Zia Tyebjee's FS32 MVP: un-named elementary level math game
 
-OLD README FROM OTHER ACTIVITY BELOW - NEEDS COMPLETE REWRITE
-
-
-# Zia Tyebjee's FS32 MVP:  un-named elementary level math game
-
-This app is a basic math game in which children can practice math problems and earn jokes in return. The game is designed to be managed by a parent who can curate both the questions and the jokes based on their child's skills and interests.
+This app is a basic math game in which children can practice math problems and earn jokes in return. The game is designed to be managed by a parent or other adult who can curate both the questions and the jokes based on their child's skills and interests.
 
 Built with: node.js, react, express, and a tiiiiiiny bit of bootstrap 5.
-
 
 ## Setup
 
 ### Dependencies
-
 
 Run `npm install` in the project folder to install dependencies related to Express (the server).
 
@@ -23,6 +17,8 @@ Install packages MySQL, Nodemon, Dotenv and CORS: `npm install mysql nodemon dot
 For information on how the project was originally set up see the preliminary Project Scaffolding document provided in this repository `reference_documents/ProjectScaffolding.pdf` - you will not need to do all these steps, but I am providing it for referece incase something is not working as you expect.
 
 ### Database Prep
+
+//THE DATABASE PREP INFO BELOW IS OUT OF DATE. I AM REFACTORING TO SEQUELIZE - THIS SECTION NEEDS A REWRITE ONCE I COMPLETE THE REFACTOR
 
 Create `.env` file in project directory and add
 
@@ -41,33 +37,31 @@ Run the following in the MySQL CLI: `ALTER USER 'root'@'localhost' IDENTIFIED WI
 
 Open the init_db.sql file and uncomment everything from line 10 down to the bottom of the file.
 
-Run `npm run migrate` in your **TERMINAL**, in the **project** folder.  This will create the following tables in your database:
+Run `npm run migrate` in your **TERMINAL**, in the **project** folder. This will create the following tables in your database:
 
 #### Questions
 
 This table contains the math problems. It will be automatically populated with about 20 starter questions.
 
-For the time being the questions are shown in the app exactly as written in SQL.  The route to post a question uses the eval() method to calculate the answer so questions must be written in a format and syntax that javascript can calculate.  You can add questions to the database directly from the parent portal of the app.
+For the time being the questions are shown in the app exactly as written in SQL. The route to post a question uses the eval() method to calculate the answer so questions must be written in a format and syntax that javascript can calculate. You can add questions to the database directly from the parent portal of the app.
 
 #### Users
 
 This table contains user data and is automatically populated with 2 users.
 
-The table contains 'UserName' and 'UserAge' which must be set manually when the user is created.  There are also columns for 'balance' and 'lifetimeTotal' which default to 0 on user creation.
+The table contains 'UserName' and 'UserAge' which must be set manually when the user is created. There are also columns for 'balance' and 'lifetimeTotal' which default to 0 on user creation.
 
-When users earn stars they are added to the balance and the lifetimeTotal,  when users buy jokes stars are deducted from the balance but not from the lifetimeTotal.
+When users earn stars they are added to the balance and the lifetimeTotal, when users buy jokes stars are deducted from the balance but not from the lifetimeTotal.
 
 #### Jokes
 
 This table contains the jokes. It will be automatically populated with about 20 jokes.
 
-The 3 columns contain the joke's setup, punchline and joke type.  Joke type is limited to knockknock, riddle, or comic (comic is not fully built out yet).  The formating of the joke on the screen is dependant on type so any other joke type will break the code as it is currently written.  The post route for the jokes table protects against this, but be careful if you add jokes directly from SQL.
+The 3 columns contain the joke's setup, punchline and joke type. Joke type is limited to knockknock, riddle, or comic (comic is not fully built out yet). The formating of the joke on the screen is dependant on type so any other joke type will break the code as it is currently written. The post route for the jokes table protects against this, but be careful if you add jokes directly from SQL.
 
 #### UsersJokes
 
-This is a junction table for tracking which users own which jokes in their private library.  An entry is made in this table whenever a user purchases a joke.
-
-
+This is a junction table for tracking which users own which jokes in their private library. An entry is made in this table whenever a user purchases a joke.
 
 ### Run Your Development Servers
 
@@ -77,24 +71,23 @@ This is a junction table for tracking which users own which jokes in their priva
 - You can test your client app in `http://localhost:5173`
 - You can test your API in `http://localhost:4000/api`
 
-
 ## Things to know
 
 ### 1. General
 
-Read through all the comments in the code.  I tried to comment it fairly thoroughly.
+Read through all the comments in the code. I tried to comment it fairly thoroughly.
 
 ### 2. The Routes
 
-There is a route file for each table.  Any route that modifies that table or draws data primarily based on that table will be in that file.
+There is a route file for each table. Any route that modifies that table or draws data primarily based on that table will be in that file.
 
-The routes should be fairly straight forward.  The only tricky thing is the mustExist and mustNotExist functions in the guards folder.  These are not actually guard functions, they are higher order functions that return a customized guard function based on the parameters `(queryParamKey, queryTableName, queryColumnName)` you feed them.  This way the function can be used to test if a userName exists in the users table, or an id exists in the questions table, or whatever you like.  As written you do have to pass the value you want to validate (queryParamKey) in the req.params , not the body for it to work, but that could be adjusted.
+The routes should be fairly straight forward. The only tricky thing is the mustExist and mustNotExist functions in the guards folder. These are not actually guard functions, they are higher order functions that return a customized guard function based on the parameters `(queryParamKey, queryTableName, queryColumnName)` you feed them. This way the function can be used to test if a userName exists in the users table, or an id exists in the questions table, or whatever you like. As written you do have to pass the value you want to validate (queryParamKey) in the req.params , not the body for it to work, but that could be adjusted.
 
 ### 3. The SPA pages
 
 #### App
 
-The app contains currentUser data which is passed as a prop to all the other views and components.  It also contains a function to change the user or refresh the user data, which is passed as a prop to several of the pages as well.  This is used in several useEffect calls on various pages.
+The app contains currentUser data which is passed as a prop to all the other views and components. It also contains a function to change the user or refresh the user data, which is passed as a prop to several of the pages as well. This is used in several useEffect calls on various pages.
 
 #### Welcome
 
@@ -102,9 +95,9 @@ This is the primary landing page and login page
 
 #### Quiz
 
-This starting view for this page is just a button allowing you to start a round of game play.  When you start a round 10 random questions are fetched from the database.
+This starting view for this page is just a button allowing you to start a round of game play. When you start a round 10 random questions are fetched from the database.
 
-Questions are displayed one at a time,  you have as many tries as you like to enter an answer and have the ability to skip questions.  A correct answer adds 1 star to the user's balance.
+Questions are displayed one at a time, you have as many tries as you like to enter an answer and have the ability to skip questions. A correct answer adds 1 star to the user's balance.
 
 There is a scratch paper text area to take notes, but this is not stored in any way. It is just for temporary scratch work.
 
@@ -112,7 +105,7 @@ At the end of the round you are prompted to move to the next round
 
 #### Store
 
-As long as the user's balance is high enough they can buy a joke. The Joke is "told" step by step and also added to the user's library.  The price of the joke is also deducted from the user's balance.
+As long as the user's balance is high enough they can buy a joke. The Joke is "told" step by step and also added to the user's library. The price of the joke is also deducted from the user's balance.
 
 #### Library
 
@@ -120,7 +113,7 @@ Here a user can see all the jokes they have previously bought.
 
 #### ParentPortal
 
-In this portal you can add questions to the questions database table.  In future this portal should also allow parents to curate and delete questions.
+In this portal you can add questions to the questions database table. In future this portal should also allow parents to curate and delete questions.
 
 In future parents should be able to add jokes from here as well.
 
