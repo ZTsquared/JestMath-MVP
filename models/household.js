@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   Household.init(
     {
       email: DataTypes.STRING,
-      name: DataTypes.STRING,
+      householdName: DataTypes.STRING,
     },
     {
       sequelize,

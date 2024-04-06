@@ -10,7 +10,7 @@ const mustNotExist = require("../guardFunctions/mustNotExist");
 router.get("/", async function (req, res, next) {
   try {
     const users = await models.User.findAll({
-      attributes: ["name", "id"],
+      attributes: ["userName", "id"],
     });
     console.log("hi");
     res.send(users);

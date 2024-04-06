@@ -46,7 +46,7 @@ function Welcome({ currentUser, setCurrentUser }) {
   return (
     <div>
       <h3>Hey</h3>
-      <h1>{currentUser ? currentUser.name : "Kiddo"}</h1> <br />
+      <h1>{currentUser ? currentUser.userName : "Kiddo"}</h1> <br />
       <br />
       {currentUser && <Link to="/quiz">Let's Play!</Link>}
       <br />
@@ -58,7 +58,7 @@ function Welcome({ currentUser, setCurrentUser }) {
         {/* {userNames.map((userName, i) => <option key={i} value={userName}>{userName}</option>)} */}
         {allUsers.map((user, i) => (
           <option key={i} value={user.id}>
-            {user.name}
+            {user.userName}
           </option>
         ))}
       </select>
