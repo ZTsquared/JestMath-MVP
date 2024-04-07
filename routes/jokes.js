@@ -2,24 +2,22 @@ var express = require("express");
 var router = express.Router();
 const db = require("../model/helper");
 const models = require("../models");
-const { Op, Association, random } = require("sequelize");
+// const { Op, Association, random } = require("sequelize");
 const Sequelize = require("sequelize");
 const mustExist = require("../guardFunctions/mustExist");
 const mustNotExist = require("../guardFunctions/mustNotExist");
 
-// FIXME: to sequelize or delete
-// get full jokes list
+// get full jokes list (not used in app but useful for postman)
 router.get("/", async function (req, res, next) {
   try {
-    const jokes = await db("SELECT * FROM jokes;");
-    res.send(jokes.data);
+    const jokes = await models.Joke.findAll();
+    res.send(jokes);
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-// FIXME: to sequelize or delete
-//get joke by id
+//get joke by id (not used in app but useful for postman)
 router.get(
   "/:id",
   mustExist("id", "jokes", "id"),
@@ -32,14 +30,13 @@ router.get(
       if (isNaN(+id)) {
         next();
       } else {
-        // const joke = await models.Joke.findOne({
-        //   attributes: ["id", "jokeType", "setUp", "punchLine"],
-        //   where: {
-        //     id: id,
-        //   },
-        // });
-        const joke = await db(`SELECT * FROM jokes WHERE id=${id};`);
-        res.send(joke.data[0]);
+        const joke = await models.Joke.findOne({
+          // attributes: ["id", "jokeType", "setUp", "punchLine"],
+          where: {
+            id: id,
+          },
+        });
+        res.send(joke);
       }
     } catch (err) {
       res.status(500).send(err);
@@ -48,6 +45,7 @@ router.get(
 );
 
 //getone random joke that is not in the current user's library
+// TODO: this route needs to get one that ISN'T ALREADY IN USER LIBRARY
 router.get("/random", async function (req, res, next) {
   // console.log("getting a random joke")
   try {
@@ -68,7 +66,7 @@ router.get("/random", async function (req, res, next) {
 // In future I would like to add comics strips as a 3rd joke type as a way to practice using images,
 // In that case maybe the setup would need to be either the comic's name or null and the punchline would contain the image path?
 
-// FIXME: to sequelize
+// FIXME: to sequelize (not used in app but useful for postman)
 router.post("/", async function (req, res, next) {
   const allowableTypes = ["knockknock", "riddle", "comic"];
   if (!req.body.setUp || !req.body.punchLine || !req.body.jokeType) {

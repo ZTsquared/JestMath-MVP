@@ -5,20 +5,15 @@ import KnockKnock from "../components/KnockKnock";
 import Riddle from "../components/Riddle";
 import Comic from "../components/Comic";
 
-// to do:
-//fetch a random joke (checking that it is not in the junction table for that user already)
-//display it with conditional formatting based on joke type
-//add entry to the junction table to record that the user owns that joke
-//deduct price from user's balance
-//link this functionality to the button
-
 function Store({ currentUser, getUser }) {
   const [newJoke, setNewJoke] = useState("");
   const [offerNewJoke, setOfferNewJoke] = useState(true);
   const jokePrice = 8;
 
   useEffect(() => {
-    getUser();
+    if (currentUser) {
+      getUser();
+    }
   }, []);
 
   useEffect(() => {

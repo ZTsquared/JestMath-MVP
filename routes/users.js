@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../model/helper");
 const models = require("../models");
-const { Op, Association } = require("sequelize");
+// const { Op, Association } = require("sequelize");
 const mustExist = require("../guardFunctions/mustExist");
 const mustNotExist = require("../guardFunctions/mustNotExist");
 
@@ -20,7 +20,7 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-// FIXME: to sequelize AND require token check once household login is complete.
+// TODO: require token check once household login is complete.
 // have the login guard return the whole household, then have this route pull out just the relevant user then pass it on?
 router.get(
   "/:userName",
@@ -33,6 +33,7 @@ router.get(
         where: {
           userName: userName,
         },
+        include: models.Joke,
       });
       // const user = await db(
       //   `SELECT * FROM users WHERE userName= "${userName}";`
@@ -45,26 +46,9 @@ router.get(
   }
 );
 
-// FIXME: to sequelize
-router.get(
-  "/:id/jokes",
-  mustExist("id", "users", "id"),
-  async function (req, res, next) {
-    try {
-      const { id } = req.params;
-      const jokes = await db(
-        `SELECT * FROM jokes WHERE jokes.id in (select joke_id from usersJokes where user_id = ${id});`
-      );
-      res.send(jokes.data);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  }
-);
-
-// FIXME: to sequelize
+// FIXME: to sequelize, but thir route is not used yet anyway
 //post a new user.  userName should be unique so we have middleware to check this. the mustNotExist function builds a
-// custom guard function based on the table and column name you want to check against
+// custom guard function based on the table and column name you want to check against (also, maybe a user should get 20 free stars to start? but this is a front end issue)
 router.post(
   "/",
   mustNotExist("userName", "users", "userName"),
@@ -135,7 +119,7 @@ router.put(
   }
 );
 
-//FIXME: check token, maybe provide user from check login? or provide houselhold from check login and select user here?
+//TODO: check token, maybe provide user from check login? or provide houselhold from check login and select user here?
 router.post(
   "/:id/addJokeToLibrary/",
   mustExist("id", "users", "id"),
@@ -168,7 +152,7 @@ router.post(
   }
 );
 
-// FIXME: to sequelize
+// FIXME: to sequelize, but thir route is not used yet anyway
 // delete a user base on their id.
 router.delete(
   "/:id",

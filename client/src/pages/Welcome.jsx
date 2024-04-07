@@ -7,20 +7,14 @@ import { Link } from "react-router-dom";
 
 function Welcome({ currentUser, getUser }) {
   const [allUsers, SetAllUsers] = useState([]);
-  const [userNames, setUserNames] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(currentUser?.id);
 
-  // below: gets all the users or page reload:
+  // below: gets all the users on page reload:
   useEffect(() => {
     getUsers();
   }, []);
 
-  // FIXME: below:  sets the list of usernames any time the allUsers list changes - maybe not needed?
-  useEffect(() => {
-    setUserNames(allUsers.map(({ userName }) => userName));
-  }, [allUsers]);
-
-  // below: updates/refreshes the currentUser information.  The if statement is there becasue otherwise the
+  // below: updates/refreshes the currentUser information.  The if statement is there because otherwise the
   // value binding between selectedUser and the user selector drop down was causing the user to be
   // logged out whenever you navigated to the welcome page.
   useEffect(() => {

@@ -4,9 +4,8 @@ import Bank from "../components/Bank";
 
 //I still need to fetch user's jokes based on the junctiontable userJokes
 
-function Library({ currentUser }) {
-  // userJokes holds all the jokes the user owns, which are then sorted into seperate arrays by type
-  const [userJokes, setUserJokes] = useState([]);
+function Library({ currentUser, getUser }) {
+  // user jokes are stored in the current user then filtered into 3 arrays by type
   const [userKnockKnocks, setUserKnockKnocks] = useState([]);
   const [userRiddles, setUserRiddles] = useState([]);
   const [userComics, setUserComics] = useState([]);
@@ -14,40 +13,23 @@ function Library({ currentUser }) {
   const [selectedJokeType, setSelectedJokeType] = useState("");
 
   useEffect(() => {
-    getUser();
+    if (currentUser) {
+      getUser();
+    }
   }, []);
 
   useEffect(() => {
-    getUserJokes();
-  }, [selectedJokeType]);
-
-  useEffect(() => {
     populateJokeTypes();
-  }, [userJokes]);
-
-  // this retrieves all the jokes the user owns and saves them in userJokes
-  async function getUserJokes() {
-    if (currentUser) {
-      // console.log("getting user jokes")
-      try {
-        const { id } = currentUser;
-        const resultJSON = await fetch(`/api/users/${id}/jokes`);
-        const jokes = await resultJSON.json();
-        setUserJokes(jokes);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  }
+  }, [currentUser]);
 
   // this seperates the jokes into types to create the 3 seperate arrays, one for each joke type. Any joke that doesn't have a proper type will be omitted entierly
   function populateJokeTypes() {
-    // console.log("userJokes: ")
-    // console.log(userJokes)
-    if (userJokes) {
-      setUserKnockKnocks(userJokes.filter((e) => e.jokeType === "knockknock"));
-      setUserRiddles(userJokes.filter((e) => e.jokeType === "riddle"));
-      setUserComics(userJokes.filter((e) => e.jokeType === "comic"));
+    if (currentUser?.Jokes) {
+      setUserKnockKnocks(
+        currentUser.Jokes.filter((e) => e.jokeType === "knockknock")
+      );
+      setUserRiddles(currentUser.Jokes.filter((e) => e.jokeType === "riddle"));
+      setUserComics(currentUser.Jokes.filter((e) => e.jokeType === "comic"));
     }
   }
 

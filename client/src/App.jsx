@@ -68,7 +68,7 @@ function App() {
         ></Route>
         <Route
           path="/library"
-          element={<Library currentUser={currentUser} />}
+          element={<Library currentUser={currentUser} getUser={getUser} />}
         ></Route>
         <Route
           path="/parentPortal"
