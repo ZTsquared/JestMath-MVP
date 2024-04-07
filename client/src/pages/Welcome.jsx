@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // this is a bit slapdash, in future there could be other reasons that you get a 403
 // (like if they submit an age that is not an integer)
 
-function Welcome({ currentUser, setCurrentUser }) {
+function Welcome({ currentUser, getUser }) {
   const [allUsers, SetAllUsers] = useState([]);
   const [userNames, setUserNames] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(currentUser?.id);
@@ -14,16 +14,20 @@ function Welcome({ currentUser, setCurrentUser }) {
   useEffect(() => {
     getUsers();
   }, []);
-  // below:  sets the list of usernames any time the allUsers list changes
+
+  // FIXME: below:  sets the list of usernames any time the allUsers list changes - maybe not needed?
   useEffect(() => {
     setUserNames(allUsers.map(({ userName }) => userName));
   }, [allUsers]);
+
   // below: updates/refreshes the currentUser information.  The if statement is there becasue otherwise the
   // value binding between selectedUser and the user selector drop down was causing the user to be
   // logged out whenever you navigated to the welcome page.
   useEffect(() => {
     if (!currentUser || selectedUserId !== currentUser.id) {
-      setCurrentUser(allUsers.filter((e) => e.id === +selectedUserId)[0]);
+      const selectedUser = allUsers.filter((e) => e.id === +selectedUserId)[0];
+      // setCurrentUser(selectedUser);
+      if (selectedUser) getUser(selectedUser.userName);
     }
   }, [selectedUserId]);
 

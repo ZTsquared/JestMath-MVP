@@ -14,8 +14,13 @@ function Library({ currentUser }) {
   const [selectedJokeType, setSelectedJokeType] = useState("");
 
   useEffect(() => {
+    getUser();
+  }, []);
+
+  useEffect(() => {
     getUserJokes();
   }, [selectedJokeType]);
+
   useEffect(() => {
     populateJokeTypes();
   }, [userJokes]);

@@ -14,6 +14,10 @@ function Quiz({ currentUser, getUser }) {
   const [currentCorrect, setCurrentCorrect] = useState(false);
   const [tries, setTries] = useState(0);
 
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+
   // reset the user's answer to "" whenever they submit an answer so that the input field will be blank again
   useEffect(() => {
     setUserAnswer("");
@@ -76,14 +80,8 @@ function Quiz({ currentUser, getUser }) {
   // also calls the getUser prop function so that the currentUser object in the app view gets promptly updated and passed down to everwhere else
   async function addToBalance(quantity) {
     try {
+      console.log(currentUser.id);
       await fetch(`/api/users/${currentUser.id}/increaseBalance/`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ quantity: quantity }),
-      });
-      await fetch(`/api/users/${currentUser.id}/increaseLifetimeTotal/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

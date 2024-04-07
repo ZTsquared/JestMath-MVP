@@ -11,23 +11,27 @@ import ParentPortal from "./pages/ParentPortal";
 
 function App() {
   //the current user info is stored here and passed to all the other pages as a prop
+  // const [selectedIDinParent, setSelectedIDinParent] = useState("");
   const [currentUser, setCurrentUser] = useState("");
   useEffect(() => {
     console.log(
       `the current user in App file is now: ${currentUser?.userName}`
     );
+    console.log(currentUser);
   }, [currentUser]);
 
-  // the getUser function gets the new user data or refreshes the current user data.
+  // useEffect(() => {
+  //   getUser();
+  // }, [selectedIDinParent]);
+
+  // the getUser function gets the new user data (if a userName is passed) or refreshes the current user data (if no parameter is passed).
   // it is passed as a prop to some of the other pages since any time a change is made to the
-  // user's balance the user data must be refreshed imediately or the bank account will appear out of sync.
-  async function getUser() {
+  // user's balance the user data must be refreshed immediately or the bank account will appear out of sync.
+  async function getUser(userName = currentUser.userName) {
     try {
       console.log("trying to refresh user for userName");
-      console.log(
-        currentUser.userName + ` at path:  api/users/${currentUser.userName}`
-      );
-      const resultJSON = await fetch(`api/users/${currentUser.userName}`);
+      console.log(userName + ` at path:  api/users/${userName}`);
+      const resultJSON = await fetch(`api/users/${userName}`);
       const user = await resultJSON.json();
       setCurrentUser(user);
     } catch (err) {
@@ -35,10 +39,11 @@ function App() {
     }
   }
 
-  // the handleUserChange function is passed as a prop to the login page and called when someone logs in.
-  function handleUserChange(selectedUser) {
-    setCurrentUser(selectedUser);
-  }
+  // the handleUserChange function was passed as a prop to the login page and called when someone logs in.
+  // FIXME: i don't think it's needed anymore, try deleting it
+  // function handleUserChange(selectedUser) {
+  //   setCurrentUser(selectedUser);
+  // }
 
   return (
     <>
@@ -48,7 +53,8 @@ function App() {
           element={
             <Welcome
               currentUser={currentUser}
-              setCurrentUser={(selectedUser) => handleUserChange(selectedUser)}
+              getUser={(userName) => getUser(userName)}
+              // setCurrentUser={(selectedUser) => handleUserChange(selectedUser)}
             />
           }
         ></Route>
