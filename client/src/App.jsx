@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { Route, Routes, Link } from "react-router-dom";
+import Login from "./pages/Login";
 import Welcome from "./pages/Welcome";
 import Quiz from "./pages/Quiz";
 import Store from "./pages/Store";
@@ -19,10 +20,6 @@ function App() {
     );
     console.log(currentUser);
   }, [currentUser]);
-
-  // useEffect(() => {
-  //   getUser();
-  // }, [selectedIDinParent]);
 
   // the getUser function gets the new user data (if a userName is passed) or refreshes the current user data (if no parameter is passed).
   // it is passed as a prop to some of the other pages since any time a change is made to the
@@ -52,6 +49,16 @@ function App() {
           path="/"
           element={
             <Welcome
+              currentUser={currentUser}
+              getUser={(userName) => getUser(userName)}
+              // setCurrentUser={(selectedUser) => handleUserChange(selectedUser)}
+            />
+          }
+        ></Route>
+        <Route
+          path="/login"
+          element={
+            <Login
               currentUser={currentUser}
               getUser={(userName) => getUser(userName)}
               // setCurrentUser={(selectedUser) => handleUserChange(selectedUser)}

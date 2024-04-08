@@ -49,8 +49,11 @@ router.get(
 router.get("/random", async function (req, res, next) {
   // console.log("getting a random joke")
   try {
-    const { user_id } = req.query;
+    const { userId } = req.query;
     const joke = await models.Joke.findOne({
+      where: {
+        // id not in userJokes junction table paired with this particular userId
+      },
       attributes: ["id", "jokeType", "setUp", "punchLine"],
       order: Sequelize.literal("rand()"),
     });

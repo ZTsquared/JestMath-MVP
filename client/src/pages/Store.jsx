@@ -25,7 +25,7 @@ function Store({ currentUser, getUser }) {
   // gets a random joke that the user does not already own from the library
   async function getJoke() {
     const resultJSON = await fetch(
-      `/api/jokes/random/?user_id=${currentUser.id}`
+      `/api/jokes/random/?userId=${currentUser.id}`
     );
     const joke = await resultJSON.json();
     setNewJoke(joke);

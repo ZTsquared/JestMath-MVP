@@ -14,6 +14,8 @@ function Quiz({ currentUser, getUser }) {
   const [currentCorrect, setCurrentCorrect] = useState(false);
   const [tries, setTries] = useState(0);
 
+  const pointValue = 1;
+
   // useEffect(() => {
   //   getUser();
   // }, []);
@@ -67,7 +69,7 @@ function Quiz({ currentUser, getUser }) {
     e.preventDefault();
     if (+userAnswer === +selectedQuestions[currentIndex].answer) {
       setCurrentCorrect(true);
-      addToBalance(1);
+      addToBalance(pointValue);
       // ideally when the user's bank acount updates the star and number on the screen bounce or ping or something to draw attention
     } else {
       setCurrentCorrect(false);

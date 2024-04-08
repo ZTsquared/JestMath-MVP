@@ -104,7 +104,7 @@ router.put(
         let msg = `User '${id}' balance decreased by ${-quantity}`;
         if (quantity > 0) {
           await models.User.increment(
-            { lifetimeTotal: +1 },
+            { lifetimeTotal: +quantity },
             { where: { id: id } }
           );
           msg = `User '${id}' balance and lifetimeTotal increased by ${quantity}`;
