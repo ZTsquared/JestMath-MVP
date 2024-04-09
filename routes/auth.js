@@ -10,9 +10,7 @@ const mustExist = require("../guardFunctions/mustExist");
 const mustNotExist = require("../guardFunctions/mustNotExist");
 
 router.post("/register", async function (req, res, next) {
-  console.log(req.body);
-  const { email, password, householdName, subUsers } = req.body.user;
-  console.log(req.body.user);
+  const { email, password, householdName, subUsers } = req.body;
   try {
     console.log("Request Body:", req.body);
     const newHouseholdInfo = await models.Household.create({

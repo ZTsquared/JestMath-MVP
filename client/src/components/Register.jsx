@@ -52,14 +52,29 @@ function Register() {
     setSubUsers((state) => state.filter(({ userName }) => userName !== name));
   }
 
-  function registerHousehold() {
+  async function registerHousehold() {
     const newHousehold = {
-      email: email.toLowerCase(),
+      email,
       password,
       householdName,
       subUsers,
     };
     console.log(newHousehold);
+    try {
+      console.log("trying...");
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newHousehold),
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+    //   login();
+
     //TODO:encrypt password and post to auth/register route, including newHousehold object in the body
   }
 
@@ -83,8 +98,10 @@ function Register() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <h6>Household account information:</h6>
         <label htmlFor="email">
           Email:
+          <br />
           <input
             type="email"
             id="email"
@@ -96,39 +113,42 @@ function Register() {
           />
         </label>
         <br />
-        <div>
-          <label htmlFor="password1">
-            Password:
-            <input
-              type={visible ? "text" : "password"}
-              id="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              type="button"
-              className="btn btn-outline-dark"
-              onClick={(e) => setVisible(!visible)}
-            >
-              👁️
-            </button>
-          </label>
+        {/* <div> */}
+        <label htmlFor="password">
+          Password:
           <br />
-          <label htmlFor="password2">
-            Re-enter Password:
-            <input
-              type={visible ? "text" : "password"}
-              id="password2"
-              placeholder="Password"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-            />
-          </label>
-        </div>
+          <input
+            type={visible ? "text" : "password"}
+            id="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            className="btn btn-outline-dark"
+            onClick={(e) => setVisible(!visible)}
+          >
+            👁️
+          </button>
+        </label>
+        <br />
+        <label htmlFor="password2">
+          Re-enter Password:
+          <br />
+          <input
+            type={visible ? "text" : "password"}
+            id="password2"
+            placeholder="Password"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+          />
+        </label>
+        {/* </div> */}
         <br />
         <label htmlFor="householdName">
           Name your household:
+          <br />
           <input
             type="text"
             id="householdName"
@@ -138,10 +158,12 @@ function Register() {
           />
         </label>
         <div>
+          <br />
+          <h6>Player profiles:</h6>
           <h6>Create individual child profiles (minimum 1):</h6>
           {subUsers.map((u, i) => (
             <div key={"userName" + i}>
-              {u.userName}
+              Player {i + 1}:{" " + u.userName}
               <button
                 type="button"
                 name={u.userName}
@@ -163,7 +185,7 @@ function Register() {
               }
             />
           </label>
-          <label htmlFor="userName">
+          <label htmlFor="birthYear">
             Year of birth:
             <input
               type="text"
