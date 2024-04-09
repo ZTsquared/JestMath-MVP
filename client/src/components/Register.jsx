@@ -53,15 +53,15 @@ function Register() {
   }
 
   async function registerHousehold() {
+    const lowerCaseEmail = email.toLowerCase();
     const newHousehold = {
-      email,
+      email: lowerCaseEmail,
       password,
       householdName,
       subUsers,
     };
     console.log(newHousehold);
     try {
-      console.log("trying...");
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
@@ -86,8 +86,8 @@ function Register() {
       setErrMsg("please provide a name for the household");
     } else if (!subUsers.length) {
       setErrMsg("please create at least one child profile");
-    } else if (password.length < 8) {
-      setErrMsg("password must be at least 8 characters");
+    } else if (password.length < 5) {
+      setErrMsg("password must be at least 5 characters");
     } else if (password !== password2) {
       setErrMsg("passwords do not match");
     } else {

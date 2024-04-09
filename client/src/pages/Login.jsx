@@ -10,15 +10,36 @@ function Login() {
 
   useEffect(() => console.log(register), [register]);
 
+  async function login() {
+    try {
+      const lowerCaseEmail = email.toLowerCase();
+      const loginData = {
+        email: lowerCaseEmail,
+        password,
+      };
+      console.log("submit login");
+      console.log(loginData);
+      const results = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+      const data = await results.json();
+      console.log(data);
+      //store it locally
+      localStorage.setItem("token", data.token);
+      //   onLogin();
+      //   navigate("/Actions");
+    } catch {
+      console.log(error);
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    const loginData = {
-      email,
-      password,
-    };
-    console.log("submit login");
-    console.log(loginData);
-    //TODO: encrypt and authenticate (need to write login route first...)
+    login();
   }
 
   function toggleRegister() {

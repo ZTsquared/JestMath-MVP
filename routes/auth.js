@@ -36,29 +36,30 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
-// router.post("/login", async function (req, res, next) {
-//   const { username, password } = req.body;
-//   console.log(req.body);
-//   try {
-//     // console.log(username);
-//     const user = await models.User.findOne({
-//       where: { username },
-//     });
-//     console.log("help");
+router.post("/login", async function (req, res, next) {
+  const { email, password } = req.body;
+  console.log(req.body);
+  try {
+    const household = await models.Household.findOne({
+      where: { email },
+    });
+    console.log("help");
 
-//     if (user) {
-//       // console.log(user);
-//       const correctPassword = await bcrypt.compare(password, user.password);
-//       if (!correctPassword) throw new Error("Incorrect password");
-//       var token = jwt.sign({ user_id: user.id }, supersecret);
-//       res.send({
-//         message: "Login successful, here is your token",
-//         token,
-//       });
-//     } else res.status(400).send("user not found");
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
+    if (household) {
+      const correctPassword = await bcrypt.compare(
+        password,
+        household.password
+      );
+      if (!correctPassword) throw new Error("Incorrect password");
+      const token = jwt.sign({ household_id: household.id }, supersecret);
+      res.send({
+        message: "Login successful, here is your token",
+        token,
+      });
+    } else res.status(400).send("user not found");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 module.exports = router;
