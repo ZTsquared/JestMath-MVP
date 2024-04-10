@@ -165,11 +165,12 @@ function Register() {
             <div key={"userName" + i}>
               Player {i + 1}:{" " + u.userName}
               <button
+                className="btn btn-outline-dark"
                 type="button"
                 name={u.userName}
                 onClick={(e) => removeSubUser(e.target.name)}
               >
-                ✖️
+                &#10060;
               </button>
             </div>
           ))}

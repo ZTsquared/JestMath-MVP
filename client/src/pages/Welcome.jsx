@@ -16,12 +16,15 @@ function Welcome({ currentUser, getUser }) {
 
   // below: updates/refreshes the currentUser information.  The if statement is there because otherwise the
   // value binding between selectedUser and the user selector drop down was causing the user to be
-  // logged out whenever you navigated to the welcome page.
+  // logged out whenever you navigated to the welcome page. FIXME: first if statement may not be necessary anymore now that the userName is in local storage
   useEffect(() => {
     if (!currentUser || selectedUserId !== currentUser.id) {
       const selectedUser = allUsers.filter((e) => e.id === +selectedUserId)[0];
       // setCurrentUser(selectedUser);
-      if (selectedUser) getUser(selectedUser.userName);
+      if (selectedUser) {
+        getUser(selectedUser.userName);
+        localStorage.setItem("userName", selectedUser.userName);
+      }
     }
   }, [selectedUserId]);
 
@@ -36,8 +39,6 @@ function Welcome({ currentUser, getUser }) {
   }
 
   function handleUserChange(e) {
-    console.log("handleUserChange");
-    // setSelectedUserId(1)
     setSelectedUserId(e.target.value);
   }
 

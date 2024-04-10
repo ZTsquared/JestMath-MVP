@@ -10,6 +10,10 @@
   border-color: red;
 } */
 
+a {
+  text-decoration: none;
+}
+
 input {
   border-radius: 5px;
   padding: 5px;

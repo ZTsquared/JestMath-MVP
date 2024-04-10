@@ -21,6 +21,12 @@ function App() {
     console.log(currentUser);
   }, [currentUser]);
 
+  useEffect(() => {
+    if (localStorage.getItem("userName")) {
+      getUser(localStorage.getItem("userName"));
+    }
+  }, []);
+
   // the getUser function gets the new user data (if a userName is passed) or refreshes the current user data (if no parameter is passed).
   // it is passed as a prop to some of the other pages since any time a change is made to the
   // user's balance the user data must be refreshed immediately or the bank account will appear out of sync.
