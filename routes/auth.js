@@ -9,32 +9,36 @@ const supersecret = process.env.SUPER_SECRET;
 const mustExist = require("../guardFunctions/mustExist");
 const mustNotExist = require("../guardFunctions/mustNotExist");
 
-router.post("/register", async function (req, res, next) {
-  const { email, password, householdName, subUsers } = req.body;
-  try {
-    console.log("Request Body:", req.body);
-    const newHouseholdInfo = await models.Household.create({
-      email,
-      password,
-      householdName,
-    });
-    console.log("what came back from the await:");
-    console.log(newHouseholdInfo);
-    for (let subUser of subUsers) {
-      const { userName, birthYear } = subUser;
-      const newSubUser = await models.User.create({
-        userName,
-        birthYear,
-        HouseholdId: newHouseholdInfo.id,
+router.post(
+  "/register",
+  mustNotExist("email", "households", "email"),
+  async function (req, res, next) {
+    const { email, password, householdName, subUsers } = req.body;
+    try {
+      console.log("Request Body:", req.body);
+      const newHouseholdInfo = await models.Household.create({
+        email,
+        password,
+        householdName,
       });
-      console.log("subuser created:");
-      console.log(newSubUser);
+      console.log("what came back from the await:");
+      console.log(newHouseholdInfo);
+      for (let subUser of subUsers) {
+        const { userName, birthYear } = subUser;
+        const newSubUser = await models.User.create({
+          userName,
+          birthYear,
+          HouseholdId: newHouseholdInfo.id,
+        });
+        console.log("subuser created:");
+        console.log(newSubUser);
+      }
+      res.send(`Register succesful`);
+    } catch (error) {
+      res.status(500).send(error);
     }
-    res.send(`Register succesful`);
-  } catch (error) {
-    res.status(500).send(error);
   }
-});
+);
 
 router.post("/login", async function (req, res, next) {
   const { email, password } = req.body;

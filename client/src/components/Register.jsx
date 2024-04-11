@@ -69,8 +69,13 @@ function Register() {
         },
         body: JSON.stringify(newHousehold),
       });
-      console.log(response);
+      if (!response.ok) {
+        const result = await response.json();
+        console.log(result);
+        setErrMsg(result.msg);
+      }
     } catch (error) {
+      console.log("registration error");
       console.log(error);
     }
     //   login();
