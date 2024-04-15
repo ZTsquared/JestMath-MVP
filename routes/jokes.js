@@ -17,6 +17,18 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+//get userJokes junction table entries,  not used in app, just for development
+router.get("/userJokeJunction", async function (req, res, next) {
+  try {
+    const jokes = await models.UserJoke.findAll({
+      attributes: [`UserId`, `JokeId`],
+    });
+    res.send(jokes);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 //get joke by id (not used in app but useful for postman)
 router.get(
   "/:id",
@@ -53,6 +65,11 @@ router.get("/random", async function (req, res, next) {
     const joke = await models.Joke.findOne({
       where: {
         // id not in userJokes junction table paired with this particular userId
+        id: {
+          [Sequelize.Op.notIn]: Sequelize.literal(
+            `(SELECT jokeId FROM userJokes WHERE userId = ${userId})`
+          ),
+        },
       },
       attributes: ["id", "jokeType", "setUp", "punchLine"],
       order: Sequelize.literal("rand()"),
@@ -65,9 +82,7 @@ router.get("/random", async function (req, res, next) {
 
 // post a joke.  requires a setup, a punchline, and a joke type.
 // Joke types currently are riddle (for which a setup and punchline form the entier joke)
-// and knock knock, which require extra standard lines when displayed (knock knok, who's there etc)
-// In future I would like to add comics strips as a 3rd joke type as a way to practice using images,
-// In that case maybe the setup would need to be either the comic's name or null and the punchline would contain the image path?
+// and knock knock, which require extra standard lines when displayed (knock knock, who's there etc)
 
 // FIXME: to sequelize (not used in app but useful for postman)
 router.post("/", async function (req, res, next) {

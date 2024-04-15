@@ -29,26 +29,29 @@ router.get("/", householdShouldBeLoggedIn, async function (req, res, next) {
   }
 });
 
-// TODO: require token check once household login is complete.
-// have the login guard return the whole household, then have this route pull out just the relevant user then pass it on?
 router.get(
   "/:userName",
-  mustExist("userName", "users", "userName"),
+  householdShouldBeLoggedIn,
   async function (req, res, next) {
     console.log("getting a particular user");
     try {
       const { userName } = req.params;
-      const user = await models.User.findOne({
-        where: {
-          userName: userName,
-        },
-        include: models.Joke,
-      });
-      // const user = await db(
-      //   `SELECT * FROM users WHERE userName= "${userName}";`
-      // );
-      // res.send(user.data[0]);
-      res.send(user);
+      const householdUser = req.household.Users.filter(
+        (u) => u.userName === userName
+      )[0];
+      if (householdUser) {
+        const user = await models.User.findOne({
+          where: {
+            id: householdUser.id,
+          },
+          include: models.Joke,
+        });
+        res.send(user);
+      } else {
+        res.status(404).send({
+          message: `${userName} is not registered in the ${req.household.householdName} household`,
+        });
+      }
     } catch (err) {
       res.status(500).send(err);
     }

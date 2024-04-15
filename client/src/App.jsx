@@ -31,7 +31,13 @@ function App() {
   // user's balance the user data must be refreshed immediately or the bank account will appear out of sync.
   async function getUser(userName = currentUser.userName) {
     try {
-      const resultJSON = await fetch(`api/users/${userName}`);
+      const resultJSON = await fetch(`api/users/${userName}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       const user = await resultJSON.json();
       setCurrentUser(user);
     } catch (err) {

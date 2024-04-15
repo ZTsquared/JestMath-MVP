@@ -6,12 +6,6 @@ const { Model } = require("sequelize");
 
 function householdShouldBeLoggedIn(req, res, next) {
   // console.log("running should be logged in guard function");
-  // console.log("header:");
-  // console.log(req.headers);
-  // console.log("headerauth:");
-  // console.log(req.headers["authorization"]);
-  // console.log("headerauth modified:");
-  // console.log(req.headers["authorization"]?.replace(/^Bearer\s/, ""));
   const token = req.headers["authorization"]?.replace(/^Bearer\s/, "");
   // console.log("TOKEN --------------------");
   // console.log(token);
@@ -22,16 +16,14 @@ function householdShouldBeLoggedIn(req, res, next) {
       if (err) res.status(401).send({ message: err.message });
       else {
         //everything is awesome
-        console.log("---------decoded----------");
-        console.log(decoded);
-        console.log("---------");
-        console.log(decoded.household_id);
+        // console.log("---------decoded----------");
+        // console.log(decoded);
         req.household = await models.Household.findOne({
           where: { id: decoded.household_id },
           include: models.User,
         });
-        console.log("---insered data_-----");
-        console.log(req.household);
+        // console.log("---insered data_-----");
+        // console.log(req.household);
         next();
       }
     });
