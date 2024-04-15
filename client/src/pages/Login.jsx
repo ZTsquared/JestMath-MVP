@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Register from "../components/Register";
 
 function Login() {
@@ -7,18 +7,21 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => console.log(register), [register]);
+  useEffect(() => setErrMsg(""), [email, password]);
 
-  async function login() {
+  async function login(credentials) {
+    localStorage.removeItem("userName");
+    localStorage.removeItem("token");
     try {
-      const lowerCaseEmail = email.toLowerCase();
+      const lowerCaseEmail = credentials.email.toLowerCase();
       const loginData = {
         email: lowerCaseEmail,
-        password,
+        password: credentials.password,
       };
-      console.log("submit login");
-      console.log(loginData);
       const results = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -26,20 +29,25 @@ function Login() {
         },
         body: JSON.stringify(loginData),
       });
-      const data = await results.json();
-      console.log(data);
-      //store it locally
-      localStorage.setItem("token", data.token);
-      //   onLogin();
-      //   navigate("/Actions");
-    } catch {
+      if (!results.ok) {
+        const data = await results.json();
+        setErrMsg(data.message);
+      } else {
+        const data = await results.json();
+        //store it locally
+        localStorage.setItem("token", data.token);
+        //   onLogin();
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("in login catch block");
       console.log(error);
     }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    login();
+    login({ email: email, password: password });
   }
 
   function toggleRegister() {
@@ -49,7 +57,7 @@ function Login() {
   return (
     <div>
       {register ? (
-        <Register />
+        <Register login={login} />
       ) : (
         <div>
           <h6>Login to household account:</h6>
@@ -82,8 +90,14 @@ function Login() {
                 👁️
               </button>
             </label>
+            {errMsg && <p className="text-danger">{errMsg}</p>}
             <br />
-            <button className="btn btn-outline-dark">Sign In</button>
+            <button
+              className="btn btn-outline-dark"
+              disabled={!email || !password}
+            >
+              Sign In
+            </button>
           </form>
         </div>
       )}

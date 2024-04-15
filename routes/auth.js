@@ -33,7 +33,7 @@ router.post(
         console.log("subuser created:");
         console.log(newSubUser);
       }
-      res.send(`Register succesful`);
+      res.send({ message: `Register succesful` });
     } catch (error) {
       res.status(500).send(error);
     }
@@ -47,21 +47,29 @@ router.post("/login", async function (req, res, next) {
     const household = await models.Household.findOne({
       where: { email },
     });
-    console.log("help");
-
-    if (household) {
-      const correctPassword = await bcrypt.compare(
-        password,
-        household.password
-      );
-      if (!correctPassword) throw new Error("Incorrect password");
-      const token = jwt.sign({ household_id: household.id }, supersecret);
-      res.send({
-        message: "Login successful, here is your token",
-        token,
-      });
-    } else res.status(400).send("user not found");
+    if (!household) {
+      res.status(401).send({ message: "Household does not exist" });
+      // throw new Error("Email not found");
+    } else {
+      {
+        const correctPassword = await bcrypt.compare(
+          password,
+          household.password
+        );
+        if (!correctPassword) {
+          res.status(401).send({ message: "Password incorrect" });
+          // throw new Error("Incorrect password");
+        } else {
+          const token = jwt.sign({ household_id: household.id }, supersecret);
+          res.send({
+            message: "Login successful, here is your token",
+            token,
+          });
+        }
+      }
+    }
   } catch (error) {
+    console.log("in auth catch block");
     res.status(500).send(error);
   }
 });

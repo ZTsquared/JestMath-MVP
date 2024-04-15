@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { flushSync } from "react-dom";
 import { Link } from "react-router-dom";
 
-function Register() {
+function Register({ login }) {
   const [email, setEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [password, setPassword] = useState("");
@@ -71,8 +71,20 @@ function Register() {
       });
       if (!response.ok) {
         const result = await response.json();
-        console.log(result);
-        setErrMsg(result.msg);
+        if (
+          result.msg.toLowerCase().includes("must be unique") &&
+          (result.msg.toLowerCase().includes("email") ||
+            result.msg.toLowerCase().includes("e-mail"))
+        ) {
+          setErrMsg(
+            "This email address is registerd to an existing account. Please log in or try again with a different email address."
+          );
+        } else {
+          setErrMsg(result.msg);
+        }
+      } else {
+        login({ email: email, password: password });
+        alert("Registration successful, welcome to JestMath!");
       }
     } catch (error) {
       console.log("registration error");
@@ -104,6 +116,12 @@ function Register() {
     <div>
       <form onSubmit={handleSubmit}>
         <h6>Household account information:</h6>
+        <p>
+          This is a student project with only basic level data security, do not
+          use a password that you use for other accounts. Changing or resetting
+          your password is not yet possible - make note of your password to
+          avoid losing access to your account.
+        </p>
         <label htmlFor="email">
           Email:
           <br />
@@ -118,7 +136,6 @@ function Register() {
           />
         </label>
         <br />
-        {/* <div> */}
         <label htmlFor="password">
           Password:
           <br />

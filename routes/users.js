@@ -3,14 +3,23 @@ const router = express.Router();
 const db = require("../model/helper");
 const models = require("../models");
 // const { Op, Association } = require("sequelize");
+const householdShouldBeLoggedIn = require("../guardFunctions/householdShouldBeLoggedIn");
 const mustExist = require("../guardFunctions/mustExist");
 const mustNotExist = require("../guardFunctions/mustNotExist");
 
 /* GET users listing. */
 // TODO: have this check houselhold login and return only the users from within the household.
-router.get("/", async function (req, res, next) {
+// router.get("/", async function (req, res, next) {
+router.get("/", householdShouldBeLoggedIn, async function (req, res, next) {
+  console.log("getting all usernames");
   try {
+    const householdID = req.household.id;
+    console.log("household id from user route");
+    console.log(householdID);
     const users = await models.User.findAll({
+      where: {
+        HouseholdID: householdID,
+      },
       attributes: ["userName", "id"],
     });
     console.log("hi");

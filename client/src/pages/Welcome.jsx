@@ -30,7 +30,13 @@ function Welcome({ currentUser, getUser }) {
 
   async function getUsers() {
     try {
-      const resultJSON = await fetch(`api/users/`);
+      const resultJSON = await fetch(`api/users/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       const users = await resultJSON.json();
       SetAllUsers(users);
     } catch (err) {

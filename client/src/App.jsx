@@ -18,7 +18,6 @@ function App() {
     console.log(
       `the current user in App file is now: ${currentUser?.userName}`
     );
-    console.log(currentUser);
   }, [currentUser]);
 
   useEffect(() => {
@@ -32,8 +31,6 @@ function App() {
   // user's balance the user data must be refreshed immediately or the bank account will appear out of sync.
   async function getUser(userName = currentUser.userName) {
     try {
-      console.log("trying to refresh user for userName");
-      console.log(userName + ` at path:  api/users/${userName}`);
       const resultJSON = await fetch(`api/users/${userName}`);
       const user = await resultJSON.json();
       setCurrentUser(user);
