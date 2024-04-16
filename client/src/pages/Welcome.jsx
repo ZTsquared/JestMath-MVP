@@ -1,22 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 // when making a new user if error code is 403 have the user choose a new user name.
 // this is a bit slapdash, in future there could be other reasons that you get a 403
 // (like if they submit an age that is not an integer)
 
 function Welcome({ currentUser, getUser }) {
-  // const { isLoggedIn, onLogin } = useAuth();
+  const { isLoggedIn } = useAuth();
   const [allUsers, SetAllUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(currentUser?.id);
   const navigate = useNavigate();
 
-  // below: gets all the users on page reload:
-  //FIXME: currently broken when not logged in. redirect to login screen
   useEffect(() => {
-    //if logged in, ie if local storage contains a valid token
     getUsers();
-    //else navigate to login page
+    // console.log("welcome is logged in: ", isLoggedIn);
   }, []);
 
   // below: updates/refreshes the currentUser information.  The if statement is there because otherwise the
@@ -50,7 +48,8 @@ function Welcome({ currentUser, getUser }) {
       }
     } catch (err) {
       console.log(err);
-      navigate("/login");
+      // uncomment below once useAuth is working
+      // navigate("/login");
     }
   }
 

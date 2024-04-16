@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Bank from "../components/Bank";
+import useAuth from "../hooks/useAuth";
 
 //I still need to fetch user's jokes based on the junctiontable userJokes
 
 function Library({ currentUser, getUser }) {
   // user jokes are stored in the current user then filtered into 3 arrays by type
+  const { isLoggedIn } = useAuth();
   const [userKnockKnocks, setUserKnockKnocks] = useState([]);
   const [userRiddles, setUserRiddles] = useState([]);
   const [userComics, setUserComics] = useState([]);

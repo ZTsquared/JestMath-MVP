@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Bank from "../components/Bank";
-// import QuestionView from '../components/QuestionView';
-// import Question from '../components/Question';
+import useAuth from "../hooks/useAuth";
 
 function Quiz({ currentUser, getUser }) {
   const roundLength = 10;

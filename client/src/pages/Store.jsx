@@ -4,6 +4,7 @@ import Bank from "../components/Bank";
 import KnockKnock from "../components/KnockKnock";
 import Riddle from "../components/Riddle";
 import Comic from "../components/Comic";
+import useAuth from "../hooks/useAuth";
 
 function Store({ currentUser, getUser }) {
   const [newJoke, setNewJoke] = useState("");

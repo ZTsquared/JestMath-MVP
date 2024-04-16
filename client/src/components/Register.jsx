@@ -16,8 +16,6 @@ function Register({ login }) {
   });
   const [errMsg, setErrMsg] = useState("");
 
-  useEffect(() => console.log(emailIsValid), [email]);
-  useEffect(() => console.log(subUsers), [subUsers]);
   useEffect(
     () => setErrMsg(""),
     [email, password, password2, householdName, subUsers, newSubUser]

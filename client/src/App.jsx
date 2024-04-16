@@ -9,6 +9,9 @@ import Quiz from "./pages/Quiz";
 import Store from "./pages/Store";
 import Library from "./pages/Library";
 import ParentPortal from "./pages/ParentPortal";
+import NotFound404 from "./pages/NotFound404";
+import AuthProvider from "./components/AuthProvider";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   //the current user info is stored here and passed to all the other pages as a prop
@@ -52,7 +55,7 @@ function App() {
   // }
 
   return (
-    <>
+    <AuthProvider>
       <Routes>
         <Route
           path="/"
@@ -70,7 +73,6 @@ function App() {
             <Login
               currentUser={currentUser}
               getUser={(userName) => getUser(userName)}
-              // setCurrentUser={(selectedUser) => handleUserChange(selectedUser)}
             />
           }
         ></Route>
@@ -90,8 +92,9 @@ function App() {
           path="/parentPortal"
           element={<ParentPortal currentUser={currentUser} />}
         ></Route>
+        <Route path="*" element={<NotFound404 />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 
