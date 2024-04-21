@@ -10,6 +10,7 @@ import useAuth from "../hooks/useAuth";
 // but his would require storing a lot of data I am not currently storing.
 
 function ParentPortal() {
+  const { onLogout } = useAuth();
   const [newQuestion, setNewQuestion] = useState("");
   const [questionUploadMsg, setQuestionUploadMsg] = useState("");
 
@@ -72,8 +73,14 @@ function ParentPortal() {
         lines so the joke makes sense */}
       <div>Curate Jokes</div>
       <br />
+
       <br />
       <Link to="/">Exit Parent Portal</Link>
+      <br />
+      <br />
+      <button className="btn btn-outline-dark" onClick={onLogout}>
+        Log Out
+      </button>
     </div>
   );
 }

@@ -6,27 +6,33 @@ import useAuth from "../hooks/useAuth";
 // this is a bit slapdash, in future there could be other reasons that you get a 403
 // (like if they submit an age that is not an integer)
 
-function Welcome({ currentUser, getUser }) {
-  const { isLoggedIn } = useAuth();
+function Welcome() {
+  const { isLoggedIn, currentUser, setCurrentUser, getUser } = useAuth();
   const [allUsers, SetAllUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(currentUser?.id);
   const navigate = useNavigate();
 
   useEffect(() => {
     getUsers();
+    // console.log("local: ", localStorage.getItem("userName"));
+    // console.log(currentUser);
     // console.log("welcome is logged in: ", isLoggedIn);
   }, []);
 
   // below: updates/refreshes the currentUser information.  The if statement is there because otherwise the
   // value binding between selectedUser and the user selector drop down was causing the user to be
-  // logged out whenever you navigated to the welcome page. FIXME: first if statement may not be necessary anymore now that the userName is in local storage
+  // logged out whenever you navigated to the welcome page. FIXME: first if statement may not be necessary anymore now that
+  // the userName is in local storage. it is causing some problems on logout login, remove once the routs are fixed to use auth
   useEffect(() => {
-    if (!currentUser || selectedUserId !== currentUser.id) {
+    if (
+      !localStorage.getItem("userName") ||
+      selectedUserId !== currentUser.id
+    ) {
       const selectedUser = allUsers.filter((e) => e.id === +selectedUserId)[0];
       // setCurrentUser(selectedUser);
       if (selectedUser) {
-        getUser(selectedUser.userName);
         localStorage.setItem("userName", selectedUser.userName);
+        getUser(selectedUser.userName);
       }
     }
   }, [selectedUserId]);

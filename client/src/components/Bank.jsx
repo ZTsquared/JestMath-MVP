@@ -1,6 +1,8 @@
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
-function Bank({ currentUser }) {
+function Bank() {
+  const { currentUser } = useAuth();
   return (
     <div>
       <div className="fs-6 text">

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import Bank from "../components/Bank";
 import useAuth from "../hooks/useAuth";
 
-function Quiz({ currentUser, getUser }) {
+function Quiz() {
+  const { currentUser, getUser } = useAuth();
   const roundLength = 10;
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,7 +82,6 @@ function Quiz({ currentUser, getUser }) {
   // also calls the getUser prop function so that the currentUser object in the app view gets promptly updated and passed down to everwhere else
   async function addToBalance(quantity) {
     try {
-      console.log(currentUser.id);
       await fetch(`/api/users/${currentUser.id}/increaseBalance/`, {
         method: "PUT",
         headers: {
@@ -106,7 +106,7 @@ function Quiz({ currentUser, getUser }) {
 
   return (
     <div>
-      <Bank currentUser={currentUser} />
+      <Bank />
       <br />
       {!roundInProgress ? (
         // if roundInProgress is false all you will see is the start button.

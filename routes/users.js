@@ -22,7 +22,7 @@ router.get("/", householdShouldBeLoggedIn, async function (req, res, next) {
       },
       attributes: ["userName", "id"],
     });
-    console.log("hi");
+    // console.log("hi");
     res.send(users);
   } catch (err) {
     res.status(500).send(err);
@@ -36,10 +36,15 @@ router.get(
     console.log("getting a particular user");
     try {
       const { userName } = req.params;
+      console.log("-----A-------");
+      console.group(userName);
+      console.log(req.household.Users);
       const householdUser = req.household.Users.filter(
         (u) => u.userName === userName
       )[0];
       if (householdUser) {
+        console.log("------B------");
+        console.group(householdUser);
         const user = await models.User.findOne({
           where: {
             id: householdUser.id,

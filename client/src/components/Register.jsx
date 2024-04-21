@@ -69,6 +69,9 @@ function Register({ login }) {
       });
       if (!response.ok) {
         const result = await response.json();
+        // console.log("response not ok");
+        // console.log(response);
+        // console.log(result);
         if (
           result.msg.toLowerCase().includes("must be unique") &&
           (result.msg.toLowerCase().includes("email") ||

@@ -13,7 +13,10 @@ function Login() {
   const navigate = useNavigate();
 
   // useEffect(() => console.log("is logged in: ", isLoggedIn), [isLoggedIn]);
+
   useEffect(() => setErrMsg(""), [email, password]);
+
+  //useEffect function to check if token is valid on page refresh FIXME: once i have written the backend route for this
 
   async function login(credentials) {
     try {
@@ -56,6 +59,8 @@ function Login() {
 
   return (
     <div>
+      <h1>Welcome to JestMath</h1>
+      <br />
       {isLoggedIn ? (
         <button className="btn btn-outline-dark" onClick={onLogout}>
           Log Out
@@ -118,6 +123,17 @@ function Login() {
           </h6>
           <button className="btn btn-outline-dark" onClick={toggleRegister}>
             {register ? "Login" : "Register"}
+          </button>
+          <br /> <br />
+          <h6>Or explore the game in the public demo account</h6>
+          <button
+            className="btn btn-outline-dark"
+            onClick={(e) => {
+              //FIXME: change the seeders and this to use not my real data
+              login({ email: "zia@codeOp.tech", password: "whatever" });
+            }}
+          >
+            Try it
           </button>
         </>
       )}

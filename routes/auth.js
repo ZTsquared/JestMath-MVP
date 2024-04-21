@@ -16,11 +16,12 @@ router.post(
     const { email, password, householdName, subUsers } = req.body;
     try {
       console.log("Request Body:", req.body);
-      const newHouseholdInfo = await models.Household.create({
-        email,
-        password,
-        householdName,
-      });
+      const newHouseholdInfo =
+        await models.Householdxxxxxxxxxxxxxxxxxxxxxx.create({
+          email,
+          password,
+          householdName,
+        });
       console.log("what came back from the await:");
       console.log(newHouseholdInfo);
       for (let subUser of subUsers) {
@@ -35,6 +36,7 @@ router.post(
       }
       res.send({ message: `Register succesful` });
     } catch (error) {
+      console.log(error);
       res.status(500).send(error);
     }
   }

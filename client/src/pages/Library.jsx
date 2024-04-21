@@ -5,9 +5,9 @@ import useAuth from "../hooks/useAuth";
 
 //I still need to fetch user's jokes based on the junctiontable userJokes
 
-function Library({ currentUser, getUser }) {
+function Library() {
   // user jokes are stored in the current user then filtered into 3 arrays by type
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn,currentUser, getUser } = useAuth();
   const [userKnockKnocks, setUserKnockKnocks] = useState([]);
   const [userRiddles, setUserRiddles] = useState([]);
   const [userComics, setUserComics] = useState([]);
@@ -50,7 +50,7 @@ function Library({ currentUser, getUser }) {
         </div>
       ) : (
         <div>
-          <Bank currentUser={currentUser} />
+          <Bank />
           <br />
           <br />
           <br />

@@ -6,7 +6,8 @@ import Riddle from "../components/Riddle";
 import Comic from "../components/Comic";
 import useAuth from "../hooks/useAuth";
 
-function Store({ currentUser, getUser }) {
+function Store() {
+  const { currentUser, getUser } = useAuth();
   const [newJoke, setNewJoke] = useState("");
   const [offerNewJoke, setOfferNewJoke] = useState(true);
   const jokePrice = 8;
@@ -88,7 +89,7 @@ function Store({ currentUser, getUser }) {
 
   return (
     <div>
-      <Bank currentUser={currentUser} />
+      <Bank />
       <br />
       <br />
       <br />
