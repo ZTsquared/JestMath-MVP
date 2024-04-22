@@ -56,6 +56,7 @@ function Register({ login }) {
       email: lowerCaseEmail,
       password,
       householdName,
+      public: false,
       subUsers,
     };
     console.log(newHousehold);

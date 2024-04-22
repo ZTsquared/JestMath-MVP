@@ -5,7 +5,17 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("Users", [
       {
-        userName: "TestUser1",
+        userName: "TestUser1a",
+        birthYear: 2015,
+        HouseholdId: 1,
+      },
+      {
+        userName: "TestUser1b",
+        birthYear: 2015,
+        HouseholdId: 1,
+      },
+      {
+        userName: "TestUser1c",
         birthYear: 2015,
         HouseholdId: 1,
       },
@@ -25,7 +35,9 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     return queryInterface.bulkDelete("Users", {
       [Sequelize.Op.or]: [
-        { userName: "TestUser1" },
+        { userName: "TestUser1a" },
+        { userName: "TestUser1b" },
+        { userName: "TestUser1c" },
         { userName: "TestUser2a" },
         { userName: "TestUser2b" },
       ],

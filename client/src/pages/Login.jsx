@@ -129,8 +129,8 @@ function Login() {
           <button
             className="btn btn-outline-dark"
             onClick={(e) => {
-              //FIXME: change the seeders and this to use not my real data
-              login({ email: "zia@codeOp.tech", password: "whatever" });
+              //FIXME: this user probably shouldn't have access to the parent portal.  OR, this should create a "temporary" new account with some dummy values.
+              login({ email: "DemoHousehold1@test.com", password: "Demo1" });
             }}
           >
             Try it

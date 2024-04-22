@@ -15,6 +15,11 @@ module.exports = {
       householdName: {
         type: Sequelize.STRING,
       },
+      public: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
