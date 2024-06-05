@@ -5,10 +5,12 @@ const models = require("../models");
 const { Model } = require("sequelize");
 
 function householdShouldBeLoggedIn(req, res, next) {
-  // console.log("running should be logged in guard function");
+  console.log("running should be logged in guard function");
+
+  // console.log(req.headers);
   const token = req.headers["authorization"]?.replace(/^Bearer\s/, "");
-  // console.log("TOKEN --------------------");
-  // console.log(token);
+  console.log("TOKEN --------------------");
+  console.log(token);
   if (!token) {
     res.status(401).send({ message: "please provide a token" });
   } else {

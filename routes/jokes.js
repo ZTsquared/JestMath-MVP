@@ -57,7 +57,7 @@ router.get(
 );
 
 //getone random joke that is not in the current user's library
-// TODO: this route needs to get one that ISN'T ALREADY IN USER LIBRARY
+// TODO: this route needs to get one that ISN'T ALREADY IN USER LIBRARY - i think it might be working?
 router.get("/random", async function (req, res, next) {
   // console.log("getting a random joke")
   try {

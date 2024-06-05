@@ -8,6 +8,7 @@ const models = require("../models");
 const supersecret = process.env.SUPER_SECRET;
 const mustExist = require("../guardFunctions/mustExist");
 const mustNotExist = require("../guardFunctions/mustNotExist");
+const householdShouldBeLoggedIn = require("../guardFunctions/householdShouldBeLoggedIn");
 
 router.post(
   "/register",
@@ -74,5 +75,13 @@ router.post("/login", async function (req, res, next) {
     res.status(500).send(error);
   }
 });
+
+router.get(
+  "/confirmLogin",
+  householdShouldBeLoggedIn,
+  async function (req, res) {
+    res.send({ message: "token is valid, user is logged in" });
+  }
+);
 
 module.exports = router;

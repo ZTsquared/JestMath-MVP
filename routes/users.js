@@ -11,7 +11,7 @@ const mustNotExist = require("../guardFunctions/mustNotExist");
 // TODO: have this check houselhold login and return only the users from within the household.
 // router.get("/", async function (req, res, next) {
 router.get("/", householdShouldBeLoggedIn, async function (req, res, next) {
-  console.log("getting all usernames");
+  console.log("getting all usernames within household");
   try {
     const householdID = req.household.id;
     console.log("household id from user route");
@@ -37,14 +37,13 @@ router.get(
     try {
       const { userName } = req.params;
       console.log("-----A-------");
-      console.group(userName);
-      console.log(req.household.Users);
+      console.log(userName);
       const householdUser = req.household.Users.filter(
         (u) => u.userName === userName
       )[0];
       if (householdUser) {
         console.log("------B------");
-        console.group(householdUser);
+        console.log(householdUser);
         const user = await models.User.findOne({
           where: {
             id: householdUser.id,

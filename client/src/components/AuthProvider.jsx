@@ -7,6 +7,11 @@ export default function AuthProvider({ children }) {
   //the current user info is stored here
   const [currentUser, setCurrentUser] = useState("");
 
+  //when the page is loaded we check that the token is still valid, if it is invalid we perform an automatic logout
+  useEffect(() => {
+    loginCheck();
+  }, []);
+
   useEffect(() => {
     if (localStorage.getItem("userName")) {
       // console.log(
@@ -18,6 +23,19 @@ export default function AuthProvider({ children }) {
   }, []);
 
   const navigate = useNavigate();
+
+  async function loginCheck() {
+    console.log("performing login check");
+    const results = await fetch("api/auth/confirmLogin", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(results);
+    if (!results.ok) {
+      onLogout();
+    }
+  }
 
   function onLogin() {
     setIsLoggedIn(true);

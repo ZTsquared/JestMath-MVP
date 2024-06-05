@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import NavBar from "../components/NavBar";
 
 // when making a new user if error code is 403 have the user choose a new user name.
 // this is a bit slapdash, in future there could be other reasons that you get a 403
@@ -20,8 +21,7 @@ function Welcome() {
   }, []);
 
   // below: updates/refreshes the currentUser information.  The if statement is there because otherwise the
-  // value binding between selectedUser and the user selector drop down was causing the user to be
-  // logged out whenever you navigated to the welcome page. FIXME: first if statement may not be necessary anymore now that
+  // value binding between selectedUser and the user selector drop down was causing the selected user to be wiped out whenever you navigated to the welcome page. FIXME: first if statement may not be necessary anymore now that
   // the userName is in local storage. it is causing some problems on logout login, remove once the routs are fixed to use auth
   useEffect(() => {
     if (
@@ -65,8 +65,9 @@ function Welcome() {
 
   return (
     <div>
+      <NavBar />
       <h3>Hey</h3>
-      <h1>{currentUser ? currentUser.userName : "Kiddo"}</h1> <br />
+      <h1>{currentUser.userName ? currentUser.userName : "Kiddo"}</h1> <br />
       <br />
       {currentUser && <Link to="/quiz">Let's Play!</Link>}
       <br />

@@ -20,6 +20,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
+app.get("/", function (req, res, next) {
+  res.send("access api at path /api");
+});
+
 app.use("/api/", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/jokes", jokesRouter);
