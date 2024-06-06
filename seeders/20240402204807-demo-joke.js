@@ -55,7 +55,7 @@ module.exports = {
       },
       {
         setUp: "Why did the old man fall down the well?",
-        punchLine: "Becasue he couldn't see that well!",
+        punchLine: "Because he couldn't see that well!",
         jokeType: "riddle",
         // createdAt: new Date(),
         // updatedAt: new Date(),

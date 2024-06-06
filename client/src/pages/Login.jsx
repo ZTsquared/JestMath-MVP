@@ -125,16 +125,16 @@ function Login() {
             {register ? "Login" : "Register"}
           </button>
           <br /> <br />
-          <h6>Or explore the game in the public demo account</h6>
+          {/* <h6>Or explore the demo version</h6>
           <button
             className="btn btn-outline-dark"
             onClick={(e) => {
               //FIXME: this user probably shouldn't have access to the parent portal.  OR, this should create a "temporary" new account with some dummy values.
-              login({ email: "DemoHousehold1@test.com", password: "Demo1" });
+              login({ email: "DemoHousehold1@test.com", password: "Demo" });
             }}
           >
             Try it
-          </button>
+          </button> */}
         </>
       )}
     </div>

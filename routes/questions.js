@@ -78,6 +78,19 @@ router.post("/", calculateAnswer, async function (req, res, next) {
   const { question } = req.body;
   const answer = req.params.answer;
   try {
+    res.send({
+      msg: `Question '${question}' with answer '${answer}' recieved`,
+    });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+//this is the functioning route,  which should be activated once I am ready to let users add questions to the database
+router.post("/", calculateAnswer, async function (req, res, next) {
+  const { question } = req.body;
+  const answer = req.params.answer;
+  try {
     // post:
     await db(
       `INSERT INTO questions (question, answer) values ("${question}", "${answer}");`

@@ -120,9 +120,10 @@ function Register({ login }) {
         <h6>Household account information:</h6>
         <p>
           This is a student project with only basic level data security, do not
-          use a password that you use for other accounts. Changing or resetting
-          your password is not yet possible - make note of your password to
-          avoid losing access to your account.
+          use a password that you use for other accounts. Feel free to use an
+          invented email address. Changing or resetting your password is not yet
+          possible - make note of your password to avoid losing access to your
+          account.
         </p>
         <label htmlFor="email">
           Email:
