@@ -65,7 +65,7 @@ function ParentPortal() {
         <div>{questionUploadMsg?.msg}</div>
       </form>
       <br />
-      <div>Curate Questions</div>
+      <Link to="/parentPortal/CurateQuestions">Curate Questions</Link>
       <br />
       <br />
       <br />

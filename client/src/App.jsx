@@ -10,6 +10,7 @@ import ParentPortal from "./pages/ParentPortal";
 import NotFound404 from "./pages/NotFound404";
 import AuthProvider from "./components/AuthProvider";
 import RequireAuth from "./components/RequireAuth";
+import CurateQuestions from "./pages/CurateQuestions";
 
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
           element={
             <RequireAuth>
               <ParentPortal />
+            </RequireAuth>
+          }
+        ></Route>
+        <Route
+          path="/parentPortal/CurateQuestions"
+          element={
+            <RequireAuth>
+              <CurateQuestions />
             </RequireAuth>
           }
         ></Route>
