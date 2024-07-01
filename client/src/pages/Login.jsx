@@ -48,6 +48,64 @@ function Login() {
     }
   }
 
+  async function registerDemoHousehold(e) {
+    console.log("?");
+    const timestamp = Date.now();
+    const demoEmail = `${timestamp}@jestmath.com`;
+    const demoPassword = "testtest";
+    const newHousehold = {
+      email: demoEmail,
+      password: demoPassword,
+      householdName: "TemporaryHousehold",
+      public: true,
+      subUsers: [
+        {
+          userName: "DemoUser1",
+          birthYear: "2018",
+        },
+        {
+          userName: "DemoUser2",
+          birthYear: "2018",
+        },
+      ],
+    };
+    console.log(newHousehold);
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newHousehold),
+      });
+      if (!response.ok) {
+        const result = await response.json();
+        // console.log("response not ok");
+        // console.log(response);
+        // console.log(result);
+        if (
+          result.msg.toLowerCase().includes("must be unique") &&
+          (result.msg.toLowerCase().includes("email") ||
+            result.msg.toLowerCase().includes("e-mail"))
+        ) {
+          setErrMsg(
+            "This email address is registerd to an existing account. Please log in or try again with a different email address."
+          );
+        } else {
+          setErrMsg(result.msg);
+        }
+      } else {
+        login({ email: demoEmail, password: demoPassword });
+        // alert("Registration successful, welcome to JestMath!");
+      }
+    } catch (error) {
+      console.log(
+        "There was an error creating your temporary account.  Please try again later."
+      );
+      console.log(error);
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     login({ email: email, password: password });
@@ -125,16 +183,16 @@ function Login() {
             {register ? "Login" : "Register"}
           </button>
           <br /> <br />
-          {/* <h6>Or explore the demo version</h6>
+          <h6>Or explore without an account</h6>
           <button
             className="btn btn-outline-dark"
-            onClick={(e) => {
+            onClick={
               //FIXME: this user probably shouldn't have access to the parent portal.  OR, this should create a "temporary" new account with some dummy values.
-              login({ email: "DemoHousehold1@test.com", password: "Demo" });
-            }}
+              registerDemoHousehold
+            }
           >
             Try it
-          </button> */}
+          </button>
         </>
       )}
     </div>

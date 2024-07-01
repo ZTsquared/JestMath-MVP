@@ -79,7 +79,7 @@ function Register({ login }) {
             result.msg.toLowerCase().includes("e-mail"))
         ) {
           setErrMsg(
-            "This email address is registerd to an existing account. Please log in or try again with a different email address."
+            "This email address is registered to an existing account. Please log in or try again with a different email address."
           );
         } else {
           setErrMsg(result.msg);
@@ -92,9 +92,8 @@ function Register({ login }) {
       console.log("registration error");
       console.log(error);
     }
-    //   login();
 
-    //TODO:encrypt password and post to auth/register route, including newHousehold object in the body
+    //TODO:encrypt password and post to auth/register route, including newHousehold object in the body (i think this is done already but I need to double check)
   }
 
   function handleSubmit(e) {

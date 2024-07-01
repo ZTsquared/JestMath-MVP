@@ -49,10 +49,10 @@ function ParentPortal() {
 
   return (
     <div>
-      <div>UNDER DEVELOPMENT</div>
+      <h3>UNDER DEVELOPMENT</h3>
       <br />
       <div>Add Question</div>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <input value={newQuestion} onChange={handleInputChange} type="text" />
         <button className="btn btn-outline-dark">Upload Question</button>
         {questionUploadMsg ? (
@@ -63,7 +63,7 @@ function ParentPortal() {
           </div>
         )}
         <div>{questionUploadMsg?.msg}</div>
-      </form>
+      </form> */}
       <br />
       <Link to="/parentPortal/CurateQuestions">Curate Questions</Link>
       <br />

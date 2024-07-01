@@ -11,10 +11,12 @@ import NotFound404 from "./pages/NotFound404";
 import AuthProvider from "./components/AuthProvider";
 import RequireAuth from "./components/RequireAuth";
 import CurateQuestions from "./pages/CurateQuestions";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
     <AuthProvider>
+      <NavBar />
       <Routes>
         <Route
           path="/"

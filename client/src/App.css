@@ -14,7 +14,7 @@ a {
   text-decoration: none;
 }
 
-nav {
+/* nav {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 15px;
@@ -22,7 +22,7 @@ nav {
   background-color: rgb(150, 150, 150);
   display: flex;
   justify-content: space-between;
-}
+} */
 
 input {
   border-radius: 5px;

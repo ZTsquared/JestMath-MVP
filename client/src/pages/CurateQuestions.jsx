@@ -27,6 +27,7 @@ function CurateQuestions() {
 
   return (
     <div>
+      <h3>UNDER DEVELOPMENT</h3>
       <h4>All Questions:</h4>
       <Link to="/parentPortal">Return toParent Portal</Link>
       <br />

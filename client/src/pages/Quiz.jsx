@@ -206,6 +206,8 @@ function Quiz() {
       <br />
       <Link to="/store">Joke Store</Link>
       <br />
+      <Link to="/library">{currentUser.userName}'s Jokes</Link>
+      <br />
       <br />
       <Link to="/">
         {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}

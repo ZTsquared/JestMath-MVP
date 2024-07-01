@@ -1,11 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 function NavBar() {
+  const { isLoggedIn, onLogout } = useAuth();
   return (
     <div>
-      <nav>
-        JestMath <Link to="/login">Log Out</Link>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <ul>
+          <li className="nav-link">
+            JestMath{" "}
+            {isLoggedIn && (
+              <Link onClick={onLogout} to="/login">
+                Log Out
+              </Link>
+            )}
+          </li>
+        </ul>
       </nav>
     </div>
   );

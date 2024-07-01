@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import NavBar from "../components/NavBar";
 
 // when making a new user if error code is 403 have the user choose a new user name.
 // this is a bit slapdash, in future there could be other reasons that you get a 403
@@ -65,7 +64,6 @@ function Welcome() {
 
   return (
     <div>
-      <NavBar />
       <h3>Hey</h3>
       <h1>{currentUser.userName ? currentUser.userName : "Kiddo"}</h1> <br />
       <br />
