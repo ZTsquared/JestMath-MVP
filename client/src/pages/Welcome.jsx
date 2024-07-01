@@ -67,7 +67,11 @@ function Welcome() {
       <h3>Hey</h3>
       <h1>{currentUser.userName ? currentUser.userName : "Kiddo"}</h1> <br />
       <br />
-      {currentUser && <Link to="/quiz">Let's Play!</Link>}
+      {currentUser && (
+        <Link to="/quiz" className="btn btn-outline-dark">
+          Let's Play!
+        </Link>
+      )}
       <br />
       <br />
       <br />
@@ -81,18 +85,6 @@ function Welcome() {
           </option>
         ))}
       </select>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Link to="/parentPortal">Parent Portal</Link>
     </div>
   );
 }

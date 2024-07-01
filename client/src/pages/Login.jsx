@@ -56,7 +56,7 @@ function Login() {
     const newHousehold = {
       email: demoEmail,
       password: demoPassword,
-      householdName: "TemporaryHousehold",
+      householdName: "TempHousehold",
       public: true,
       subUsers: [
         {

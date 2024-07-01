@@ -115,15 +115,19 @@ function Store() {
           <br />
         </div>
       )}
-      <Link to="/quiz">Earn more stars</Link>
+      <Link to="/quiz" className="btn btn-link text-decoration-none">
+        Earn more stars
+      </Link>
       <br />
-      <Link to="/library">{currentUser.userName}'s Jokes</Link>
+      <Link to="/library" className="btn btn-link text-decoration-none">
+        {currentUser.userName}'s Jokes
+      </Link>
       <br />
       <br />
       <br />
       <br />
       <br />
-      <Link to="/">
+      <Link to="/" className="btn btn-link text-decoration-none">
         {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}
       </Link>
     </div>

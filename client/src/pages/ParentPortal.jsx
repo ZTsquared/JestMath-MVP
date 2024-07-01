@@ -65,7 +65,12 @@ function ParentPortal() {
         <div>{questionUploadMsg?.msg}</div>
       </form> */}
       <br />
-      <Link to="/parentPortal/CurateQuestions">Curate Questions</Link>
+      <Link
+        to="/parentPortal/CurateQuestions"
+        className="btn btn-link text-decoration-none"
+      >
+        Curate Questions
+      </Link>
       <br />
       <br />
       <br />
@@ -78,12 +83,9 @@ function ParentPortal() {
       <br />
 
       <br />
-      <Link to="/">Exit Parent Portal</Link>
-      <br />
-      <br />
-      <button className="btn btn-outline-dark" onClick={onLogout}>
-        Log Out
-      </button>
+      <Link to="/" className="btn btn-outline-dark">
+        Exit Parent Portal
+      </Link>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import useAuth from "../hooks/useAuth";
 
 function Library() {
   // user jokes are stored in the current user then filtered into 3 arrays by type
-  const { isLoggedIn,currentUser, getUser } = useAuth();
+  const { isLoggedIn, currentUser, getUser } = useAuth();
   const [userKnockKnocks, setUserKnockKnocks] = useState([]);
   const [userRiddles, setUserRiddles] = useState([]);
   const [userComics, setUserComics] = useState([]);
@@ -153,15 +153,19 @@ function Library() {
           )}
           <br />
           <br />
-          <Link to="/quiz">Earn more stars</Link>
+          <Link to="/quiz" className="btn btn-link text-decoration-none">
+            Earn more stars
+          </Link>
           <br />
-          <Link to="/store">Get more jokes</Link>
+          <Link to="/store" className="btn btn-link text-decoration-none">
+            Get more jokes
+          </Link>
           <br />
           <br />
           <br />
           <br />
           <br />
-          <Link to="/">
+          <Link to="/" className="btn btn-link text-decoration-none">
             {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}
           </Link>
         </div>

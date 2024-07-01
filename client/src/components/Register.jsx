@@ -207,7 +207,10 @@ function Register({ login }) {
           <h6>Player Profiles:</h6>
           <p className="fs-6">Create child profiles (minimum 1):</p>
           {subUsers.map((user, index) => (
-            <div key={index} className="d-flex align-items-center mb-2">
+            <div
+              key={index}
+              className="d-flex align-items-center justify-content-center mb-2"
+            >
               Player {index + 1}: {user.userName}
               <button
                 type="button"

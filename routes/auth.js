@@ -80,7 +80,10 @@ router.get(
   "/confirmLogin",
   householdShouldBeLoggedIn,
   async function (req, res) {
-    res.send({ message: "token is valid, user is logged in" });
+    res.send({
+      message: "token is valid, user is logged in",
+      household: req.household,
+    });
   }
 );
 

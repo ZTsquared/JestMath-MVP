@@ -6,6 +6,7 @@ export default function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   //the current user info is stored here
   const [currentUser, setCurrentUser] = useState("");
+  const [currentHouseholdName, setCurrentHouseholdName] = useState("");
 
   //when the page is loaded we check that the token is still valid, if it is invalid we perform an automatic logout
   useEffect(() => {
@@ -25,20 +26,22 @@ export default function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   async function loginCheck() {
-    console.log("performing login check");
     const results = await fetch("api/auth/confirmLogin", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(results);
     if (!results.ok) {
       onLogout();
+    } else {
+      const { household } = await results.json();
+      setCurrentHouseholdName(household.householdName);
     }
   }
 
   function onLogin() {
     setIsLoggedIn(true);
+    loginCheck();
     navigate("/"); //This is where to where we want the user to navigate to once they've logged IN
     // console.log("local: ", localStorage.getItem("userName"));
   }
@@ -71,6 +74,7 @@ export default function AuthProvider({ children }) {
   const authObject = {
     isLoggedIn,
     currentUser,
+    currentHouseholdName,
     onLogin,
     onLogout,
     setCurrentUser,

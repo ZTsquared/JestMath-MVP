@@ -92,7 +92,7 @@ function Quiz() {
         <div className="text-center">
           <button
             onClick={resetRound}
-            className="btn btn-outline-primary"
+            className="btn btn-outline-dark"
             disabled={!currentUser}
           >
             {currentUser ? "Start" : "Please log in to start"}
@@ -104,9 +104,7 @@ function Quiz() {
             <h2>Question {currentIndex + 1}:</h2>
             {!currentCorrect && (
               <div className="card p-4" style={{ backgroundColor: "#f8f9fa" }}>
-                <h3 className="text-primary">
-                  {selectedQuestions[currentIndex]?.question} =
-                </h3>
+                <h3>{selectedQuestions[currentIndex]?.question} =</h3>
                 <div className="d-flex justify-content-center">
                   <form className="input-group w-50" onSubmit={checkAnswer}>
                     <input
@@ -117,7 +115,7 @@ function Quiz() {
                       placeholder="Answer"
                     />
                     <button
-                      className="btn btn-outline-secondary"
+                      className="btn btn-outline-dark"
                       disabled={!userAnswer}
                     >
                       Check it!
@@ -144,29 +142,31 @@ function Quiz() {
               rows="4"
               placeholder="Show your work or keep track of your thoughts here."
             />
-            <button
-              onClick={nextQuestion}
-              className="btn btn-outline-dark mt-3"
-              disabled={!currentCorrect && tries < 3}
-            >
-              {currentIndex + 1 === selectedQuestions.length
-                ? "Next Round"
-                : "Next Question"}
-            </button>
+            {(currentCorrect || tries >= 3) && (
+              <button
+                onClick={nextQuestion}
+                className="btn btn-outline-dark mt-3"
+                disabled={!currentCorrect && tries < 3}
+              >
+                {currentIndex + 1 === selectedQuestions.length
+                  ? "Next Round"
+                  : "Next Question"}
+              </button>
+            )}
           </div>
         </div>
       )}
       <br />
       <div className="text-center">
-        <Link to="/store" className="btn btn-link">
+        <Link to="/store" className="btn btn-link text-decoration-none">
           Joke Store
         </Link>
         <br />
-        <Link to="/library" className="btn btn-link">
+        <Link to="/library" className="btn btn-link text-decoration-none">
           {currentUser?.userName}'s Jokes
         </Link>
         <br />
-        <Link to="/" className="btn btn-link">
+        <Link to="/" className="btn btn-link text-decoration-none">
           {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}
         </Link>
       </div>
