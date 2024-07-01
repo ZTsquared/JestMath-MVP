@@ -10,6 +10,7 @@ import ParentPortal from "./pages/ParentPortal";
 import NotFound404 from "./pages/NotFound404";
 import AuthProvider from "./components/AuthProvider";
 import RequireAuth from "./components/RequireAuth";
+import RequireCurrentUser from "./components/RequireCurrentUser";
 import CurateQuestions from "./pages/CurateQuestions";
 import NavBar from "./components/NavBar";
 
@@ -30,25 +31,25 @@ function App() {
         <Route
           path="/quiz"
           element={
-            <RequireAuth>
+            <RequireCurrentUser>
               <Quiz />
-            </RequireAuth>
+            </RequireCurrentUser>
           }
         ></Route>
         <Route
           path="/store"
           element={
-            <RequireAuth>
+            <RequireCurrentUser>
               <Store />
-            </RequireAuth>
+            </RequireCurrentUser>
           }
         ></Route>
         <Route
           path="/library"
           element={
-            <RequireAuth>
+            <RequireCurrentUser>
               <Library />
-            </RequireAuth>
+            </RequireCurrentUser>
           }
         ></Route>
         <Route

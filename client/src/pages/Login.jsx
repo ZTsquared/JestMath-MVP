@@ -116,7 +116,7 @@ function Login() {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Welcome to JestMath</h1>
       <br />
       {isLoggedIn ? (
@@ -125,44 +125,54 @@ function Login() {
         </button>
       ) : (
         <>
-          {" "}
           {register ? (
             <Register login={login} />
           ) : (
             <div>
               <h6>Login to household account:</h6>
-              <form onSubmit={handleSubmit}>
-                <label htmlFor="email">
-                  Email:
+              <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Email:
+                  </label>
                   <input
                     type="email"
+                    className="form-control"
                     id="email"
                     placeholder="you@somewhere.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    style={{ maxWidth: "400px", margin: "auto" }}
                   />
-                </label>
-                <br />
-                <label htmlFor="password1">
-                  Password:
-                  <input
-                    type={visible ? "text" : "password"}
-                    id="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-outline-dark"
-                    onClick={(e) => setVisible(!visible)}
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password:
+                  </label>
+                  <div
+                    className="input-group"
+                    style={{ maxWidth: "400px", margin: "auto" }}
                   >
-                    👁️
-                  </button>
-                </label>
+                    <input
+                      type={visible ? "text" : "password"}
+                      className="form-control"
+                      id="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark"
+                      onClick={(e) => setVisible(!visible)}
+                    >
+                      {visible ? "🙈" : "👁️"}
+                    </button>
+                  </div>
+                </div>
                 {errMsg && <p className="text-danger">{errMsg}</p>}
-                <br />
                 <button
+                  type="submit"
                   className="btn btn-outline-dark"
                   disabled={!email || !password}
                 >
@@ -172,8 +182,6 @@ function Login() {
             </div>
           )}
           <br />
-          <br />
-          <br />
           <h6>
             {register
               ? "Already Registered?"
@@ -182,14 +190,12 @@ function Login() {
           <button className="btn btn-outline-dark" onClick={toggleRegister}>
             {register ? "Login" : "Register"}
           </button>
-          <br /> <br />
+          <br />
+          <br />
           <h6>Or explore without an account</h6>
           <button
             className="btn btn-outline-dark"
-            onClick={
-              //FIXME: this user probably shouldn't have access to the parent portal.  OR, this should create a "temporary" new account with some dummy values.
-              registerDemoHousehold
-            }
+            onClick={registerDemoHousehold}
           >
             Try it
           </button>

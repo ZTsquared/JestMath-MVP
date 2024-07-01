@@ -7,7 +7,8 @@ function Register({ login }) {
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
+  const [visible2, setVisible2] = useState(false);
   const [householdName, setHouseholdName] = useState("");
   const [subUsers, setSubUsers] = useState([]);
   const [newSubUser, setNewSubUser] = useState({
@@ -114,125 +115,148 @@ function Register({ login }) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h6>Household account information:</h6>
-        <p>
-          This is a student project with only basic level data security, do not
-          use a password that you use for other accounts. Feel free to use an
-          invented email address. Changing or resetting your password is not yet
-          possible - make note of your password to avoid losing access to your
-          account.
+    <div className="container text-center">
+      <form
+        onSubmit={handleSubmit}
+        style={{ maxWidth: "600px", margin: "0 auto" }}
+      >
+        <h6>Household Account Information:</h6>
+        <p className="fs-6">
+          This is a student project with basic data security. Please use a
+          unique password and email address.
         </p>
-        <label htmlFor="email">
+        <label htmlFor="email" className="form-label">
           Email:
           <br />
           <input
             type="email"
             id="email"
+            className="form-control"
             placeholder="you@somewhere.com"
             value={email}
             onChange={(e) => (
               setEmail(e.target.value), setEmailIsValid(e.target.validity.valid)
             )}
+            required
           />
         </label>
         <br />
-        <label htmlFor="password">
+        <label htmlFor="password" className="form-label">
           Password:
           <br />
-          <input
-            type={visible ? "text" : "password"}
-            id="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button
-            type="button"
-            className="btn btn-outline-dark"
-            onClick={(e) => setVisible(!visible)}
-          >
-            👁️
-          </button>
+          <div className="input-group">
+            <input
+              type={visible1 ? "text" : "password"}
+              id="password"
+              className="form-control"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              minLength="5"
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-outline-dark"
+              onClick={() => setVisible1(!visible1)}
+            >
+              {visible1 ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
         <br />
-        <label htmlFor="password2">
+        <label htmlFor="password2" className="form-label">
           Re-enter Password:
           <br />
-          <input
-            type={visible ? "text" : "password"}
-            id="password2"
-            placeholder="Password"
-            value={password2}
-            onChange={(e) => setPassword2(e.target.value)}
-          />
+          <div className="input-group">
+            <input
+              type={visible2 ? "text" : "password"}
+              id="password2"
+              className="form-control"
+              placeholder="Password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
+              minLength="5"
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-outline-dark"
+              onClick={() => setVisible2(!visible2)}
+            >
+              {visible2 ? "🙈" : "👁️"}
+            </button>
+          </div>
         </label>
-        {/* </div> */}
         <br />
-        <label htmlFor="householdName">
+        <label htmlFor="householdName" className="form-label">
           Name your household:
           <br />
           <input
             type="text"
             id="householdName"
+            className="form-control"
             placeholder="SomeFamily"
             value={householdName}
             onChange={(e) => setHouseholdName(e.target.value)}
+            required
           />
         </label>
+        <br />
         <div>
-          <br />
-          <h6>Player profiles:</h6>
-          <h6>Create individual child profiles (minimum 1):</h6>
-          {subUsers.map((u, i) => (
-            <div key={"userName" + i}>
-              Player {i + 1}:{" " + u.userName}
+          <h6>Player Profiles:</h6>
+          <p className="fs-6">Create child profiles (minimum 1):</p>
+          {subUsers.map((user, index) => (
+            <div key={index} className="d-flex align-items-center mb-2">
+              Player {index + 1}: {user.userName}
               <button
-                className="btn btn-outline-dark"
                 type="button"
-                name={u.userName}
-                onClick={(e) => removeSubUser(e.target.name)}
+                className="btn btn-outline-dark ms-2"
+                onClick={() => removeSubUser(user.userName)}
               >
                 &#10060;
               </button>
             </div>
           ))}
-          <label htmlFor="userName">
-            Child's username:
-            <input
-              type="text"
-              id="userName"
-              placeholder="JimmyKiddoo"
-              value={newSubUser.userName}
-              onChange={(e) =>
-                setNewSubUser((u) => ({ ...u, userName: e.target.value }))
-              }
-            />
-          </label>
-          <label htmlFor="birthYear">
-            Year of birth:
-            <input
-              type="text"
-              id="birthYear"
-              placeholder="2018"
-              value={newSubUser.birthYear}
-              onChange={(e) =>
-                setNewSubUser((u) => ({ ...u, birthYear: e.target.value }))
-              }
-            />
-          </label>
-          <button
-            type="button"
-            className="btn btn-outline-dark"
-            onClick={(e) => addSubUser(e)}
-          >
-            Add Child
-          </button>
+          <div className="d-flex align-items-center">
+            <label htmlFor="userName" className="form-label me-2">
+              Child's username:
+              <input
+                type="text"
+                id="userName"
+                className="form-control"
+                placeholder="JimmyKiddoo"
+                value={newSubUser.userName}
+                onChange={(e) =>
+                  setNewSubUser({ ...newSubUser, userName: e.target.value })
+                }
+              />
+            </label>
+            <label htmlFor="birthYear" className="form-label me-2">
+              Year of birth:
+              <input
+                type="text"
+                id="birthYear"
+                className="form-control"
+                placeholder="2018"
+                value={newSubUser.birthYear}
+                onChange={(e) =>
+                  setNewSubUser({ ...newSubUser, birthYear: e.target.value })
+                }
+              />
+            </label>
+            <button
+              type="button"
+              className="btn btn-outline-dark"
+              style={{ marginLeft: "10px" }} // Adjust the margin as needed
+              onClick={addSubUser}
+            >
+              Add Child
+            </button>
+          </div>
         </div>
-        <br />
-        {errMsg && <p className="text-danger">{errMsg}</p>}
-        <button type="submit" className="btn btn-outline-dark">
+        {errMsg && <p className="text-danger mt-3">{errMsg}</p>}
+        <button type="submit" className="btn btn-outline-dark mt-3">
           Submit Registration
         </button>
       </form>
