@@ -49,7 +49,6 @@ function Login() {
   }
 
   async function registerDemoHousehold(e) {
-    console.log("?");
     const timestamp = Date.now();
     const demoEmail = `${timestamp}@jestmath.com`;
     const demoPassword = "testtest";
@@ -69,7 +68,6 @@ function Login() {
         },
       ],
     };
-    console.log(newHousehold);
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -99,8 +97,8 @@ function Login() {
         // alert("Registration successful, welcome to JestMath!");
       }
     } catch (error) {
-      console.log(
-        "There was an error creating your temporary account.  Please try again later."
+      setErrMsg(
+        "We can't make you a temprary account at the moment, sorry!  Please try again later."
       );
       console.log(error);
     }

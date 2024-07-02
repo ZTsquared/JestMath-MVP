@@ -52,18 +52,10 @@ function Store() {
 
   // adds an entry in the usersJokes junction table so that the user joke will show in the users library
   async function addJokeToUserLibrary() {
-    console.log(newJoke);
+    // console.log(newJoke);
     const userId = currentUser.id;
     const jokeId = newJoke.id;
     try {
-      console.log("adding joke to library");
-      // await fetch(`/api/usersJokes/`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ userId: userId, jokeId: jokeId }),
-      // });
       await fetch(`/api/users/${currentUser.id}/addJokeToLibrary/`, {
         method: "POST",
         headers: {

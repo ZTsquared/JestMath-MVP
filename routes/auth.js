@@ -16,7 +16,6 @@ router.post(
   async function (req, res, next) {
     const { email, password, householdName, subUsers } = req.body;
     try {
-      console.log("Request Body:", req.body);
       const newHouseholdInfo = await models.Household.create({
         email,
         password,
@@ -31,8 +30,6 @@ router.post(
           birthYear,
           HouseholdId: newHouseholdInfo.id,
         });
-        console.log("subuser created:");
-        console.log(newSubUser);
       }
       res.send({ message: `Register succesful` });
     } catch (error) {
@@ -44,7 +41,6 @@ router.post(
 
 router.post("/login", async function (req, res, next) {
   const { email, password } = req.body;
-  console.log(req.body);
   try {
     const household = await models.Household.findOne({
       where: { email },

@@ -11,11 +11,8 @@ const mustNotExist = require("../guardFunctions/mustNotExist");
 // TODO: have this check houselhold login and return only the users from within the household.
 // router.get("/", async function (req, res, next) {
 router.get("/", householdShouldBeLoggedIn, async function (req, res, next) {
-  console.log("getting all usernames within household");
   try {
     const householdID = req.household.id;
-    console.log("household id from user route");
-    console.log(householdID);
     const users = await models.User.findAll({
       where: {
         HouseholdID: householdID,
@@ -33,17 +30,12 @@ router.get(
   "/:userName",
   householdShouldBeLoggedIn,
   async function (req, res, next) {
-    console.log("getting a particular user");
     try {
       const { userName } = req.params;
-      console.log("-----A-------");
-      console.log(userName);
       const householdUser = req.household.Users.filter(
         (u) => u.userName === userName
       )[0];
       if (householdUser) {
-        console.log("------B------");
-        console.log(householdUser);
         const user = await models.User.findOne({
           where: {
             id: householdUser.id,
@@ -69,7 +61,6 @@ router.post(
   "/",
   mustNotExist("userName", "users", "userName"),
   async function (req, res, next) {
-    console.log(!req.body.userName || !req.body.userName);
     if (!req.body.userName || !req.body.userAge) {
       res.status(400).send({
         msg: "Submission does not contain a valid 'userName' and / or 'userAge' properties",
@@ -96,23 +87,17 @@ router.put(
   "/:id/increaseBalance/",
   mustExist("id", "users", "id"),
   async function (req, res, next) {
-    console.log("put sequelize increaseBalance");
     // console.log(isNaN(+req.body.quantity));
     if (!req.body.quantity || !req.params.id) {
-      console.log("if");
       res.status(422).send({ msg: "Submission does not contain valid data" });
     } else if (isNaN(+req.body.quantity)) {
-      console.log("else if");
       res.status(422).send({
         msg: "Amount of desired increase must be a number (data type number)",
       });
     } else {
       try {
-        console.log("else");
         const { id } = req.params;
         const { quantity } = req.body;
-        console.log(id);
-        console.log(quantity);
         await models.User.increment(
           { balance: +quantity },
           { where: { id: id } }
@@ -140,18 +125,13 @@ router.post(
   "/:id/addJokeToLibrary/",
   mustExist("id", "users", "id"),
   async function (req, res, next) {
-    console.log("put sequelize addJokeToLibrary");
     // console.log(isNaN(+req.body.quantity));
     if (!req.body.jokeId || !req.params.id) {
-      console.log("if");
       res.status(422).send({ msg: "Submission does not contain valid data" });
     } else {
       try {
-        console.log("else");
         const { id } = req.params;
         const { jokeId } = req.body;
-        console.log(id);
-        console.log(jokeId);
         const user = await models.User.findOne({
           where: {
             id: id,

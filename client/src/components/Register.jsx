@@ -60,7 +60,6 @@ function Register({ login }) {
       public: false,
       subUsers,
     };
-    console.log(newHousehold);
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -90,6 +89,9 @@ function Register({ login }) {
         alert("Registration successful, welcome to JestMath!");
       }
     } catch (error) {
+      setErrMsg(
+        "We can't create your account at the moment, sorry!  Please try again later."
+      );
       console.log("registration error");
       console.log(error);
     }

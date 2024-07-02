@@ -25,10 +25,6 @@ function ParentPortal() {
       });
       const resultObject = await resultJSON.json();
       setQuestionUploadMsg(resultObject.msg);
-      console.log("result JSON");
-      console.log(resultJSON);
-      // console.log("result object")
-      // console.log(resultObject)
       if (resultJSON.ok) {
         setNewQuestion("");
       }

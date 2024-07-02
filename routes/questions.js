@@ -23,7 +23,6 @@ router.get(
   "/:id",
   mustExist("id", "questions", "id"),
   async function (req, res, next) {
-    console.log("getting a particular question");
     try {
       const { id } = req.params;
       //  this if clause checks whether the param you passed in this position is a number
@@ -50,7 +49,6 @@ router.get("/count", async function (req, res, next) {
   try {
     const questions = await models.Question.findAll();
     const count = questions.length;
-    console.log(count);
     res.send(`there are ${count} questions`);
   } catch (err) {
     res.status(500).send(err);
