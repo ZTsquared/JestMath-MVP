@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Bank from "../components/Bank";
 import useAuth from "../hooks/useAuth";
+import Footer from "../components/Footer";
 
 function Quiz() {
   const { currentUser, getUser } = useAuth();
@@ -157,19 +157,7 @@ function Quiz() {
         </div>
       )}
       <br />
-      <div className="text-center">
-        <Link to="/store" className="btn btn-link text-decoration-none">
-          Joke Store
-        </Link>
-        <br />
-        <Link to="/library" className="btn btn-link text-decoration-none">
-          {currentUser?.userName}'s Jokes
-        </Link>
-        <br />
-        <Link to="/" className="btn btn-link text-decoration-none">
-          {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}
-        </Link>
-      </div>
+      <Footer />
     </div>
   );
 }

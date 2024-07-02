@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Bank from "../components/Bank";
 import useAuth from "../hooks/useAuth";
+import Footer from "../components/Footer";
 
 //I still need to fetch user's jokes based on the junctiontable userJokes
 
@@ -151,23 +152,7 @@ function Library() {
               )}
             </div>
           )}
-          <br />
-          <br />
-          <Link to="/quiz" className="btn btn-link text-decoration-none">
-            Earn more stars
-          </Link>
-          <br />
-          <Link to="/store" className="btn btn-link text-decoration-none">
-            Get more jokes
-          </Link>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <Link to="/" className="btn btn-link text-decoration-none">
-            {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}
-          </Link>
+          <Footer />
         </div>
       )}
     </div>

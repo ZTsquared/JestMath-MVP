@@ -5,6 +5,7 @@ import KnockKnock from "../components/KnockKnock";
 import Riddle from "../components/Riddle";
 import Comic from "../components/Comic";
 import useAuth from "../hooks/useAuth";
+import Footer from "../components/Footer";
 
 function Store() {
   const { currentUser, getUser } = useAuth();
@@ -115,21 +116,7 @@ function Store() {
           <br />
         </div>
       )}
-      <Link to="/quiz" className="btn btn-link text-decoration-none">
-        Earn more stars
-      </Link>
-      <br />
-      <Link to="/library" className="btn btn-link text-decoration-none">
-        {currentUser.userName}'s Jokes
-      </Link>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Link to="/" className="btn btn-link text-decoration-none">
-        {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}
-      </Link>
+      <Footer />
     </div>
   );
 }
