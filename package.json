@@ -9,7 +9,7 @@
     "seed": "npx sequelize-cli db:seed:all",
     "seed:undo": "npx sequelize-cli db:seed:undo",
     "test": "",
-    "build": "npm run migrate && npm run seed && next build"
+    "build": "next build"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
