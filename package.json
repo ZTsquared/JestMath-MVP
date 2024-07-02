@@ -8,7 +8,8 @@
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "seed": "npx sequelize-cli db:seed:all",
     "seed:undo": "npx sequelize-cli db:seed:undo",
-    "test": ""
+    "test": "",
+    "build": "npm run migrate && npm run seed && next build"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

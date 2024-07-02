@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /dist
+backup.env
 .env
 /client/node_modules
 .DS_Store
