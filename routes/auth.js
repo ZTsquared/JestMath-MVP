@@ -12,7 +12,7 @@ const householdShouldBeLoggedIn = require("../guardFunctions/householdShouldBeLo
 
 router.post(
   "/register",
-  mustNotExist("email", "households", "email"),
+  mustNotExist("email", "Households", "email"),
   async function (req, res, next) {
     const { email, password, householdName, subUsers } = req.body;
     try {
