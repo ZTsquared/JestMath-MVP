@@ -18,6 +18,13 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//the line below tells the deployment engine where to find the static assets
+//(the frontend info).  when the vite app is "built" vite will merge all
+//your frontend code into 1 super condensed file in a new folder called dist inside of client,
+// so that is what the line below refers to:
+app.use(express.static(path.join(__dirname, "/client/dist")));
+//maybe if we weren't using vite the static assets would be in the public folder?
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.get("/", function (req, res, next) {
@@ -29,6 +36,13 @@ app.use("/api/users", usersRouter);
 app.use("/api/jokes", jokesRouter);
 app.use("/api/questions", questionsRouter);
 app.use("/api/auth", authRouter);
+
+//this line is also for deployment, telling your depoyment engine where to send
+// anything that doesn't match a backend route (ie, when it recieves a frontend url
+// it sends it to the index.html , which send you to app.jsx and gets sorted out by the react router.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/dist/index.html"));
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
