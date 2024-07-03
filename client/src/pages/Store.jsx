@@ -19,6 +19,13 @@ function Store() {
     }
   }, []);
 
+  //once I fix the comics i can remove this
+  useEffect(() => {
+    if (newJoke?.jokeType === "comic") {
+      addToBalance(jokePrice);
+    }
+  }, [newJoke]);
+
   useEffect(() => {
     if (newJoke !== "") {
       addJokeToUserLibrary();
@@ -71,6 +78,7 @@ function Store() {
 
   function handleSubmit() {
     if (currentUser.balance >= jokePrice) {
+      setNewJoke("");
       // get a new joke
       getJoke();
       // deduct the joke price from the user's balance

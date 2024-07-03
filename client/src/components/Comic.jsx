@@ -20,7 +20,7 @@ function Comic({ joke, setOfferNewJoke }) {
       <img
         src={`../public/images/${joke.punchLine}`}
         width="400"
-        alt="NEW COMIC"
+        alt="Sorry!  This joke isn't working. I've refunded your stars so you can try again"
       />
     </div>
   );

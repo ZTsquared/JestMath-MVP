@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function KnockKnock({ joke, setOfferNewJoke }) {
   const [showSetUp, setShowSetUp] = useState(false);
