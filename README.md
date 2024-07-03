@@ -1,8 +1,10 @@
-# Zia Tyebjee's FS32 MVP: un-named elementary level math game
+# JestMath
+
+## Elementary level math game
 
 This app is a basic math game in which children can practice math problems and earn jokes in return. The game is designed to be managed by a parent or other adult who can curate both the questions and the jokes based on their child's skills and interests.
 
-Built with: node.js, react, express, and a tiiiiiiny bit of bootstrap 5.
+Built with: node.js, react, express, and a bit of bootstrap 5.
 
 ## Setup
 
@@ -18,36 +20,37 @@ For information on how the project was originally set up see the preliminary Pro
 
 ### Database Prep
 
-//THE DATABASE PREP INFO BELOW IS OUT OF DATE. I AM REFACTORING TO SEQUELIZE - THIS SECTION NEEDS A REWRITE ONCE I COMPLETE THE REFACTOR
-
 Create `.env` file in project directory and add
 
 ```
   DB_HOST=localhost
-  DB_USER=root
+  DB_USER=YOUR_DATABASE_NAME
   DB_NAME=ZIAfs32MVP
   DB_PASS=YOUR_PASSWORD
+  SUPER_SECRET=XXXXXXX (secret key for use with JWT)
 ```
 
 (replace `YOUR_PASSWORD` with your actual password)
 
-In the MySQL CLI, log in and then type `create database ZIAfs32MVP;` to create a database in MySQL.
+In the MySQL CLI, log in and then type `create database <YOUR_DATABASE_NAME>;` to create a database in MySQL.
 
 Run the following in the MySQL CLI: `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOUR_PASSWORD';` (replace `YOUR_PASSWORD` with your actual password)
 
-Open the init_db.sql file and uncomment everything from line 10 down to the bottom of the file.
-
-Run `npm run migrate` in your **TERMINAL**, in the **project** folder. This will create the following tables in your database:
+Run `npm run migrate` and `npm run seed` in your **TERMINAL**, in the **project** folder. This will create the following tables in your database:
 
 #### Questions
 
-This table contains the math problems. It will be automatically populated with about 20 starter questions.
+This table contains the math problems. It will be automatically populated with starter questions.
 
 For the time being the questions are shown in the app exactly as written in SQL. The route to post a question uses the eval() method to calculate the answer so questions must be written in a format and syntax that javascript can calculate. You can add questions to the database directly from the parent portal of the app.
 
+#### Households
+
+This table contains household account data such as email, username and password (automatically encrypted with bcrypt) and automatically populated with 2 test households. Each household can contain multiple users, representing child playes in the household.
+
 #### Users
 
-This table contains user data and is automatically populated with 2 users.
+This table contains user data and is automatically populated with some test users. Each user must belong to a household.
 
 The table contains 'UserName' and 'UserAge' which must be set manually when the user is created. There are also columns for 'balance' and 'lifetimeTotal' which default to 0 on user creation.
 
@@ -75,11 +78,11 @@ This is a junction table for tracking which users own which jokes in their priva
 
 ### 1. General
 
-Read through all the comments in the code. I tried to comment it fairly thoroughly.
+Read through all the comments in the code. I tried to comment it fairly thoroughly, though since I am actively working on the codes some comments may not always be perfectly up to date (same with some information in this readme)
 
 ### 2. The Routes
 
-There is a route file for each table. Any route that modifies that table or draws data primarily based on that table will be in that file.
+There is a route file for each table. Any route that modifies that table or draws data primarily based on that table will be in that file. The exception to this is that the routes for the households table are mainly in the auth file since creating a household is a registration event.
 
 The routes should be fairly straight forward. The only tricky thing is the mustExist and mustNotExist functions in the guards folder. These are not actually guard functions, they are higher order functions that return a customized guard function based on the parameters `(queryParamKey, queryTableName, queryColumnName)` you feed them. This way the function can be used to test if a userName exists in the users table, or an id exists in the questions table, or whatever you like. As written you do have to pass the value you want to validate (queryParamKey) in the req.params , not the body for it to work, but that could be adjusted.
 
@@ -87,7 +90,7 @@ The routes should be fairly straight forward. The only tricky thing is the mustE
 
 #### App
 
-The app contains currentUser data which is passed as a prop to all the other views and components. It also contains a function to change the user or refresh the user data, which is passed as a prop to several of the pages as well. This is used in several useEffect calls on various pages.
+The app contains the page routes, most of which are protected routes requiring login. Auth & Auth status is stored in react context along with current household name and current user information for use site-wide.
 
 #### Welcome
 
@@ -113,7 +116,7 @@ Here a user can see all the jokes they have previously bought.
 
 #### ParentPortal
 
-In this portal you can add questions to the questions database table. In future this portal should also allow parents to curate and delete questions.
+In this portal you can add questions to the questions database table - I have deactivated this in the front end for the time being but the code is there. In future this portal should also allow parents to curate and delete questions.
 
 In future parents should be able to add jokes from here as well.
 
@@ -122,11 +125,8 @@ In future parents should be able to add jokes from here as well.
 - create a better method for inputing and evaluating equations and then mapping to a kid friendly question display.
 - giving the questions a level rating, and having the age of the child dictate which levels of questions they get, but give the child a "make harder"/"make easier" button that adjusts what levels they are given
 - make a topics table and assign jokes multiple topics, allow children to buy jokes based on topic
-- organize multiple users under a household (parent) account
-- creat a proper login so that the user doesn't log out when the page is refreshed
-- add "comic" type jokes that display images
 - provide a results summary at the end of the round showing all the questions, the user's guesses/answers and the correct answer
-- give pparent ability to see all historic results including wrong answers and even how much time was spent before answering
+- give parent ability to see all historic results including wrong answers and even how much time was spent before answering
 - let parents have a portal that pulls jokes from a public api so they can vet the jokes and decide which ones to add to the household database.
 
 ## Resources
