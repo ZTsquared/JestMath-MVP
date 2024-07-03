@@ -67,7 +67,7 @@ router.get("/random", async function (req, res, next) {
         // id not in userJokes junction table paired with this particular userId
         id: {
           [Sequelize.Op.notIn]: Sequelize.literal(
-            `(SELECT jokeId FROM userJokes WHERE userId = ${userId})`
+            `(SELECT jokeId FROM UserJokes WHERE userId = ${userId})`
           ),
         },
       },
@@ -108,10 +108,10 @@ router.post("/", async function (req, res, next) {
     // post:
     try {
       await db(
-        `INSERT INTO jokes (setUp, punchLine, jokeType) values ("${setUp}", "${punchLine}", "${jokeType}");`
+        `INSERT INTO Jokes (setUp, punchLine, jokeType) values ("${setUp}", "${punchLine}", "${jokeType}");`
       );
       const resultObject = await db(
-        `SELECT * FROM jokes ORDER BY ID DESC LIMIT 1;`
+        `SELECT * FROM Jokes ORDER BY ID DESC LIMIT 1;`
       );
       resultObject.msg = `'${jokeType}' type joke successfully added to database`;
       res.send(resultObject);

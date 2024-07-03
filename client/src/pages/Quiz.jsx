@@ -14,7 +14,7 @@ function Quiz() {
   const [currentCorrect, setCurrentCorrect] = useState(false);
   const [tries, setTries] = useState(0);
 
-  const pointValue = 1;
+  const pointValue = 100;
 
   useEffect(() => {
     setUserAnswer("");
