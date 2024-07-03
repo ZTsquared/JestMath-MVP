@@ -87,9 +87,15 @@ function Store() {
       <br />
       <br />
       {/* depending on the joke type a differnt component is displayed.  the component contains the logic of how the joke is displayed */}
-      {newJoke?.jokeType === "knockknock" && <KnockKnock joke={newJoke} />}
-      {newJoke?.jokeType === "riddle" && <Riddle joke={newJoke} />}
-      {newJoke?.jokeType === "comic" && <Comic joke={newJoke} />}
+      {newJoke?.jokeType === "knockknock" && (
+        <KnockKnock joke={newJoke} setOfferNewJoke={setOfferNewJoke} />
+      )}
+      {newJoke?.jokeType === "riddle" && (
+        <Riddle joke={newJoke} setOfferNewJoke={setOfferNewJoke} />
+      )}
+      {newJoke?.jokeType === "comic" && (
+        <Comic joke={newJoke} setOfferNewJoke={setOfferNewJoke} />
+      )}
       <br />
       <br />
       {/* this button to get a new joke only shows if you have not just bought one - would be cool to add a 1 min timer so you can't buy jokes at too high a rate */}
@@ -108,7 +114,7 @@ function Store() {
           <br />
         </div>
       )}
-      <Footer />
+      <Footer currentComp="Store" />
     </div>
   );
 }

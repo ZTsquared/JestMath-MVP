@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 
-function Riddle({ joke }) {
+function Riddle({ joke, setOfferNewJoke }) {
   const [showPunchLine, setShowPunchLine] = useState(false);
   const prefixes = ["who", "what", "when", "where", "why", "how"];
 
@@ -12,6 +12,9 @@ function Riddle({ joke }) {
   function handleClick(e) {
     setShowPunchLine(true);
     e.currentTarget.disabled = true;
+    setTimeout(() => {
+      setOfferNewJoke(true);
+    }, 2000);
   }
 
   function constructResponse() {

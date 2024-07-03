@@ -59,7 +59,7 @@ router.get(
 // custom guard function based on the table and column name you want to check against (also, maybe a user should get 20 free stars to start? but this is a front end issue)
 router.post(
   "/",
-  mustNotExist("userName", "users", "userName"),
+  // mustNotExist("userName", "Users", "userName"), //ideally i adjust this so there are never 2 of the samer user in a household
   async function (req, res, next) {
     if (!req.body.userName || !req.body.userAge) {
       res.status(400).send({

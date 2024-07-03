@@ -10,11 +10,14 @@ function Login() {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+  const [errMsg2, setErrMsg2] = useState("");
   const navigate = useNavigate();
 
   // useEffect(() => console.log("is logged in: ", isLoggedIn), [isLoggedIn]);
 
-  useEffect(() => setErrMsg(""), [email, password]);
+  useEffect(() => setErrMsg(""), [email, password, errMsg2, register]);
+
+  useEffect(() => setErrMsg2(""), [email, password, errMsg, register]);
 
   //useEffect function to check if token is valid on page refresh FIXME: once i have written the backend route for this
 
@@ -97,8 +100,8 @@ function Login() {
         // alert("Registration successful, welcome to JestMath!");
       }
     } catch (error) {
-      setErrMsg(
-        "We can't make you a temprary account at the moment, sorry!  Please try again later."
+      setErrMsg2(
+        "We can't make you a temporary account at the moment, sorry!  Please try again later."
       );
       console.log(error);
     }
@@ -190,6 +193,7 @@ function Login() {
           </button>
           <br />
           <br />
+          {errMsg2 && <p className="text-danger">{errMsg2}</p>}
           <h6>Or explore without an account</h6>
           <button
             className="btn btn-outline-dark"

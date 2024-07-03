@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function KnockKnock({ joke }) {
+function KnockKnock({ joke, setOfferNewJoke }) {
   const [showSetUp, setShowSetUp] = useState(false);
   const [showPunchLine, setShowPunchLine] = useState(false);
 
@@ -9,6 +9,9 @@ function KnockKnock({ joke }) {
       setShowSetUp(true);
     } else {
       setShowPunchLine(true);
+      setTimeout(() => {
+        setOfferNewJoke(true);
+      }, 2000);
     }
     e.currentTarget.disabled = true;
   }

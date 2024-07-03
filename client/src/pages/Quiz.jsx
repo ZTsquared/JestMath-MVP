@@ -14,13 +14,19 @@ function Quiz() {
   const [currentCorrect, setCurrentCorrect] = useState(false);
   const [tries, setTries] = useState(0);
 
-  const pointValue = 100;
+  const pointValue = 1;
 
   useEffect(() => {
     setUserAnswer("");
   }, [submittedAnswer]);
 
   function resetRound() {
+    if (currentUser.lifetimeTotal === 0) {
+      addToBalance(30);
+      alert(
+        "New to JestMath?  Welcome!  Here are 30 stars to get you started ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐"
+      );
+    }
     setUserAnswer("");
     setCurrentCorrect(false);
     setCurrentIndex(0);
@@ -157,7 +163,7 @@ function Quiz() {
         </div>
       )}
       <br />
-      <Footer />
+      <Footer currentComp = "Quiz"/>
     </div>
   );
 }

@@ -21,7 +21,7 @@ router.get("/", async function (req, res, next) {
 // at the moment i don't use :id or /count but i built them so i'll leave them here for later
 router.get(
   "/:id",
-  mustExist("id", "questions", "id"),
+  mustExist("id", "Questions", "id"),
   async function (req, res, next) {
     try {
       const { id } = req.params;

@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import React from "react";
+// import { use } from "../../../routes";
 
-function Comic({ joke }) {
+function Comic({ joke, setOfferNewJoke }) {
   const title = joke.setUp.split("/")[0];
   const artist = joke.setUp.split("/")[1];
+
+  useEffect(() => {
+    setTimeout(() => {
+      setOfferNewJoke(true);
+    }, 2000);
+  }, []);
 
   return (
     <div>

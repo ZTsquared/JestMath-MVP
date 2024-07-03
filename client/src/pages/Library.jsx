@@ -152,7 +152,7 @@ function Library() {
               )}
             </div>
           )}
-          <Footer />
+          <Footer currentComp="Library" />
         </div>
       )}
     </div>
