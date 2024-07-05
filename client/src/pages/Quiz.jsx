@@ -109,16 +109,24 @@ function Quiz() {
           <div className="mb-4 text-center">
             <h2>Question {currentIndex + 1}:</h2>
             {!currentCorrect && (
-              <div className="card p-4" style={{ backgroundColor: "#f8f9fa" }}>
+              <div
+                className="card pt-4 pr-2 pb-4 pl-2"
+                style={{ backgroundColor: "#f8f9fa" }}
+              >
                 <h3>{selectedQuestions[currentIndex]?.question} =</h3>
                 <div className="d-flex justify-content-center">
-                  <form className="input-group w-50" onSubmit={checkAnswer}>
+                  <form
+                    className="input-group w-75"
+                    style={{ maxWidth: "350px" }}
+                    onSubmit={checkAnswer}
+                  >
                     <input
                       type="text"
                       value={userAnswer}
                       onChange={handleInputChange}
                       className="form-control"
                       placeholder="Answer"
+                      style={{ minWidth: "80px" }}
                     />
                     <button
                       className="btn btn-outline-dark"
@@ -163,7 +171,7 @@ function Quiz() {
         </div>
       )}
       <br />
-      <Footer currentComp = "Quiz"/>
+      <Footer currentComp="Quiz" />
     </div>
   );
 }

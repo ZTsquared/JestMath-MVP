@@ -139,9 +139,10 @@ function Library() {
                   {userComics.map((joke, i) => (
                     <div key={i}>
                       <img
-                        src={`./public/images/${joke.punchLine}`}
+                        src={`./images/${joke.punchLine}`} // use this line instead of the one below when deploying to heroku
+                        // src={`./public/images/${joke.punchLine}`} // use this line instead of the one above when working on localhost
                         width="400"
-                        alt="NEW COMIC"
+                        alt="Sorry...comics aren't working yet. We'll fix them soon!"
                       />
                       <br />
                       <div>________________________</div>
