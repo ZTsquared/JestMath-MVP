@@ -18,7 +18,8 @@ function Comic({ joke, setOfferNewJoke }) {
       <h4>{title}</h4>
       <h6>{artist}</h6>
       <img
-        src={`../public/images/${joke.punchLine}`}
+        src={`./images/${joke.punchLine}`} // use this line instead of the one below when deploying to heroku
+        // src={`./public/images/${joke.punchLine}`} // use this line instead of the one above when working on localhost
         width="400"
         alt="Sorry!  This joke isn't working. I've refunded your stars so you can try again"
       />
