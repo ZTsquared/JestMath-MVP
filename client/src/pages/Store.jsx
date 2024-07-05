@@ -19,13 +19,6 @@ function Store() {
     }
   }, []);
 
-  //once I fix the comics i can remove this
-  useEffect(() => {
-    if (newJoke?.jokeType === "comic") {
-      addToBalance(jokePrice);
-    }
-  }, [newJoke]);
-
   useEffect(() => {
     if (newJoke !== "") {
       addJokeToUserLibrary();
