@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Bank from "../components/Bank";
 import useAuth from "../hooks/useAuth";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 function Quiz() {
   const { currentUser, getUser } = useAuth();
@@ -107,13 +108,20 @@ function Quiz() {
       ) : (
         <div>
           <div className="mb-4 text-center">
-            <h2>Question {currentIndex + 1}:</h2>
+            <h2>
+              Question {currentIndex + 1} of {roundLength}:
+            </h2>
             {!currentCorrect && (
               <div
                 className="card pt-4 pr-2 pb-4 pl-2"
                 style={{ backgroundColor: "#f8f9fa" }}
               >
-                <h3>{selectedQuestions[currentIndex]?.question} =</h3>
+                <h3>
+                  {selectedQuestions[currentIndex]?.question
+                    .replaceAll("*", "x")
+                    .replaceAll("/", "\u00F7")}{" "}
+                  =
+                </h3>
                 <div className="d-flex justify-content-center">
                   <form
                     className="input-group w-75"
@@ -157,19 +165,38 @@ function Quiz() {
               placeholder="Show your work or keep track of your thoughts here."
             />
             {(currentCorrect || tries >= 3) && (
-              <button
-                onClick={nextQuestion}
-                className="btn btn-outline-dark mt-3"
-                disabled={!currentCorrect && tries < 3}
-              >
-                {currentIndex + 1 === selectedQuestions.length
-                  ? "Next Round"
-                  : "Next Question"}
-              </button>
+              <div>
+                {currentIndex + 1 === selectedQuestions.length && (
+                  <div>
+                    <br />
+                    {currentUser.balance >= 8 ? (
+                      <h5>
+                        Congratulations, you have enough stars to{" "}
+                        <Link to="/store" style={{ display: "inline" }}>
+                          buy a joke
+                        </Link>
+                        !
+                      </h5>
+                    ) : (
+                      <h5>Keep playing to earn enough stars to buy a joke!</h5>
+                    )}
+                  </div>
+                )}
+                <br />
+                <button
+                  onClick={nextQuestion}
+                  className="btn btn-outline-dark mt-3"
+                  disabled={!currentCorrect && tries < 3}
+                >
+                  {currentIndex + 1 === selectedQuestions.length
+                    ? "Next Round"
+                    : "Next Question"}
+                </button>
+              </div>
             )}
           </div>
         </div>
-      )}
+      )}{" "}
       <br />
       <Footer currentComp="Quiz" />
     </div>

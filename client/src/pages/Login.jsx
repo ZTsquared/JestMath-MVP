@@ -118,7 +118,14 @@ function Login() {
 
   return (
     <div className="container">
-      <h1>Welcome to JestMath</h1>
+      <h1>Welcome to</h1>
+      <img
+        src={`./images/JestMath-Logo.png`} // use this line instead of the one below when deploying to heroku
+        // src={`./public/images/${joke.punchLine}`} // might need to use this line instead of the one above when working on localhost
+        width="400"
+        alt="JestMath Logo"
+      />
+      <br />
       <br />
       {isLoggedIn ? (
         <button className="btn btn-outline-dark" onClick={onLogout}>

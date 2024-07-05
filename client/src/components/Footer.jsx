@@ -6,8 +6,12 @@ function Footer({ currentComp }) {
   // const [loc, setLoc] = useState("");
   const { currentUser } = useAuth();
 
+  //change from links to buttons for better user experience.  change player button should maybe be somewhere else?
   return (
     <div>
+      {/* <button className="btn btn-outline-dark m-2">Quiz</button>
+      <button className="btn btn-outline-dark m-2">Joke Store</button>
+      <button className="btn btn-outline-dark m-2">Your Jokes</button> */}
       <br />
       <br />
       <Link
@@ -18,7 +22,7 @@ function Footer({ currentComp }) {
             : "btn btn-link text-decoration-none"
         }
       >
-        Earn more stars
+        Quiz
       </Link>
       <br />
       <Link
@@ -29,7 +33,7 @@ function Footer({ currentComp }) {
             : "btn btn-link text-decoration-none"
         }
       >
-        Get more jokes
+        Joke Store
       </Link>
       <br />
       <Link
@@ -40,14 +44,7 @@ function Footer({ currentComp }) {
             : "btn btn-link text-decoration-none"
         }
       >
-        {currentUser.userName}'s Jokes
-      </Link>
-      <br />
-      <br />
-      <br />
-      <br />
-      <Link to="/" className="btn btn-link text-decoration-none">
-        {currentUser ? `I'm not ${currentUser.userName}!` : "Login"}
+        {currentUser.userName}'s Joke Library
       </Link>
     </div>
   );

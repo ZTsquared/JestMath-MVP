@@ -140,7 +140,7 @@ function Library() {
                     <div key={i}>
                       <img
                         src={`./images/${joke.punchLine}`} // use this line instead of the one below when deploying to heroku
-                        // src={`./public/images/${joke.punchLine}`} // use this line instead of the one above when working on localhost
+                        // src={`./public/images/${joke.punchLine}`} // might need to use this line instead of the one above when working on localhost
                         width="400"
                         alt="Sorry...comics aren't working right now. We'll fix them soon!"
                       />
