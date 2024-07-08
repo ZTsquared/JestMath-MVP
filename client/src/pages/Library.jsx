@@ -141,7 +141,7 @@ function Library() {
                       <img
                         src={`./images/${joke.punchLine}`} // use this line instead of the one below when deploying to heroku
                         // src={`./public/images/${joke.punchLine}`} // might need to use this line instead of the one above when working on localhost
-                        width="400"
+                        style={{ width: "90%", maxWidth: "400px" }}
                         alt="Sorry...comics aren't working right now. We'll fix them soon!"
                       />
                       <br />

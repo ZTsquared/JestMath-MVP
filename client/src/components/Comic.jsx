@@ -17,12 +17,14 @@ function Comic({ joke, setOfferNewJoke }) {
     <div>
       <h4>{title}</h4>
       <h6>{artist}</h6>
+      {/* <div max-width="100%"> */}
       <img
         src={`../images/${joke.punchLine}`} // use this line instead of the one below when deploying to heroku
         // src={`../public/images/${joke.punchLine}`} // might need to use this line instead of the one above when working on localhost
-        width="400"
+        style={{ width: "90%", maxWidth: "400px" }}
         alt="Sorry!  This joke isn't working right now, but it's been saved in your library for later!"
       />
+      {/* </div> */}
     </div>
   );
 }
