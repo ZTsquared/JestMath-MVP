@@ -57,7 +57,7 @@ function Register({ login }) {
       email: lowerCaseEmail,
       password,
       householdName,
-      public: false,
+      public: 0,
       subUsers,
     };
     try {

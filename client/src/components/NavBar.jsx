@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { HomeIcon } from "@heroicons/react/24/outline";
 
 function NavBar() {
   const { isLoggedIn, onLogout, currentHouseholdName } = useAuth();
@@ -13,7 +14,8 @@ function NavBar() {
         <div className="container-fluid d-flex justify-content-between">
           <div className="d-flex align-items-center">
             <Link to="/" className="text-dark">
-              <i className="fas fa-home" style={{ fontSize: "2em" }}></i>
+              <HomeIcon style={{ width: "45px", height: "45px" }} />
+              {/* <i className="fas fa-home" style={{ fontSize: "2em" }}></i> */}
             </Link>
             <img
               src={`./images/JestMath-Logo-NoBackground.png`} // use this line instead of the one below when deploying to heroku

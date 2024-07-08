@@ -59,7 +59,7 @@ function Login() {
       email: demoEmail,
       password: demoPassword,
       householdName: "TempHousehold",
-      public: true,
+      public: 1,
       subUsers: [
         {
           userName: "DemoUser1",

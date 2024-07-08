@@ -14,12 +14,13 @@ router.post(
   "/register",
   mustNotExist("email", "Households", "email"),
   async function (req, res, next) {
-    const { email, password, householdName, subUsers } = req.body;
+    const { email, password, householdName, public, subUsers } = req.body;
     try {
       const newHouseholdInfo = await models.Household.create({
         email,
         password,
         householdName,
+        public,
       });
       console.log("what came back from the await:");
       console.log(newHouseholdInfo);
