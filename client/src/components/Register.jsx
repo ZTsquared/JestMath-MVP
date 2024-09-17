@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { flushSync } from "react-dom";
 import { Link } from "react-router-dom";
 
-function Register({ login }) {
+function Register({ login, registerHousehold }) {
   const [email, setEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [password, setPassword] = useState("");
@@ -51,53 +51,53 @@ function Register({ login }) {
     setSubUsers((state) => state.filter(({ userName }) => userName !== name));
   }
 
-  async function registerHousehold() {
-    const lowerCaseEmail = email.toLowerCase();
-    const newHousehold = {
-      email: lowerCaseEmail,
-      password,
-      householdName,
-      public: 0,
-      subUsers,
-    };
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newHousehold),
-      });
-      if (!response.ok) {
-        const result = await response.json();
-        // console.log("response not ok");
-        // console.log(response);
-        // console.log(result);
-        if (
-          result.msg.toLowerCase().includes("must be unique") &&
-          (result.msg.toLowerCase().includes("email") ||
-            result.msg.toLowerCase().includes("e-mail"))
-        ) {
-          setErrMsg(
-            "This email address is registered to an existing account. Please log in or try again with a different email address."
-          );
-        } else {
-          setErrMsg(result.msg);
-        }
-      } else {
-        login({ email: email, password: password });
-        alert("Registration successful, welcome to JestMath!");
-      }
-    } catch (error) {
-      setErrMsg(
-        "We can't create your account at the moment, sorry!  Please try again later."
-      );
-      console.log("registration error");
-      console.log(error);
-    }
+  // async function registerHousehold() {
+  //   const lowerCaseEmail = email.toLowerCase();
+  //   const newHousehold = {
+  //     email: lowerCaseEmail,
+  //     password,
+  //     householdName,
+  //     public: 0,
+  //     subUsers,
+  //   };
+  //   try {
+  //     const response = await fetch("/api/auth/register", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(newHousehold),
+  //     });
+  //     if (!response.ok) {
+  //       const result = await response.json();
+  //       // console.log("response not ok");
+  //       // console.log(response);
+  //       // console.log(result);
+  //       if (
+  //         result.msg.toLowerCase().includes("must be unique") &&
+  //         (result.msg.toLowerCase().includes("email") ||
+  //           result.msg.toLowerCase().includes("e-mail"))
+  //       ) {
+  //         setErrMsg(
+  //           "This email address is registered to an existing account. Please log in or try again with a different email address."
+  //         );
+  //       } else {
+  //         setErrMsg(result.msg);
+  //       }
+  //     } else {
+  //       login({ email: email, password: password });
+  //       alert("Registration successful, welcome to JestMath!");
+  //     }
+  //   } catch (error) {
+  //     setErrMsg(
+  //       "We can't create your account at the moment, sorry!  Please try again later."
+  //     );
+  //     console.log("registration error");
+  //     console.log(error);
+  //   }
 
-    //TODO:encrypt password and post to auth/register route, including newHousehold object in the body (i think this is done already but I need to double check)
-  }
+  //   //TODO:encrypt password and post to auth/register route, including newHousehold object in the body (i think this is done already but I need to double check)
+  // }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -112,7 +112,14 @@ function Register({ login }) {
     } else if (password !== password2) {
       setErrMsg("passwords do not match");
     } else {
-      registerHousehold();
+      const newHousehold = {
+        email: email.toLowerCase(),
+        password,
+        householdName,
+        subUsers,
+        public: 0,
+      };
+      registerHousehold(newHousehold);
     }
   }
 

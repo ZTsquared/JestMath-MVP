@@ -5,7 +5,7 @@ import Register from "../components/Register";
 
 function Login() {
   const { isLoggedIn, onLogin, onLogout } = useAuth();
-  const [register, setRegister] = useState(false);
+  const [registerVis, setRegisterVis] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
@@ -15,9 +15,9 @@ function Login() {
 
   // useEffect(() => console.log("is logged in: ", isLoggedIn), [isLoggedIn]);
 
-  useEffect(() => setErrMsg(""), [email, password, errMsg2, register]);
+  useEffect(() => setErrMsg(""), [email, password, errMsg2, registerVis]);
 
-  useEffect(() => setErrMsg2(""), [email, password, errMsg, register]);
+  useEffect(() => setErrMsg2(""), [email, password, errMsg, registerVis]);
 
   //useEffect function to check if token is valid on page refresh FIXME: once i have written the backend route for this
 
@@ -51,7 +51,56 @@ function Login() {
     }
   }
 
-  async function registerDemoHousehold(e) {
+  async function registerHousehold(newHousehold) {
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newHousehold),
+      });
+      if (!response.ok) {
+        const result = await response.json();
+        // console.log("response not ok");
+        console.log(response);
+        console.log(result);
+        if (
+          result.msg.toLowerCase().includes("must be unique") &&
+          (result.msg.toLowerCase().includes("email") ||
+            result.msg.toLowerCase().includes("e-mail"))
+        ) {
+          console.log("some error in reg");
+          setErrMsg(
+            "This email address is registered to an existing account. Please log in or try again with a different email address."
+          );
+        } else {
+          setErrMsg(result.msg);
+        }
+      } else {
+        login({ email: newHousehold.email, password: newHousehold.password });
+        if (!newHousehold.public) {
+          alert("Registration successful, welcome to JestMath!");
+        }
+      }
+    } catch (error) {
+      if (newHousehold.public) {
+        setErrMsg2(
+          "We can't make you a temporary account at the moment, sorry!  Please try again later."
+        );
+      } else {
+        setErrMsg(
+          "We can't create your account at the moment, sorry!  Please try again later."
+        );
+      }
+      console.log("registration error");
+      console.log(error);
+    }
+
+    //TODO:encrypt password and post to auth/register route, including newHousehold object in the body (i think this is done already but I need to double check)
+  }
+
+  function registerDemoHousehold() {
     const timestamp = Date.now();
     const demoEmail = `${timestamp}@jestmath.com`;
     const demoPassword = "testtest";
@@ -71,40 +120,7 @@ function Login() {
         },
       ],
     };
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newHousehold),
-      });
-      if (!response.ok) {
-        const result = await response.json();
-        // console.log("response not ok");
-        // console.log(response);
-        // console.log(result);
-        if (
-          result.msg.toLowerCase().includes("must be unique") &&
-          (result.msg.toLowerCase().includes("email") ||
-            result.msg.toLowerCase().includes("e-mail"))
-        ) {
-          setErrMsg(
-            "This email address is registerd to an existing account. Please log in or try again with a different email address."
-          );
-        } else {
-          setErrMsg(result.msg);
-        }
-      } else {
-        login({ email: demoEmail, password: demoPassword });
-        // alert("Registration successful, welcome to JestMath!");
-      }
-    } catch (error) {
-      setErrMsg2(
-        "We can't make you a temporary account at the moment, sorry!  Please try again later."
-      );
-      console.log(error);
-    }
+    registerHousehold(newHousehold);
   }
 
   function handleSubmit(e) {
@@ -113,7 +129,7 @@ function Login() {
   }
 
   function toggleRegister() {
-    setRegister((reg) => !reg);
+    setRegisterVis((reg) => !reg);
   }
 
   return (
@@ -121,7 +137,7 @@ function Login() {
       <h1>Welcome to</h1>
       <img
         src={`./images/JestMath-Logo.png`} // use this line instead of the one below when deploying to heroku
-        // src={`./public/images/${joke.punchLine}`} // might need to use this line instead of the one above when working on localhost
+        // src={`./public/images/JestMath-Logo.png`} // might need to use this line instead of the one above when working on localhost
         width="400"
         alt="JestMath Logo"
       />
@@ -133,8 +149,8 @@ function Login() {
         </button>
       ) : (
         <>
-          {register ? (
-            <Register login={login} />
+          {registerVis ? (
+            <Register login={login} registerHousehold={registerHousehold} />
           ) : (
             <div>
               <h6>Login to household account:</h6>
@@ -191,12 +207,12 @@ function Login() {
           )}
           <br />
           <h6>
-            {register
+            {registerVis
               ? "Already Registered?"
               : "No account? Create a new household account:"}
           </h6>
           <button className="btn btn-outline-dark" onClick={toggleRegister}>
-            {register ? "Login" : "Register"}
+            {registerVis ? "Login" : "Register"}
           </button>
           <br />
           <br />
