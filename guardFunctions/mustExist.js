@@ -7,24 +7,22 @@ function mustExist(queryParamKey, queryTableName, queryColumnName) {
   const result = async function (req, res, next) {
     const searchTerm = req.params[queryParamKey];
     try {
-      console.log(queryParamKey);
-      console.log(queryParamKey === "id");
-      console.log(isNaN(+queryParamKey));
+      // console.log(queryParamKey);
+      // console.log(queryParamKey === "id");
+      // console.log(isNaN(+queryParamKey));
       if (queryParamKey === "id" && isNaN(+queryParamKey)) {
         next();
       } else {
         const response = await db(
           `SELECT * FROM ${queryTableName} WHERE ${queryColumnName}="${searchTerm}"`
         );
-        console.log(response);
+        // console.log(response);
         if (response.data.length) {
           next();
         } else {
-          res
-            .status(404)
-            .send({
-              msg: `Searching database table '${queryTableName}' for entry '${queryColumnName} = ${searchTerm}' produced no results`,
-            });
+          res.status(404).send({
+            msg: `Searching database table '${queryTableName}' for entry '${queryColumnName} = ${searchTerm}' produced no results`,
+          });
         }
       }
     } catch (err) {

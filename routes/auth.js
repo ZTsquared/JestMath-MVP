@@ -22,8 +22,8 @@ router.post(
         householdName,
         public,
       });
-      console.log("what came back from the await:");
-      console.log(newHouseholdInfo);
+      // console.log("what came back from the await:");
+      // console.log(newHouseholdInfo);
       for (let subUser of subUsers) {
         const { userName, birthYear } = subUser;
         const newSubUser = await models.User.create({
@@ -48,7 +48,6 @@ router.post("/login", async function (req, res, next) {
     });
     if (!household) {
       res.status(401).send({ message: "Household does not exist" });
-      // throw new Error("Email not found");
     } else {
       {
         const correctPassword = await bcrypt.compare(
@@ -57,7 +56,6 @@ router.post("/login", async function (req, res, next) {
         );
         if (!correctPassword) {
           res.status(401).send({ message: "Password incorrect" });
-          // throw new Error("Incorrect password");
         } else {
           const token = jwt.sign({ household_id: household.id }, supersecret);
           res.send({

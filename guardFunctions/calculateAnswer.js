@@ -32,7 +32,6 @@ async function calculateAnswer(req, res, next) {
     const decPlaces = answer.toString().includes(".")
       ? answer.toString().length - 1 - answer.toString().indexOf(".")
       : 0;
-    console.log(decPlaces);
     if (stripped === answer.toString() || decPlaces > 2 || answer > 10000) {
       console.log("error2");
       customError =
