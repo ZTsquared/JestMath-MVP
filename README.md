@@ -3,6 +3,7 @@
 ## Elementary level math game
 
 This app is a basic math game in which children can practice math problems and earn jokes in return. The game is designed to be managed by a parent or other adult who can curate both the questions and the jokes based on their child's skills and interests.
+The project had been deployed with Heroku and can be tested at https://stormy-woodland-95005-0e0ee6fa38ff.herokuapp.com/
 
 Built with: node.js, react, express, and a bit of bootstrap 5.
 

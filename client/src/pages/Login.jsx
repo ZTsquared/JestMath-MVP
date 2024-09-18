@@ -151,7 +151,11 @@ function Login() {
       ) : (
         <>
           {registerVis ? (
-            <Register login={login} registerHousehold={registerHousehold} />
+            <Register
+              registerHousehold={registerHousehold}
+              errMsg={errMsg}
+              setErrMsg={setErrMsg}
+            />
           ) : (
             <div>
               <h6>Login to household account:</h6>
