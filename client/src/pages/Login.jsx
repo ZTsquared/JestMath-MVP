@@ -14,6 +14,7 @@ function Login() {
   const navigate = useNavigate();
 
   // useEffect(() => console.log("is logged in: ", isLoggedIn), [isLoggedIn]);
+  useEffect(() => console.log(errMsg, errMsg2), [errMsg, errMsg2]);
 
   useEffect(() => setErrMsg(""), [email, password, errMsg2, registerVis]);
 
@@ -66,9 +67,9 @@ function Login() {
         console.log(response);
         console.log(result);
         if (
-          result.msg.toLowerCase().includes("must be unique") &&
-          (result.msg.toLowerCase().includes("email") ||
-            result.msg.toLowerCase().includes("e-mail"))
+          result.msg?.toLowerCase().includes("must be unique") &&
+          (result.msg?.toLowerCase().includes("email") ||
+            result.msg?.toLowerCase().includes("e-mail"))
         ) {
           console.log("some error in reg");
           setErrMsg(
