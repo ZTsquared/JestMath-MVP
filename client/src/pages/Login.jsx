@@ -97,8 +97,6 @@ function Login() {
       console.log("registration error");
       console.log(error);
     }
-
-    //TODO:encrypt password and post to auth/register route, including newHousehold object in the body (i think this is done already but I need to double check)
   }
 
   function registerDemoHousehold() {
