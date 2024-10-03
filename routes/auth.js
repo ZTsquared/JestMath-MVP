@@ -14,6 +14,7 @@ router.post(
   "/register",
   mustNotExist("email", "Households", "email"),
   async function (req, res, next) {
+    console.log("RUNNING REGISTER POST ROUTE");
     const { email, password, householdName, public, subUsers } = req.body;
     try {
       const newHouseholdInfo = await models.Household.create({
@@ -22,8 +23,8 @@ router.post(
         householdName,
         public,
       });
-      // console.log("what came back from the await:");
-      // console.log(newHouseholdInfo);
+      console.log("what came back from the create household await:");
+      console.log(newHouseholdInfo);
       for (let subUser of subUsers) {
         const { userName, birthYear } = subUser;
         const newSubUser = await models.User.create({
@@ -31,16 +32,20 @@ router.post(
           birthYear,
           HouseholdId: newHouseholdInfo.id,
         });
+        console.log("what came back from the create user await:");
+        console.log(newSubUser);
       }
       res.send({ message: `Register succesful` });
     } catch (error) {
       console.log(error);
       res.status(500).send(error);
     }
+    console.log("COMPLETED REGISTER POST ROUTE");
   }
 );
 
 router.post("/login", async function (req, res, next) {
+  console.log("RUNNING LOGIN POST ROUTE");
   const { email, password } = req.body;
   try {
     const household = await models.Household.findOne({
@@ -69,6 +74,7 @@ router.post("/login", async function (req, res, next) {
     console.log("in auth catch block");
     res.status(500).send(error);
   }
+  console.log("COMPLETED REGISTER POST ROUTE");
 });
 
 router.get(

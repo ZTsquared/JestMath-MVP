@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
           // bcrypt.hashSync is the synchronous version of bcrypt.hash.
           // for this particular use case the async version will not work (who knows why...)
           const hash = bcrypt.hashSync(value, saltRounds);
-          console.log(value, hash);
+          // console.log(value, hash);
           this.setDataValue("password", hash);
         },
       },

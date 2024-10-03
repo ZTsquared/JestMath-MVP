@@ -54,9 +54,9 @@ router.get(
   }
 );
 
-// FIXME: to sequelize, but thir route is not used yet anyway
-//post a new user.  userName should be unique so we have middleware to check this. the mustNotExist function builds a
-// custom guard function based on the table and column name you want to check against (also, maybe a user should get 20 free stars to start? but this is a front end issue)
+// FIXME: to sequelize, but this route is not used yet anyway
+//post a new user within an existing household.  userName should be unique within the household so we have middleware to check this. the mustNotExist function builds a
+// custom guard function based on the table and column name you want to check against.  the current guard might not work here though since i want to check that the username doesn't exist only within the same household.
 router.post(
   "/",
   // mustNotExist("userName", "Users", "userName"), //ideally i adjust this so there are never 2 of the samer user in a household
