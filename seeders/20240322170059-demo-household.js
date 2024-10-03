@@ -13,13 +13,13 @@ module.exports = {
         householdName: "Demo-Household-1",
         email: "DemoHousehold1@test.com",
         password: password1,
-        public: true,
+        public: false,
       },
       {
         householdName: "Demo-Household-2",
         email: "DemoHousehold2@test.com",
         password: password2,
-        public: true,
+        public: false,
       },
     ]);
   },
